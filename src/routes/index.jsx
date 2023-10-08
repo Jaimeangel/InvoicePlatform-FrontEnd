@@ -4,6 +4,7 @@ import {createBrowserRouter} from 'react-router-dom'
 import Dashboard from '../layaout/Dashboard.jsx'
 //Cotizaciones
 import CotizacionesDashboard from '../pages/CotizacionesDashboard.jsx'
+import CrearCotizacion from '../pages/CrearCotizacion.jsx'
 
 const router=createBrowserRouter([
     {
@@ -16,7 +17,7 @@ const router=createBrowserRouter([
           children:[
             {
               path:'crear-cotizacion',
-              element:<h1>Creando cotizaciones</h1>
+              element:<CrearCotizacion/>
             },
             {
               path:'ver-cotizaciones',
