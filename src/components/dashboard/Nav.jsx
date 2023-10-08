@@ -4,7 +4,7 @@ import { faGripLines } from '@fortawesome/free-solid-svg-icons';
 
 function Nav({openSideNav}) {
   return (
-    <div className='w-full flex flex-row px-7 py-4 justify-between items-center'>
+    <div className='w-full h-20 flex flex-row px-7 py-4 justify-between items-center'>
         <div className='w-3/12 flex flex-row items-center justify-evenly'>
             <h1 className='font-black text-3xl text-yellow-500 tracking-wider'>
                 MSproject

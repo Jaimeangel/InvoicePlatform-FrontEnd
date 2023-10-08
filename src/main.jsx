@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
+//react router
+import {RouterProvider} from 'react-router-dom'
+//rutas
+import router from './routes'
 
-import Dashboard from './layaout/Dashboard'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Dashboard/>
-  </React.StrictMode>,
+  <RouterProvider
+    router={router}
+  />
 )
