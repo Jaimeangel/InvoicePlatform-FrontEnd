@@ -22,7 +22,7 @@ function SideBar({sideNav}) {
             key={opcion.id}
             to={`${opcion.link}`}
           >
-            <button className='w-full flex flex-row justify-center items-center  text-black text-lg tracking-wide font-semibold py-3 rounded-xl  hover:bg-slate-100'>
+            <button className='w-full flex flex-row justify-center items-center  text-black text-lg tracking-wide font-semibold py-3 rounded-xl  hover:bg-slate-100 shadow border'>
               <FontAwesomeIcon icon={opcion.icon} style={{color: "#000000",}} className="mr-5" />
               <p className="first-letter:uppercase">{opcion.opcion}</p>
             </button>

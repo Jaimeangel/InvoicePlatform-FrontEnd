@@ -20,7 +20,7 @@ function Dashboard(){
                 sideNav={open}
             />
             
-            <div className={`${open ?'w-4/5' : 'w-full'} h-screen shadow px-10 py-5  bg-gray-100 rounded-2xl`}>
+            <div className={`${open ?'w-4/5' : 'w-full'} h-screen shadow-inner px-10 py-5  bg-gray-100 rounded-2xl`}>
               <Outlet/>
             </div>
     
