@@ -15,7 +15,7 @@ const menuSibeBar=[
 
 function SideBar({sideNav}) {
   return (
-    <aside className={`${sideNav ? 'block':'hidden'} w-1/5 pr-5 py-5`}>
+    <aside className={`${sideNav ? 'block':'hidden'} w-1/6 pr-5 py-5`}>
       {
         menuSibeBar.map(opcion=>(
           <Link
