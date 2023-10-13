@@ -14,13 +14,13 @@ function Dashboard(){
             openSideNav={setOpen}
           />
     
-          <div className='w-full h-full flex flex-row px-5 pb-5'>
+          <div className='w-full h-screen flex flex-row px-4 mb-5'>
     
             <SideBar
                 sideNav={open}
             />
             
-            <div className={`${open ?'w-5/6' : 'w-full'} h-screen shadow-inner px-10 py-5  bg-gray-100 rounded-2xl`}>
+            <div className={`${open ?'w-5/6' : 'w-full'} h-screen shadow-inner p-8 bg-gray-100 rounded-2xl overflow-y-scroll`}>
               <Outlet/>
             </div>
     

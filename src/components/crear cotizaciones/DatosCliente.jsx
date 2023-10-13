@@ -3,7 +3,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function DatosCliente() {
   return (
-    <div className="w-full  bg-white rounded-lg px-10 py-6 shadow">
+    <div className="w-full  bg-white rounded-lg px-10 py-6 shadow-md">
       
       <h1 className="mb-5 text-2xl font-bold">Datos del cliente</h1>
 
@@ -19,14 +19,16 @@ function DatosCliente() {
           <div className="w-full flex flex-col gap-1">
             <label className="font-semibold text-lg" for="frutas">Cliente</label>
             <div className="flex flex-row gap-2">
+              
               <select id="frutas" name="fruta" className="w-11/12 border rounded-md px-3 py-2 shadow-sm">
                 <option value="manzana">Manzana</option>
                 <option value="banana">Banana</option>
                 <option value="uva">Uva</option>
                 <option value="naranja">Naranja</option>
               </select>
+
               <button
-                className="w-1/12 bg-green-400 rounded-md border shadow-sm"
+                className="w-1/12 bg-green-400 rounded-md border-2"
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>

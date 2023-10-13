@@ -1,8 +1,8 @@
 import { useState } from "react";
 //components
-import BarraProgreso from "../components/BarraProgreso";
-import DatosCliente from "../components/crear cotizaciones/DatosCliente";
-import BotonesBarraProgreso from "../components/BotonesBarraProgreso";
+import BarraProgreso from "../../components/BarraProgreso";
+import DatosCliente from "../../components/crear cotizaciones/DatosCliente";
+import BotonesBarraProgreso from "../../components/BotonesBarraProgreso";
 //pasos barra de progreso
 const pasos=[
   {

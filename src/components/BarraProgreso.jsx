@@ -14,7 +14,7 @@ function BarraProgreso({pasos,pasoActual,cambiarPaso}) {
     },[pasoActual])
 
     return (
-        <div className="w-full  bg-white rounded-lg shadow px-10 py-6 flex flex-col">
+        <div className="w-full  bg-white rounded-lg shadow-md  px-10 py-6 flex flex-col">
             <div className="w-full border rounded-2xl shadow-inner">
                 <div
                     style={{
@@ -32,12 +32,6 @@ function BarraProgreso({pasos,pasoActual,cambiarPaso}) {
                     ))
                 }
             </div>
-{/*             <button 
-                className="w-[10rem] bg-red-500"
-                onClick={()=>cambiarPaso(value=>value+1)}
-            >
-                next
-            </button> */}
         </div>
     )
 }

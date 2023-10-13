@@ -7,7 +7,7 @@ import { Outlet } from 'react-router-dom';
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { faReceipt } from '@fortawesome/free-solid-svg-icons';
 //components
-import CardOptionsDashboard from '../components/cardOptionsDashboard';
+import CardOptionsDashboard from '../../components/cardOptionsDashboard';
 //opciones dashboard
 const opciones=[
     {

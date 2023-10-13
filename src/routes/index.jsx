@@ -2,9 +2,11 @@
 import {createBrowserRouter} from 'react-router-dom'
 //dasboard
 import Dashboard from '../layaout/Dashboard.jsx'
-//Cotizaciones
-import CotizacionesDashboard from '../pages/CotizacionesDashboard.jsx'
-import CrearCotizacion from '../pages/CrearCotizacion.jsx'
+//cotizaciones
+import CotizacionesDashboard from '../pages/cotizaciones/CotizacionesDashboard.jsx'
+import CrearCotizacion from '../pages/cotizaciones/CrearCotizacion.jsx'
+//login
+import Login from '../pages/autenticacion/login.jsx'
 
 const router=createBrowserRouter([
     {
@@ -26,6 +28,10 @@ const router=createBrowserRouter([
           ]
         }
       ]
+    },
+    {
+      path:'login',
+      element:<Login/>,
     }
   ])
 
