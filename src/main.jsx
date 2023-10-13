@@ -5,10 +5,14 @@ import './index.css'
 import {RouterProvider} from 'react-router-dom'
 //rutas
 import router from './routes'
+//contexts
+import AuthProvider from './context/AuthProvider'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider
-    router={router}
-  />
+  <AuthProvider>
+    <RouterProvider
+      router={router}
+    />
+  </AuthProvider>
 )

@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+//axios
 import axios from "axios";
-
-/* import Alert from "../../components/alert"; */
+//componentes
+import AlertForm from '../../components/AlertaForm.jsx'
 import InputForm from "../../components/InputForm.jsx";
-/* import ButtonForm from "../../components/buttonForm"; */
-
-/* import useAuth from "../../hooks/useAuth"; */
+//hook autentiacion
+import useAuth from "../../hooks/useAuth.jsx";
+//variables entorno
+const tkn = import.meta.env.VITE_TOKEN_VARIABLE;
 
 function Login() {
 
-    /* const {setAuth}=useAuth(); */
+    const {setAuth}=useAuth();
 
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
-    /* const [alert,setAlert]=useState({msg:'',error:false}) */
+    const [alert,setAlert]=useState({msg:'',error:false})
 
     const handleSubmit= async (e)=>  {
         e.preventDefault()
@@ -25,17 +27,23 @@ function Login() {
                 msg:'Todos los campos son obligatorios',
                 error:true
             })
+            setTimeout(() => {
+                setAlert({
+                    msg:'',
+                    error:false
+                })
+            }, 2300);
             return
         }
 
         try {
-            const {data} = await axios.post('http://localhost:4000/api/usuarios/login',{
+            const {data} = await axios.post('http://localhost:5000/api/usuarios/login',{
                 email,
                 password
             })
-            localStorage.setItem('tks',data.token)
+            localStorage.setItem(tkn,data.token)
             setAuth(data)
-            window.location.replace("http://localhost:5173/proyectos")
+            window.location.replace("http://localhost:5173/dashboard")
         }catch(error) {
             setAlert({
                 msg:error.response.data.msg,
@@ -53,7 +61,7 @@ function Login() {
                 <h2 className='text-center font-bold text-2xl'>Acceder a su cuenta</h2>
                 <p className="text-center text-black text-md italic mt-1">Accede a tu cuenta con tu email que usaste para registrarte</p>
 
-                {/* {alert.msg.length!==0 && <Alert alert={alert}/>} */}
+                {alert.msg.length!==0 && <AlertForm alert={alert}/>}
 
                 <form onSubmit={handleSubmit}>
                     <InputForm
