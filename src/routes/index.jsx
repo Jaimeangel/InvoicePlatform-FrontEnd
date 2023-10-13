@@ -1,7 +1,7 @@
 //react router
 import {createBrowserRouter} from 'react-router-dom'
-//dasboard
-import Dashboard from '../layaout/Dashboard.jsx'
+//ruta protegida para layaout dasboard
+import ProtectRoute from '../layaout/ProtectRoute.jsx'
 //cotizaciones
 import CotizacionesDashboard from '../pages/cotizaciones/CotizacionesDashboard.jsx'
 import CrearCotizacion from '../pages/cotizaciones/CrearCotizacion.jsx'
@@ -11,7 +11,7 @@ import Login from '../pages/autenticacion/login.jsx'
 const router=createBrowserRouter([
     {
       path:'dashboard',
-      element:<Dashboard/>,
+      element:<ProtectRoute/>,
       children:[
         {
           path:'cotizaciones',

@@ -12,8 +12,6 @@ function AuthProvider({children}) {
     const [alert,setAlert]=useState({msg:'',err:false})
     const [auth,setAuth]=useState('')
 
-    console.log(tkn)
-
     useEffect(()=>{
         const authUser= async ()=>{
             const token=localStorage.getItem(tkn)

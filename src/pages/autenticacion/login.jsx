@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //axios
 import axios from "axios";
 //componentes
-import AlertForm from '../../components/AlertaForm.jsx'
+import AlertForm from '../../components/alertas/AlertaForm.jsx'
 import InputForm from "../../components/InputForm.jsx";
 //hook autentiacion
 import useAuth from "../../hooks/useAuth.jsx";
