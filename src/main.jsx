@@ -7,12 +7,14 @@ import {RouterProvider} from 'react-router-dom'
 import router from './routes'
 //contexts
 import AuthProvider from './context/AuthProvider'
-
+import ClienteProvider from './context/ClienteProvider'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <RouterProvider
-      router={router}
-    />
+    <ClienteProvider>
+      <RouterProvider
+        router={router}
+      />
+    </ClienteProvider>
   </AuthProvider>
 )

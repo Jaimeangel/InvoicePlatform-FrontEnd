@@ -40,6 +40,9 @@ const pasos=[
 
 function CrearCotizacion() {
   const [pasoActual,setPasoActual]=useState(1)
+  //datos cotizacion
+  const [cotizacion,setCotizacion]=useState({})
+  const [cliente,setCliente]=useState({})
   return (
     <div className="w-full flex flex-col gap-3">
       <BarraProgreso
@@ -48,7 +51,10 @@ function CrearCotizacion() {
       />
       {
         pasoActual === 1 && (
-          <DatosCliente/>
+          <DatosCliente
+            cliente={cliente}
+            setCliente={setCliente}
+          />
         )
       }
       <BotonesBarraProgreso
