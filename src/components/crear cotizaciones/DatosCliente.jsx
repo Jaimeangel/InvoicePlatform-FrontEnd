@@ -50,7 +50,7 @@ function DatosCliente({setCliente}){
           </div>
 
           <div className="w-full flex flex-col gap-1">
-            <label className="font-semibold text-lg" for="clientes">Cliente</label>
+            <label className="font-semibold text-lg">Cliente</label>
             <div className="flex flex-row gap-1">
               
               <SearchForm
@@ -69,16 +69,20 @@ function DatosCliente({setCliente}){
           {
             contacto !== '' && (
               <div className="w-full flex flex-col gap-1">
-                <label className="font-semibold text-lg" for="frutas">Contacto</label>
-                <input placeholder="Seleccione un cliente" className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm" type="text" value={`${contacto.nombres} ${contacto.apellidos}`}/>
+                <label className="font-semibold text-lg">Contacto</label>
+                <p className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm">
+                  {`${contacto.nombres} ${contacto.apellidos}`}
+                </p>
               </div>
             )
           }
 
 
           <div className="w-full flex flex-col gap-1">
-            <label className="font-semibold text-lg" for="frutas">Responsables de cotizacion</label>
-            <input className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm" type="text" value={auth.razonSocial}/>
+            <label className="font-semibold text-lg">Responsables de cotizacion</label>
+            <p className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm">
+              {auth.razonSocial}
+            </p>
           </div>
 
         </div>

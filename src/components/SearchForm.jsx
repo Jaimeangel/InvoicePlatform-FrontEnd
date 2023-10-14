@@ -21,7 +21,10 @@ function SearchForm({list,onChangeCliente}) {
                 .toLowerCase()
                 .replace(/\s+/g, '')
                 .includes(query.toLowerCase().replace(/\s+/g, ''))
+
+            || item.identificacion.toString().includes(query.toString())
             )
+
 
     useEffect(()=>{
         onChangeCliente(selected)
