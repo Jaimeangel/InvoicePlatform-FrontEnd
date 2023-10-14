@@ -7,6 +7,8 @@ import useCliente from '../../hooks/useCliente.jsx'
 import useAuth from '../../hooks/useAuth.jsx'
 //herlpers
 import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
+//componentes
+import SearchForm from "../SearchForm.jsx";
 
 function DatosCliente({setCliente}){
   //hooks
@@ -28,11 +30,9 @@ function DatosCliente({setCliente}){
     getClientes()
   },[])
 
-  const handleChange =(event)=>{
-    const id_cliente=event.target.value
-    const clienteById = clientes.find((clte) => clte._id === id_cliente);
-    setCliente(clienteById) 
-    setContacto(`${clienteById.nombres} ${clienteById.apellidos}`)
+  const handleChange =(dataCliente)=>{
+    setCliente(dataCliente) 
+    setContacto(`${dataCliente.nombres} ${dataCliente.apellidos}`)
   }
 
   return (
@@ -51,22 +51,15 @@ function DatosCliente({setCliente}){
 
           <div className="w-full flex flex-col gap-1">
             <label className="font-semibold text-lg" for="clientes">Cliente</label>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-1">
               
-              <select
-                onChange={handleChange}  
-                className="w-11/12 border rounded-md px-3 py-2 shadow-sm"
-              >
-                <option value="" hidden>Buscar cliente</option>
-                {
-                  clientes?.map(cliente=>(
-                    <option  key={cliente._id} value={cliente._id}>{cliente.razonSocial}</option>
-                  ))
-                }
-              </select>
+              <SearchForm
+                list={clientes}
+                onChangeCliente={handleChange}
+              />
 
               <button
-                className="w-1/12 bg-green-400 rounded-md border-2"
+                className="w-1/12 bg-green-400 rounded-md shadow-sm"
               >
                 <FontAwesomeIcon icon={faPlus} />
               </button>
