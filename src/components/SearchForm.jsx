@@ -5,11 +5,12 @@ import { Combobox, Transition } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faX } from '@fortawesome/free-solid-svg-icons'
 
 
 
 function SearchForm({list,onChangeCliente}) {
-    const [selected, setSelected] = useState({razonSocial: 'Buscar cliente' })
+    const [selected, setSelected] = useState("")
     const [query, setQuery] = useState('')
 
     const listFiltered =
@@ -32,13 +33,25 @@ function SearchForm({list,onChangeCliente}) {
                 <div className="relative">
                     <div className="relative w-full border rounded-md px-3 pt-3 pb-2 shadow-sm  cursor-default overflow-hidden  bg-white text-left  sm:text-sm">
                         <Combobox.Input
+                            placeholder='Buscar cliente'
                             className="w-full outline-none border-none text-sm leading-5 text-gray-900 focus:ring-0"
                             displayValue={(item) => item.razonSocial}
                             onChange={(event) => setQuery(event.target.value)}
                         />
-                        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </Combobox.Button>
+                            {
+                                selected === '' 
+                                ?   
+                                    <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                                        <FontAwesomeIcon icon={faMagnifyingGlass} /> 
+                                    </Combobox.Button>
+                                : 
+                                    <button
+                                        onClick={()=>setSelected("")}  
+                                        className="absolute inset-y-0 right-0 flex items-center pr-2"
+                                    >
+                                        <FontAwesomeIcon icon={faX} />
+                                    </button>
+                            }
                     </div>
                     <Transition
                         as={Fragment}
@@ -69,24 +82,24 @@ function SearchForm({list,onChangeCliente}) {
                                                 value={item}
                                             >
                                                 {({ selected, active }) => (
-                                                <>
-                                                    <span
-                                                    className={`block truncate ${
-                                                        selected ? 'font-medium' : 'font-normal'
-                                                    }`}
-                                                    >
-                                                    {item.razonSocial}
-                                                    </span>
-                                                    {selected ? (
-                                                    <span
-                                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                                        active ? 'text-white' : 'text-teal-600'
-                                                        }`}
-                                                    >
-                                                        <FontAwesomeIcon icon={faCheck} />
-                                                    </span>
-                                                    ) : null}
-                                                </>
+                                                    <>
+                                                        <span
+                                                            className={`block truncate ${
+                                                                selected ? 'font-medium' : 'font-normal'
+                                                            }`}
+                                                        >
+                                                            {`${item.razonSocial} ${item.identificacion}`}
+                                                        </span>
+                                                        {selected ? (
+                                                            <span
+                                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                                                active ? 'text-teal-600' : 'text-teal-600'
+                                                                }`}
+                                                            >
+                                                                <FontAwesomeIcon icon={faCheck} />
+                                                            </span>
+                                                        ) : null}
+                                                    </>
                                                 )}
                                             </Combobox.Option>
                                         ))

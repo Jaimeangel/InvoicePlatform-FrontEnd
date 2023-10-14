@@ -32,7 +32,7 @@ function DatosCliente({setCliente}){
 
   const handleChange =(dataCliente)=>{
     setCliente(dataCliente) 
-    setContacto(`${dataCliente.nombres} ${dataCliente.apellidos}`)
+    setContacto(dataCliente)
   }
 
   return (
@@ -66,10 +66,15 @@ function DatosCliente({setCliente}){
             </div>
           </div>
 
-          <div className="w-full flex flex-col gap-1">
-            <label className="font-semibold text-lg" for="frutas">Contacto</label>
-            <input placeholder="Seleccione un cliente" className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm" type="text" value={contacto}/>
-          </div>
+          {
+            contacto !== '' && (
+              <div className="w-full flex flex-col gap-1">
+                <label className="font-semibold text-lg" for="frutas">Contacto</label>
+                <input placeholder="Seleccione un cliente" className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm" type="text" value={`${contacto.nombres} ${contacto.apellidos}`}/>
+              </div>
+            )
+          }
+
 
           <div className="w-full flex flex-col gap-1">
             <label className="font-semibold text-lg" for="frutas">Responsables de cotizacion</label>
