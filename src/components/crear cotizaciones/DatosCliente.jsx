@@ -9,6 +9,7 @@ import useAuth from '../../hooks/useAuth.jsx'
 import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
 //componentes
 import SearchForm from "../SearchForm.jsx";
+import ModalCrearCliente from "./ModalCrearCliente.jsx";
 
 function DatosCliente({setCliente}){
   //hooks
@@ -57,12 +58,8 @@ function DatosCliente({setCliente}){
                 list={clientes}
                 onChangeCliente={handleChange}
               />
-
-              <button
-                className="w-1/12 bg-green-400 rounded-md shadow-sm"
-              >
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
+              
+              <ModalCrearCliente/>
             </div>
           </div>
 
