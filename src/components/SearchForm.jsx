@@ -9,8 +9,8 @@ import { faX } from '@fortawesome/free-solid-svg-icons'
 
 
 
-function SearchForm({list,onChangeCliente}) {
-    const [selected, setSelected] = useState("")
+function SearchForm({list,onChangeCliente,cliente}) {
+    const [selected, setSelected] = useState('')
     const [query, setQuery] = useState('')
 
     const listFiltered =

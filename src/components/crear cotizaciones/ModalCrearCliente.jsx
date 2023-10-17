@@ -54,7 +54,9 @@ export default function ModalCrearCliente() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-7xl transform overflow-hidden border rounded-md  bg-white p-10 text-left align-middle shadow-xl transition-all">
-                  <FormCreateCliente/>
+                  <FormCreateCliente
+                    close={closeModal}
+                  />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

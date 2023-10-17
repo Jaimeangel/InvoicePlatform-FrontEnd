@@ -11,7 +11,7 @@ import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
 import SearchForm from "../SearchForm.jsx";
 import ModalCrearCliente from "./ModalCrearCliente.jsx";
 
-function DatosCliente({setCliente}){
+function DatosCliente({setCliente,cliente}){
   //hooks
   const {
     obtenerClientesByUsuario,
@@ -55,6 +55,7 @@ function DatosCliente({setCliente}){
             <div className="flex flex-row gap-1">
               
               <SearchForm
+                /* cliente={cliente} */
                 list={clientes}
                 onChangeCliente={handleChange}
               />

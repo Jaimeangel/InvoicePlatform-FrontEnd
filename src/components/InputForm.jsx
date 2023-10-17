@@ -1,7 +1,7 @@
 function InputForm({callback,typeInput,phder,name,value,obligatorio}) {
   return (
-    <div className='flex flex-col gap-1 items-left mt-3'>
-        <label className='text-lg font-bold tracking-wider italic'>{name}</label>
+    <div className='flex flex-col gap-1 items-left'>
+        <label className='text-lg font-bold tracking-wider italic pl-1'>{name}</label>
         <input
             value={value}
             onChange={(e)=>callback(e.target.value)} 
