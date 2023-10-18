@@ -13,6 +13,7 @@ function SearchForm({list,onChangeCliente,cliente}) {
     const [selected, setSelected] = useState('')
     const [query, setQuery] = useState('')
 
+    //segun tipo de empresa devuelve un formato
     const nombreSegunTipo=(item)=>{
         if(item.tipo === 'empresa'){
             return item.razonSocial;
@@ -21,6 +22,7 @@ function SearchForm({list,onChangeCliente,cliente}) {
         }
     }
 
+    //filtro
     const listFiltered =
         query === ''
         ? list
@@ -33,7 +35,14 @@ function SearchForm({list,onChangeCliente,cliente}) {
             || item.identificacion.toString().includes(query.toString())
             )
 
+    //persitencia de informacion de cliente
+    useEffect(()=>{
+        if(Object.keys(cliente).length !== 0){
+            setSelected(cliente)
+          }
+    },[])
 
+    //Guardar cliente seleccionado
     useEffect(()=>{
         onChangeCliente(selected)
     },[selected])

@@ -37,28 +37,44 @@ const pasos=[
   }
 ]
 
+const formatData={
+  'fecha':'',
+  'numeroCotizacion':''
+}
 
 function CrearCotizacion() {
+  //botones cambiar paso
   const [pasoActual,setPasoActual]=useState(1)
+  const [validatePaso,setValidatePaso]=useState(false)
   //datos cotizacion
-  const [cotizacion,setCotizacion]=useState({})
+  const [cotizacion,setCotizacion]=useState(formatData)
+  //datos cliente
   const [cliente,setCliente]=useState({})
+
   return (
     <div className="w-full flex flex-col gap-3">
       <BarraProgreso
         pasos={pasos}
         pasoActual={pasoActual}
       />
+
       {
         pasoActual === 1 && (
           <DatosCliente
+            cambiarPaso={setPasoActual}
+            validatePaso={validatePaso}
+            setValidatePaso={setValidatePaso}
             cliente={cliente}
             setCliente={setCliente}
+            setCotizacion={setCotizacion}
+            cotizacion={cotizacion}
           />
         )
       }
+      
       <BotonesBarraProgreso
         cambiarPaso={setPasoActual}
+        setValidatePaso={setValidatePaso}
       />
     </div>
   )

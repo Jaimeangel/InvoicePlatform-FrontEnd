@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //axios
 import axios from "axios";
 //componentes
-import AlertForm from '../../components/alertas/AlertaForm.jsx'
+import AlertaForm from '../../components/alertas/AlertaForm.jsx'
 import InputForm from "../../components/InputForm.jsx";
 //hook autentiacion
 import useAuth from "../../hooks/useAuth.jsx";
@@ -61,7 +61,7 @@ function Login() {
                 <h2 className='text-center font-bold text-2xl'>Acceder a su cuenta</h2>
                 <p className="text-center text-black text-md italic mt-1">Accede a tu cuenta con tu email que usaste para registrarte</p>
 
-                {alert.msg.length!==0 && <AlertForm alert={alert}/>}
+                {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
 
                 <form onSubmit={handleSubmit}>
                     <InputForm

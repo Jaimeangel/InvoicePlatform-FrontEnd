@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-//font awesome
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 //hooks
 import useCliente from '../../hooks/useCliente.jsx'
 import useAuth from '../../hooks/useAuth.jsx'
@@ -10,22 +7,36 @@ import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
 //componentes
 import SearchForm from "../SearchForm.jsx";
 import ModalCrearCliente from "./ModalCrearCliente.jsx";
+import AlertaForm from "../alertas/AlertaForm.jsx";
 
-function DatosCliente({setCliente}){
+function DatosCliente({
+  setCliente,
+  cliente,
+  cotizacion,
+  setCotizacion,
+  validatePaso,
+  cambiarPaso,
+  setValidatePaso
+}){
   //hooks
   const {
     obtenerClientesByUsuario,
     clientes
   }=useCliente()
 
-  const {auth}=useAuth()
-
-  console.log(clientes)
+  const {
+    auth
+  }=useAuth()
 
   //state
-  const [contacto,setContacto]=useState("")
-  const [numberCotizacion,SetNumberCotizacion]=useState('CTZ-NONE')
+  const [contacto,setContacto]=useState('')
+  const [numeroCotizacion,SetNumberCotizacion]=useState('ctz')
+  const [fecha,setDate]=useState('')
 
+  //alertas
+  const [alert,setAlert]=useState({msg:'',error:false})
+  
+  //cargar clientes
   useEffect(()=>{
     const getClientes= async ()=>{
       const clientes = await obtenerClientesByUsuario()
@@ -33,6 +44,59 @@ function DatosCliente({setCliente}){
     getClientes()
   },[])
 
+  //persistencia de informacion
+  useEffect(()=>{
+    if(Object.keys(cliente).length !== 0){
+      setContacto(cliente)
+    }
+
+    if('fecha' && 'numeroCotizacion' in cotizacion){
+      if(cotizacion.numeroCotizacion !== ''){
+        SetNumberCotizacion(cotizacion.numeroCotizacion)
+      }
+      if(cotizacion.fecha !== ''){
+        setDate(cotizacion.fecha)
+      }
+    }
+  },[])
+
+  //validacion para cambiar paso
+  useEffect(()=>{
+    if(validatePaso){
+      if([contacto,numeroCotizacion,fecha].includes('')){
+          
+          setAlert({
+            msg:'Es necesario llenar todos los campos para pasar al siguiente paso',
+            error:true
+          })
+          
+          setTimeout(() => {
+            setAlert({
+              msg:'',
+              error:true
+            })
+          }, 2500);
+  
+          setValidatePaso(false)
+  
+          return
+      }
+      setValidatePaso(false)
+      cambiarPaso(value=>value+1)
+    }
+  },[validatePaso])
+
+  //actulizando informacion en state principal
+  useEffect(()=>{
+    const newData={
+      ...cotizacion,
+      numeroCotizacion,
+      fecha
+    }
+    setCotizacion(newData)
+  },[contacto,fecha])
+
+  //guardar informacion del cliente
   const handleChange =(dataCliente)=>{
     setCliente(dataCliente) 
     setContacto(dataCliente)
@@ -40,8 +104,10 @@ function DatosCliente({setCliente}){
 
   return (
     <div className="w-full  bg-white rounded-lg px-10 py-6 shadow-md">
+
+      {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
       
-      <h1 className="mb-5 text-2xl font-bold">Datos del cliente</h1>
+      <h1 className="mt-2 mb-5 text-2xl font-bold">Datos del cliente</h1>
 
       <div className="flex flex-row justify-between">
 
@@ -57,6 +123,7 @@ function DatosCliente({setCliente}){
             <div className="flex flex-row gap-1">
               
               <SearchForm
+                cliente={cliente}
                 list={clientes}
                 onChangeCliente={handleChange}
               />
@@ -90,12 +157,17 @@ function DatosCliente({setCliente}){
 
           <div className="flex flex-row gap-3 items-center">
             <p className="font-semibold text-lg">Numero:</p>
-            <p className="text-lg tracking-wider italic font-semibold">{numberCotizacion}</p>
+            <p className="text-lg tracking-wider italic font-semibold">{numeroCotizacion}</p>
           </div>
 
           <div className="flex flex-row gap-3 items-center">
             <p className="font-semibold text-lg">Fecha de elaboracion:</p>
-            <input type="date" className="border rounded-md px-3"/>
+            <input
+              value={fecha}
+              onChange={(e)=>setDate(e.target.value)} 
+              type="date" 
+              className="border rounded-md px-3"
+            />
           </div>
 
         </div>
