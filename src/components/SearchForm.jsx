@@ -13,11 +13,19 @@ function SearchForm({list,onChangeCliente,cliente}) {
     const [selected, setSelected] = useState('')
     const [query, setQuery] = useState('')
 
+    const nombreSegunTipo=(item)=>{
+        if(item.tipo === 'empresa'){
+            return item.razonSocial;
+        }else if(item.tipo ==='persona'){
+            return item.nombreComercial || `${item.nombres} ${item.apellidos}`
+        }
+    }
+
     const listFiltered =
         query === ''
         ? list
         : list.filter((item) =>
-            item.razonSocial
+                nombreSegunTipo(item)
                 .toLowerCase()
                 .replace(/\s+/g, '')
                 .includes(query.toLowerCase().replace(/\s+/g, ''))
@@ -37,8 +45,8 @@ function SearchForm({list,onChangeCliente,cliente}) {
                     <div className="relative w-full border rounded-md px-3 pt-3 pb-2 shadow-sm  cursor-default overflow-hidden  bg-white text-left  sm:text-sm">
                         <Combobox.Input
                             placeholder='Buscar cliente'
-                            className="w-full outline-none border-none text-sm leading-5 text-gray-900 focus:ring-0"
-                            displayValue={(item) => item.razonSocial}
+                            className={`${selected && 'read-only:bg-red-500' } w-full outline-none border-none text-sm leading-5 text-gray-900 focus:ring-0`}
+                            displayValue={(item) => nombreSegunTipo(item)}
                             onChange={(event) => setQuery(event.target.value)}
                         />
                             {
@@ -69,7 +77,7 @@ function SearchForm({list,onChangeCliente,cliente}) {
                                 ? 
                                     (
                                         <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                                        Nothing found.
+                                            No hay coincidencias.
                                         </div>
                                     ) 
                                 : 
@@ -87,11 +95,11 @@ function SearchForm({list,onChangeCliente,cliente}) {
                                                 {({ selected, active }) => (
                                                     <>
                                                         <span
-                                                            className={`block truncate ${
+                                                            className={`block truncate first-letter:uppercase ${
                                                                 selected ? 'font-medium' : 'font-normal'
                                                             }`}
                                                         >
-                                                            {`${item.razonSocial} ${item.identificacion}`}
+                                                            {`${nombreSegunTipo(item)}   -  ${item.identificacion}`}
                                                         </span>
                                                         {selected ? (
                                                             <span

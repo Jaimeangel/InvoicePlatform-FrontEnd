@@ -11,7 +11,7 @@ import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
 import SearchForm from "../SearchForm.jsx";
 import ModalCrearCliente from "./ModalCrearCliente.jsx";
 
-function DatosCliente({setCliente,cliente}){
+function DatosCliente({setCliente}){
   //hooks
   const {
     obtenerClientesByUsuario,
@@ -19,6 +19,8 @@ function DatosCliente({setCliente,cliente}){
   }=useCliente()
 
   const {auth}=useAuth()
+
+  console.log(clientes)
 
   //state
   const [contacto,setContacto]=useState("")
@@ -55,7 +57,6 @@ function DatosCliente({setCliente,cliente}){
             <div className="flex flex-row gap-1">
               
               <SearchForm
-                /* cliente={cliente} */
                 list={clientes}
                 onChangeCliente={handleChange}
               />
@@ -69,7 +70,7 @@ function DatosCliente({setCliente,cliente}){
               <div className="w-full flex flex-col gap-1">
                 <label className="font-semibold text-lg">Contacto</label>
                 <p className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm">
-                  {`${contacto.nombres} ${contacto.apellidos}`}
+                  {`${contacto.nombreContacto} ${contacto.apellidoContacto}`}
                 </p>
               </div>
             )
