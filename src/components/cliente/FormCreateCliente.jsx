@@ -10,47 +10,8 @@ import useCliente from '../../hooks/useCliente.jsx'
 //font awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
-
-const tipo=[
-    {
-        text:'Persona',
-        value:'persona'
-    },
-    {
-        text:'Empresa',
-        value:'empresa'
-    }
-]
-
-const identificaciones=[
-    {
-        text:'Cedula',
-        value:'cedula'
-    },
-    {
-        text:'Pasaporte',
-        value:'pasaporte'
-    },
-    {
-        text:'Nit',
-        value:'nit'
-    },
-    {
-        text:'Cedula extranjera',
-        value:'cedula extranjera'
-    }
-]
-
-const regimen=[
-    {
-        text:'Responsable de IVA',
-        value:'iva'
-    },
-    {
-        text:'No responsable de IVA',
-        value:'no iva'
-    }
-]
+//data cliente
+import {tipo,identificaciones,regimen} from '../../data/formatoDataCliente.js'
 
 function FormCreateCliente({close}) {
     const {
@@ -84,7 +45,7 @@ function FormCreateCliente({close}) {
     const [tipoFiscal,SetTipoFiscal]=useState('')
 
    
-    /* efectos */
+    //efectos
     //cargar con valores por defecto
     useEffect(()=>{
         SetTipoRazon('persona')
