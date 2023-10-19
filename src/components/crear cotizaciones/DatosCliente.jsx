@@ -16,7 +16,9 @@ function DatosCliente({
   setCotizacion,
   validatePaso,
   cambiarPaso,
-  setValidatePaso
+  setValidatePaso,
+  pasoActual,
+  numeroPasos
 }){
   //hooks
   const {
@@ -35,6 +37,11 @@ function DatosCliente({
 
   //alertas
   const [alert,setAlert]=useState({msg:'',error:false})
+
+  const validateCambiarPaso=()=>{
+    if(pasoActual===numeroPasos) return
+    cambiarPaso(value=>value+1)
+  }
   
   //cargar clientes
   useEffect(()=>{
@@ -82,7 +89,7 @@ function DatosCliente({
           return
       }
       setValidatePaso(false)
-      cambiarPaso(value=>value+1)
+      validateCambiarPaso()
     }
   },[validatePaso])
 

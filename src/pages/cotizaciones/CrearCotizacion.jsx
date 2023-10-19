@@ -44,6 +44,7 @@ const formatData={
 
 function CrearCotizacion() {
   //botones cambiar paso
+  const numeroPasos=pasos.length;
   const [pasoActual,setPasoActual]=useState(1)
   const [validatePaso,setValidatePaso]=useState(false)
   //datos cotizacion
@@ -64,6 +65,8 @@ function CrearCotizacion() {
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
             setValidatePaso={setValidatePaso}
+            numeroPasos={numeroPasos}
+            pasoActual={pasoActual}
             cliente={cliente}
             setCliente={setCliente}
             setCotizacion={setCotizacion}
@@ -73,6 +76,8 @@ function CrearCotizacion() {
       }
       
       <BotonesBarraProgreso
+        numeroPasos={numeroPasos}
+        pasoActual={pasoActual}
         cambiarPaso={setPasoActual}
         setValidatePaso={setValidatePaso}
       />
