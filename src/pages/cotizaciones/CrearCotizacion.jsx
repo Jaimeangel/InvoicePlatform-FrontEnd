@@ -1,8 +1,10 @@
 import { useState } from "react";
 //components
 import BarraProgreso from "../../components/BarraProgreso";
-import DatosCliente from "../../components/crear cotizaciones/DatosCliente";
 import BotonesBarraProgreso from "../../components/BotonesBarraProgreso";
+//Componentes paso
+import DatosCliente from "../../components/crear cotizaciones/DatosCliente";
+import EncabezadoCotizacion from "../../components/crear cotizaciones/EncabezadoCotizacion";
 //Datos
 import formatData from "../../data/formatoDataCotizacion.js";
 import pasos from "../../data/pasosCotizacion.js";
@@ -10,7 +12,7 @@ import pasos from "../../data/pasosCotizacion.js";
 function CrearCotizacion() {
   //botones cambiar paso
   const numeroPasos=pasos.length;
-  const [pasoActual,setPasoActual]=useState(1)
+  const [pasoActual,setPasoActual]=useState(2)
   const [validatePaso,setValidatePaso]=useState(false)
 
   //datos cotizacion
@@ -37,6 +39,13 @@ function CrearCotizacion() {
             setCliente={setCliente}
             setCotizacion={setCotizacion}
             cotizacion={cotizacion}
+          />
+        )
+      }
+
+      {
+        pasoActual === 2 && (
+          <EncabezadoCotizacion
           />
         )
       }
