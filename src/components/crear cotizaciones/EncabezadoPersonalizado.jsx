@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
 //imagen
-import createEncabezado from '../assets/undraw_create_re_57a3.svg'
+import createEncabezado from '../../assets/undraw_create_re_57a3.svg'
 //componentes
-import AlertImage from "./alertas/AlertaImagen";
-import SwitchButton from "./Switch";
+import AlertImage from "../alertas/AlertaImagen.jsx";
+import SwitchButton from "../Switch.jsx";
 
-function EncabezadoPersonalizado({estado,id,cambiarEstado}) {
-    //switch toogle
-    /* const [select,setSelect]=useState(estado) */
+function EncabezadoPersonalizado({estado,id,cambiarEstado,encabezados,cambiarEstadoEncabezado}) {
+    //boton
+    const [ok,setOk]=useState(false)
     //texto
     const [parrafo1,setParrafo1]=useState('')
     const [parrafo2,setParrafo2]=useState('')
     const [parrafo3,setParrafo3]=useState('')
 
-/*     useEffect(()=>{
-        setSelect(estado)
-    },[]) */
+    const handleEncabezadoNuevo =()=>{
+        const new_data={
+            texto1:parrafo1,
+            texto2:parrafo2,
+            texto3:parrafo3
+        }
+
+        const encabezadosModificados = encabezados.map(item => {
+            if(item.id === id) {
+                item.text= new_data
+                return item;
+            }else {
+                return item;
+            }
+        });
+
+        cambiarEstadoEncabezado(encabezadosModificados)
+        setOk(true)
+
+    }
 
     return (
         <div>
@@ -63,10 +80,18 @@ function EncabezadoPersonalizado({estado,id,cambiarEstado}) {
                                 </textarea>
                             </div>
                         </div>
-                        <SwitchButton
-                            enabled={estado}
-                            setEnabled={()=>cambiarEstado(id)}
-                        />
+                        <div className="flex flex-row justify-between px-3 items-center">
+                            <SwitchButton
+                                enabled={estado}
+                                setEnabled={()=>cambiarEstado(id)}
+                            />
+                            <input
+                                type="button"
+                                onClick={handleEncabezadoNuevo}
+                                value={`${ok ?'Encabezado listo':'Personalizar encabezado'}`}
+                                className={`${ok ?'bg-blue-300 border border-blue-600' :'bg-slate-200 border border-slate-300'} text-black text-lg tracking-wide font-bold px-4 py-2 rounded-lg cursor-pointer`}
+                            />
+                        </div>
                     </div>
                 )
             }

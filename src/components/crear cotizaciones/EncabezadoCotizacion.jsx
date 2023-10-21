@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 //headlessui
 import { Tab } from '@headlessui/react'
 //componentes
-import EncabezadoPersonalizado from '../EncabezadoPersonalizado'
+import EncabezadoPersonalizado from '../crear cotizaciones/EncabezadoPersonalizado.jsx'
 import SwitchButton from '../Switch'
 
 function classNames(...classes) {
@@ -44,7 +44,6 @@ function EncabezadoCotizacion() {
             }
         });
         setCategories(categoriesModificado)
-        console.log(categoriesModificado)
     }
 
 
@@ -95,6 +94,8 @@ function EncabezadoCotizacion() {
                             :
                             (
                                 <EncabezadoPersonalizado
+                                    encabezados={categories}
+                                    cambiarEstadoEncabezado={setCategories}
                                     estado={item.selecionado}
                                     id={item.id}
                                     cambiarEstado={cambiarEstado}
