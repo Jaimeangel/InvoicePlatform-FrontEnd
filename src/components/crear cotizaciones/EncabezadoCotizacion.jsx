@@ -9,7 +9,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function EncabezadoCotizacion() {
+function EncabezadoCotizacion({cotizacion,setCotizacion}) {
     let [categories,setCategories] = useState([
       {
         id: 1,
@@ -45,6 +45,23 @@ function EncabezadoCotizacion() {
         });
         setCategories(categoriesModificado)
     }
+
+    //actulizando informacion en state principal
+    useEffect(()=>{
+        const categoriesModificado = categories.find((item) => {
+            if(item.selecionado === true){
+                return item;
+            }
+        });
+        
+        if(categoriesModificado){
+            const newData={
+                ...cotizacion,
+                'encabezado':categoriesModificado.text
+            }
+            setCotizacion(newData)
+        }
+    },[categories])
 
 
   return (

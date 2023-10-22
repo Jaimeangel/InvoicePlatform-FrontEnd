@@ -1,6 +1,7 @@
 const formatData={
     'fecha':'',
-    'numeroCotizacion':''
+    'numeroCotizacion':'',
+    'encabezado':''
 }
 
 export default formatData;
