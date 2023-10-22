@@ -4,12 +4,24 @@ import { Tab } from '@headlessui/react'
 //componentes
 import EncabezadoPersonalizado from '../crear cotizaciones/EncabezadoPersonalizado.jsx'
 import SwitchButton from '../Switch'
+import AlertaForm from '../alertas/AlertaForm.jsx'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function EncabezadoCotizacion({cotizacion,setCotizacion}) {
+function EncabezadoCotizacion({
+    cotizacion,
+    setCotizacion,
+    cambiarPaso,
+    validatePaso,
+    setValidatePaso,
+    numeroPasos,
+    pasoActual
+}) {
+      //alertas
+    const [alert,setAlert]=useState({msg:'',error:false})
+    //categorias
     let [categories,setCategories] = useState([
       {
         id: 1,
@@ -46,6 +58,11 @@ function EncabezadoCotizacion({cotizacion,setCotizacion}) {
         setCategories(categoriesModificado)
     }
 
+    const validateCambiarPaso=()=>{
+        if(pasoActual===numeroPasos) return
+        cambiarPaso(value=>value+1)
+    }
+
     //persistencia de informacion
     useEffect(()=>{
         if('encabezado' in cotizacion){
@@ -79,12 +96,41 @@ function EncabezadoCotizacion({cotizacion,setCotizacion}) {
         }
     },[categories])
 
+    //validacion para cambiar paso
+    useEffect(()=>{
+        if(validatePaso){
+            const isSelectOption = categories.some((item) => item.selecionado === true );
+            if(!isSelectOption){
+                
+                setAlert({
+                    msg:'Es necesario seleccionar alguna de las opciones para pasar al siguiente paso',
+                    error:true
+                })
+                
+                setTimeout(() => {
+                    setAlert({
+                    msg:'',
+                    error:true
+                    })
+                }, 2500);
+        
+                setValidatePaso(false)
+        
+                return
+            }
+            setValidatePaso(false)
+            validateCambiarPaso()
+        }
+    },[validatePaso])
+
 
   return (
     <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
 
+        {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
+
         <Tab.Group>
-            <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 border">
+            <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 border mt-5">
                 {categories?.map((category) => (
                     <Tab
                     key={category.id}

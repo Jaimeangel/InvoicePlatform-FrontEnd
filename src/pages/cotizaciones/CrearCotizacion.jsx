@@ -46,6 +46,11 @@ function CrearCotizacion() {
       {
         pasoActual === 2 && (
           <EncabezadoCotizacion
+            cambiarPaso={setPasoActual}
+            validatePaso={validatePaso}
+            setValidatePaso={setValidatePaso}
+            numeroPasos={numeroPasos}
+            pasoActual={pasoActual}
             cotizacion={cotizacion}
             setCotizacion={setCotizacion}
           />
