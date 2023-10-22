@@ -5,7 +5,7 @@ import createEncabezado from '../../assets/undraw_create_re_57a3.svg'
 import AlertImage from "../alertas/AlertaImagen.jsx";
 import SwitchButton from "../Switch.jsx";
 
-function EncabezadoPersonalizado({estado,id,cambiarEstado,encabezados,cambiarEstadoEncabezado}) {
+function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados,cambiarEstadoEncabezado}) {
     //boton
     const [ok,setOk]=useState(false)
     //texto
@@ -34,6 +34,17 @@ function EncabezadoPersonalizado({estado,id,cambiarEstado,encabezados,cambiarEst
 
     }
 
+    useEffect(()=>{
+        if(encabezado.selecionado===true){
+            setParrafo1(encabezado.text.texto1)
+            setParrafo2(encabezado.text.texto2)
+            setParrafo3(encabezado.text.texto3)
+
+            //cambiar boton
+            setOk(true)
+        }
+    },[])
+
     return (
         <div>
             {
@@ -51,35 +62,46 @@ function EncabezadoPersonalizado({estado,id,cambiarEstado,encabezados,cambiarEst
                     </div>
                 ):(
                     <div className="flex flex-col gap-5">
-                        <div className="w-full">
-                            <div className='flex flex-col gap-1 items-left'>
-                                <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 1</label>
-                                <textarea name="" id="" cols="5" rows="1"
-                                    value={parrafo1}
-                                    onChange={(e)=>setParrafo1(e.target.value)}
-                                    className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
-                                >
-                                </textarea>
-                            </div>
-                            <div className='flex flex-col gap-1 items-left'>
-                                <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 2</label>
-                                <textarea name="" id="" cols="5" rows="1"
-                                    value={parrafo2}
-                                    onChange={(e)=>setParrafo2(e.target.value)}
-                                    className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
-                                >
-                                </textarea>
-                            </div>
-                            <div className='flex flex-col gap-1 items-left'>
-                                <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 2</label>
-                                <textarea name="" id="" cols="5" rows="1"
-                                    value={parrafo3}
-                                    onChange={(e)=>setParrafo3(e.target.value)}
-                                    className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
-                                >
-                                </textarea>
-                            </div>
-                        </div>
+                        {
+                            !ok ? (
+                                <div className="w-full">
+                                    <div className='flex flex-col gap-1 items-left'>
+                                        <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 1</label>
+                                        <textarea name="" id="" cols="5" rows="1"
+                                            value={parrafo1}
+                                            onChange={(e)=>setParrafo1(e.target.value)}
+                                            className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
+                                        >
+                                        </textarea>
+                                    </div>
+                                    <div className='flex flex-col gap-1 items-left'>
+                                        <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 2</label>
+                                        <textarea name="" id="" cols="5" rows="1"
+                                            value={parrafo2}
+                                            onChange={(e)=>setParrafo2(e.target.value)}
+                                            className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
+                                        >
+                                        </textarea>
+                                    </div>
+                                    <div className='flex flex-col gap-1 items-left'>
+                                        <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 2</label>
+                                        <textarea name="" id="" cols="5" rows="1"
+                                            value={parrafo3}
+                                            onChange={(e)=>setParrafo3(e.target.value)}
+                                            className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
+                                        >
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                            ):(
+                                <div className='flex flex-col gap-4 font-semibold'>
+                                    <p className='text-justify'>{parrafo1}</p>
+                                    <p className='text-justify'>{parrafo2}</p>
+                                    <p className='text-justify'>{parrafo3}</p>
+                                </div>
+                            )
+                        }
                         <div className="flex flex-row justify-between px-3 items-center">
                             <SwitchButton
                                 enabled={estado}

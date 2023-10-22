@@ -46,6 +46,22 @@ function EncabezadoCotizacion({cotizacion,setCotizacion}) {
         setCategories(categoriesModificado)
     }
 
+    //persistencia de informacion
+    useEffect(()=>{
+        if('encabezado' in cotizacion){
+            if(cotizacion.encabezado !== ''){
+                const categoriesModificado = categories.map((item) => {
+                    if(item.id === cotizacion.encabezado.id){
+                        return cotizacion.encabezado;
+                    }else{
+                        return item;
+                    }
+                });
+                setCategories(categoriesModificado)
+            }
+        }
+    },[])
+
     //actulizando informacion en state principal
     useEffect(()=>{
         const categoriesModificado = categories.find((item) => {
@@ -57,7 +73,7 @@ function EncabezadoCotizacion({cotizacion,setCotizacion}) {
         if(categoriesModificado){
             const newData={
                 ...cotizacion,
-                'encabezado':categoriesModificado.text
+                'encabezado':categoriesModificado
             }
             setCotizacion(newData)
         }
@@ -116,6 +132,7 @@ function EncabezadoCotizacion({cotizacion,setCotizacion}) {
                                     estado={item.selecionado}
                                     id={item.id}
                                     cambiarEstado={cambiarEstado}
+                                    encabezado={item}
                                 />
                             )
                         }
