@@ -82,7 +82,7 @@ function DatosCliente({
               msg:'',
               error:true
             })
-          }, 2500);
+          }, 4000);
   
           setValidatePaso(false)
   
