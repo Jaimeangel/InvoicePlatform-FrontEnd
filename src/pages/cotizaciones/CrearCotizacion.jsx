@@ -5,7 +5,7 @@ import BotonesBarraProgreso from "../../components/BotonesBarraProgreso";
 //Componentes paso
 import DatosCliente from "../../components/crear cotizaciones/DatosCliente";
 import EncabezadoCotizacion from "../../components/crear cotizaciones/EncabezadoCotizacion";
-import AgregarProductos from "../../components/crear cotizaciones/AgregarProductos";
+import ProductosCotizacion from "../../components/crear cotizaciones/ProductosCotizacion";
 //Datos
 import formatData from "../../data/formatoDataCotizacion.js";
 import pasos from "../../data/pasosCotizacion.js";
@@ -60,7 +60,7 @@ function CrearCotizacion() {
 
       {
         pasoActual === 3 && (
-          <AgregarProductos
+          <ProductosCotizacion
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
             setValidatePaso={setValidatePaso}

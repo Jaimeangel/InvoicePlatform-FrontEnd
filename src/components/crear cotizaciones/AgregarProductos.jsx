@@ -1,55 +1,86 @@
-import { useState,useEffect } from "react";
-//data
-const itemsCotizacion=[
-    {
-        id:1,
-        categoria:'item',
-        proporcion:10
-    },
-    {
-        id:2,
-        categoria:'descripción',
-        proporcion:50
-    },
-    {
-        id:3,
-        categoria:'cant',
-        proporcion:10
-    },
-    {
-        id:4,
-        categoria:'impuesto',
-        proporcion:10
-    },
-    {
-        id:5,
-        categoria:'valor total',
-        proporcion:20
-    }
-]
+import { useEffect, useState } from "react";
 
-function AgregarProductos() {
+function AgregarProductos({productos}) {
+    const [descrip,setDescrip]=useState('')
+    const [valUni,setValUni]=useState('')
+    const [cant,setCant]=useState('')
+    const [impuesto,setImpuesto]=useState(0)
+    const [total,setTotal]=useState(0)
+
+    useEffect(()=>{
+        const valorTotal = Number(cant)*Number(valUni)
+        setTotal(valorTotal)
+    },[cant,valUni])
+    
     return (
-        <div className="w-full  bg-white rounded-lg px-10 py-6 shadow-md">
-            <h1 className="mt-2 mb-5 text-2xl font-bold">Agrega tus productos/servicios</h1>
-            <div className="w-full flex flex-col gap-5">
-                <div className="w-full flex flex-row bg-slate-100 border border-black rounded">
-                    {
-                        itemsCotizacion?.map((item)=>(
-                            <p 
-                                key={item.id} 
-                                className={`${item.id === itemsCotizacion.length ?'border-r-none' :'border-r border-black'} text-center first-letter:uppercase font-semibold py-2`}
-                                style={{
-                                    width:`${item.proporcion}%`
-                                }} 
-                            >{item.categoria}</p>
-                        ))
-                    }
+        <div className="flex flex-col gap-2">
+            <div className="w-full flex flex-row  border border-black rounded bg-white">
+                <p
+                    className='border-r border-black text-center font-semibold py-2'
+                    style={{
+                        width:`6%`
+                    }} 
+                >
+                    {productos.length+1}
+                </p>
+                <div
+                    className='border-r border-black'
+                    style={{
+                        width:`45%`
+                    }} 
+                >
+                    <textarea
+                        value={descrip}
+                        onChange={(e)=>setDescrip(e.target.value)}
+                        rows="3"
+                        className="w-full bg-white outline-none px-3 font-semibold"
+                    ></textarea>
                 </div>
-                <div>
-                    
-                </div>
+                <input
+                    value={valUni}
+                    onChange={(e)=>setValUni(e.target.value)}
+                    type="number"
+                    className='border-r border-black font-semibold py-2 outline-none text-center'
+                    style={{
+                        width:`15%`
+                    }} 
+                />
+                <input
+                    value={cant}
+                    onChange={(e)=>setCant(e.target.value)}
+                    type="number"
+                    className='border-r border-black font-semibold py-2 outline-none text-center'
+                    style={{
+                        width:`8%`
+                    }} 
+                />
+                <select
+                    value={impuesto}
+                    onChange={(e)=>setImpuesto(e.target.value)}
+                    className="text-center border-r border-black outline-none font-semibold py-2 "
+                    style={{
+                        width:`11%`
+                    }} 
+                >
+                    <option value={0}>0 %</option>
+                    <option value={19}>19 %</option>
+                </select>
+                <input
+                    value={total}
+                    onChange={(e)=>setTotal(e.target.value)}
+                    className="bg-white text-center rounded font-semibold"
+                    style={{
+                        width:`15%`
+                    }}  
+                    type="number"
+                    disabled 
+                />
             </div>
+            <button
+                className="w-3/12 py-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+            >
+                agregar otro item
+            </button>
         </div>
     )
 }
