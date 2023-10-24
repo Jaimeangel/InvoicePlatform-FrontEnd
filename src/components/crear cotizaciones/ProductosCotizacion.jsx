@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 //componentes
 import AgregarProductos from "./AgregarProductos";
+import CardProducto from "./CardProducto";
 //data
 const itemsCotizacion=[
     {
@@ -55,9 +56,18 @@ function ProductosCotizacion() {
                     }
                 </div>
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
+                {
+                    productos?.map((item,index)=>(
+                        <CardProducto
+                            key={index}
+                            data={item}
+                        />
+                    ))
+                }
                 <AgregarProductos
                     productos={productos}
+                    agregarProductos={setProductos}
                 />
             </div>
         </div>

@@ -1,19 +1,67 @@
 import { useEffect, useState } from "react";
+//componentes
+import AlertaForm from "../alertas/AlertaForm";
 
-function AgregarProductos({productos}) {
+function AgregarProductos({productos,agregarProductos}) {
+    //alertas
+    const [alert,setAlert]=useState({msg:'',error:false})
+    //data
+    const [item,setItem]=useState(0)
     const [descrip,setDescrip]=useState('')
     const [valUni,setValUni]=useState('')
-    const [cant,setCant]=useState('')
+    const [cant,setCant]=useState(1)
     const [impuesto,setImpuesto]=useState(0)
     const [total,setTotal]=useState(0)
+
+    useEffect(()=>{
+        const item_lenght=productos.length + 1;
+        setItem(item_lenght)
+    },[productos])
 
     useEffect(()=>{
         const valorTotal = Number(cant)*Number(valUni)
         setTotal(valorTotal)
     },[cant,valUni])
+
+    const handleAgregarProducto=()=>{
+        if([descrip,valUni].includes('') && [total].includes(0)){  
+            setAlert({
+                msg:'Es necesario llenar todos los campos para agregar un item',
+                error:true
+            })
+            
+            setTimeout(() => {
+                setAlert({
+                msg:'',
+                error:true
+                })
+            }, 4000);
+
+            return
+        }
+        const newProducto={
+            item:item,
+            descripcion:descrip,
+            cantidad:cant,
+            precioUnitario:valUni,
+            impuesto:impuesto,
+            total
+        }
+
+        agregarProductos([...productos,newProducto])
+
+        //resetear estado
+        setItem(0)
+        setDescrip('')
+        setValUni('')
+        setCant(1)
+        setImpuesto(0)
+        setTotal(0)
+    }
     
     return (
         <div className="flex flex-col gap-2">
+            {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
             <div className="w-full flex flex-row  border border-black rounded bg-white">
                 <p
                     className='border-r border-black text-center font-semibold py-2'
@@ -77,6 +125,7 @@ function AgregarProductos({productos}) {
                 />
             </div>
             <button
+                onClick={handleAgregarProducto}
                 className="w-3/12 py-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
             >
                 agregar otro item
