@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 //componentes
 import AlertaForm from "../alertas/AlertaForm";
+//helpers
+import CalcularValorIva from '../../helpers/CalcularValorIva.js'
 
 function AgregarProductos({productos,agregarProductos}) {
     //alertas
@@ -19,9 +21,16 @@ function AgregarProductos({productos,agregarProductos}) {
     },[productos])
 
     useEffect(()=>{
-        const valorTotal = Number(cant)*Number(valUni)
-        setTotal(valorTotal)
-    },[cant,valUni])
+        const valorInpuesto= Number(impuesto)
+        if(valorInpuesto===0){
+            const valorTotal = Number(cant)*Number(valUni)
+            setTotal(valorTotal)
+        }else if(valorInpuesto===19){
+            const valorTotal = Number(cant)*Number(valUni)
+            const valorTotalIva= CalcularValorIva(valorTotal,impuesto)
+            setTotal(valorTotalIva)
+        }
+    },[cant,valUni,impuesto])
 
     const handleAgregarProducto=()=>{
         if([descrip,valUni].includes('') && [total].includes(0)){  
