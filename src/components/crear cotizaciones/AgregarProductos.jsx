@@ -31,6 +31,7 @@ function AgregarProductos({productos,agregarProductos}) {
     },[productos])
 
     useEffect(()=>{
+        //calculamos del valor total (dependiendo si hay un inpuesto aplicable)
         const valorInpuesto= Number(impuesto)
         if(valorInpuesto===0){
             const valorTotal = Number(cant)*Number(valUni)
@@ -43,6 +44,7 @@ function AgregarProductos({productos,agregarProductos}) {
     },[cant,valUni,impuesto])
 
     const handleAgregarProducto=()=>{
+        //validaciones
         if([descrip,valUni].includes('') && [total].includes(0)){  
             setAlert({
                 msg:'Es necesario llenar todos los campos para agregar un item',
@@ -58,6 +60,7 @@ function AgregarProductos({productos,agregarProductos}) {
 
             return
         }
+        //objeto de datos del producto
         const newProducto={
             item:item,
             descripcion:descrip,
@@ -67,6 +70,7 @@ function AgregarProductos({productos,agregarProductos}) {
             total
         }
 
+        //agregamos el producto
         agregarProductos([...productos,newProducto])
 
         //resetear estado
@@ -155,7 +159,7 @@ function AgregarProductos({productos,agregarProductos}) {
                 hideBarItem ? (
                     <button
                         onClick={cambiarEstadoHideBarItem}
-                        className="w-2/12 first-letter:uppercase py-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                        className="w-1/12 first-letter:uppercase py-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
                     >
                         <FontAwesomeIcon icon={faPlus} />
                     </button>
