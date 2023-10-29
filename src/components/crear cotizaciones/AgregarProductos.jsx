@@ -21,12 +21,16 @@ function AgregarProductos({productos,agregarProductos}) {
     const [total,setTotal]=useState(0)
 
     useEffect(()=>{
+        const longitudProductos=productos.length
+        console.log(longitudProductos)
         //actualiza el numerador del campo items
-        const item_lenght=productos.length + 1;
+        const item_lenght=longitudProductos + 1;
         setItem(item_lenght)
         //Esconde o muestra la barra de creacion de items
-        if(productos.length !== 0){
+        if(longitudProductos !== 0){
             setHideBarItem(true)
+        }else{
+            setHideBarItem(false)
         }
     },[productos])
 
@@ -109,7 +113,7 @@ function AgregarProductos({productos,agregarProductos}) {
                             <textarea
                                 value={descrip}
                                 onChange={(e)=>setDescrip(e.target.value)}
-                                rows="3"
+                                rows="2"
                                 className="w-full bg-white outline-none px-3 font-semibold"
                             ></textarea>
                         </div>

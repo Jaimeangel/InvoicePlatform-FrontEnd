@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-function CardProducto({data}) {
+function CardProducto({data,productos,agregarProductos}) {
     const {
         item,
         descripcion,
@@ -13,7 +13,11 @@ function CardProducto({data}) {
         total
     }=data;
 
-    
+    const eliminarItem=()=>{
+        const nuevaListaProductos=productos.filter(producto =>producto.item !== item)
+        console.log(nuevaListaProductos)
+        agregarProductos([...nuevaListaProductos])
+    }
 
     return (
         <div className="flex flex-row">
@@ -73,14 +77,15 @@ function CardProducto({data}) {
                     disabled 
                 />
             </div>
-            <div className="w-1/12 flex flex-row justify-between px-3 items-center">
+            <div className="w-1/12 flex flex-row justify-between px-1 items-center">
                 <button
-                    className="bg-blue-300 px-1 py-1 rounded-md"
+                    className="bg-blue-300 px-2 py-1 rounded-md mx-auto"
                 >
                     <FontAwesomeIcon icon={faPenToSquare} />
                 </button>
                 <button
-                    className="bg-red-300 px-1 py-1 rounded-md"
+                    onClick={eliminarItem}
+                    className="bg-red-300 px-2 py-1 rounded-md mx-auto"
                 >
                     <FontAwesomeIcon icon={faTrash} />
                 </button>

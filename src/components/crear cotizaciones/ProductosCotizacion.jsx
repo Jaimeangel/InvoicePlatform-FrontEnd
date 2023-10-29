@@ -65,6 +65,8 @@ function ProductosCotizacion() {
                         <CardProducto
                             key={index}
                             data={item}
+                            productos={productos}
+                            agregarProductos={setProductos}
                         />
                     ))
                 }
