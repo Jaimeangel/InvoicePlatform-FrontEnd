@@ -16,9 +16,17 @@ function ModalEliminarItem({productos,agregarProductos,id}) {
     }
 
     const eliminarItem=()=>{
-        const nuevaListaProductos=productos.filter(producto =>producto.item !== id)
-        agregarProductos(nuevaListaProductos)
-        closeModal()
+      //eliminar el producto y despues actualizar los valores de los items
+      const nuevaListaProductos=productos
+      .filter(producto =>producto.item !== id)
+      .map((producto,index)=>{
+        producto.item=index+1
+        return producto;
+      })
+
+      //agregar la nueva lista de productos
+      agregarProductos(nuevaListaProductos)
+      closeModal()
     }
 
   return (
