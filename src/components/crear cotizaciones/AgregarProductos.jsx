@@ -91,7 +91,7 @@ function AgregarProductos({productos,agregarProductos}) {
             {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
             {
                 !hideBarItem && (
-                    <div className="w-full flex flex-row  border border-black rounded bg-white">
+                    <div className="w-11/12 flex flex-row  border border-black rounded bg-white">
                         <p
                             className='border-r border-black text-center font-semibold py-2'
                             style={{

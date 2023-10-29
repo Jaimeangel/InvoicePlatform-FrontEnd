@@ -57,7 +57,7 @@ function CalculoTotalCotizacion({productos}) {
         <>
             {
                 !hide && (
-                    <div className="w-full flex flex-col items-end">
+                    <div className="w-11/12 flex flex-col items-end gap-1">
                         <p className="text-lg font-medium">{`Subtotal: ${subtotal}`}</p>
                         <p className="text-lg font-medium">{`IVA 19%: ${iva}`}</p>
                         <p className="text-2xl font-semibold">{`Total Neto: ${totalNeto}`}</p>

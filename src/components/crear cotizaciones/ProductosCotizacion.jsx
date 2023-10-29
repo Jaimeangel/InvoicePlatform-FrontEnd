@@ -43,8 +43,8 @@ function ProductosCotizacion() {
         <div className="bg-white w-full flex flex-col gap-2 rounded-lg px-10 py-6 shadow-md">
             <h1 className="mt-2 mb-2 text-2xl font-bold">Agrega tus productos/servicios</h1>
 
-            <div className="w-full flex flex-col gap-5">
-                <div className="w-full flex flex-row bg-slate-100 border border-black rounded">
+            <div className="flex flex-col gap-5">
+                <div className="w-11/12 flex flex-row bg-slate-100 border border-black rounded">
                     {
                         itemsCotizacion?.map((item)=>(
                             <p 
@@ -59,7 +59,7 @@ function ProductosCotizacion() {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="w-full flex flex-col gap-2">
                 {
                     productos?.map((item,index)=>(
                         <CardProducto
