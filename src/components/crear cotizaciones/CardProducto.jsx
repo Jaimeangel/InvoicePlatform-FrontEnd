@@ -1,8 +1,6 @@
-//font awesome
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 //modales
 import ModalEliminarItem from "./ModalEliminarItem";
+import ModalEditarItem from "./ModalEditarItem";
 
 function CardProducto({data,productos,agregarProductos}) {
     const {
@@ -77,17 +75,16 @@ function CardProducto({data,productos,agregarProductos}) {
                 />
             </div>
             <div className="w-1/12 flex flex-row justify-between px-1 items-center">
-                <button
+{/*                 <button
                     className="bg-blue-300 px-2 py-1 rounded-md mx-auto"
                 >
                     <FontAwesomeIcon icon={faPenToSquare} />
-                </button>
-{/*                 <button
-                    onClick={eliminarItem}
-                    className="bg-red-300 px-2 py-1 rounded-md mx-auto"
-                >
-                    <FontAwesomeIcon icon={faTrash} />
                 </button> */}
+                <ModalEditarItem
+                    productos={productos}
+                    agregarProductos={agregarProductos}
+                    data={data}
+                />
                 <ModalEliminarItem
                     productos={productos}
                     agregarProductos={agregarProductos}

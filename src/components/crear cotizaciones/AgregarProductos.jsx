@@ -22,7 +22,6 @@ function AgregarProductos({productos,agregarProductos}) {
 
     useEffect(()=>{
         const longitudProductos=productos.length
-        console.log(longitudProductos)
         //actualiza el numerador del campo items
         const item_lenght=longitudProductos + 1;
         setItem(item_lenght)
@@ -102,7 +101,7 @@ function AgregarProductos({productos,agregarProductos}) {
                                 width:`6%`
                             }} 
                         >
-                            {productos.length+1}
+                            {item}
                         </p>
                         <div
                             className='border-r border-black'
