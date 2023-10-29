@@ -1,7 +1,8 @@
 //font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+//modales
+import ModalEliminarItem from "./ModalEliminarItem";
 
 function CardProducto({data,productos,agregarProductos}) {
     const {
@@ -13,10 +14,8 @@ function CardProducto({data,productos,agregarProductos}) {
         total
     }=data;
 
-    const eliminarItem=()=>{
-        const nuevaListaProductos=productos.filter(producto =>producto.item !== item)
-        console.log(nuevaListaProductos)
-        agregarProductos([...nuevaListaProductos])
+    const editarItem=()=>{
+
     }
 
     return (
@@ -83,12 +82,17 @@ function CardProducto({data,productos,agregarProductos}) {
                 >
                     <FontAwesomeIcon icon={faPenToSquare} />
                 </button>
-                <button
+{/*                 <button
                     onClick={eliminarItem}
                     className="bg-red-300 px-2 py-1 rounded-md mx-auto"
                 >
                     <FontAwesomeIcon icon={faTrash} />
-                </button>
+                </button> */}
+                <ModalEliminarItem
+                    productos={productos}
+                    agregarProductos={agregarProductos}
+                    id={item}
+                />
             </div>
         </div>
     )
