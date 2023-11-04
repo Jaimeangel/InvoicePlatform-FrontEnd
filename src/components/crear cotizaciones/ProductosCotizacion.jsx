@@ -60,9 +60,9 @@ function ProductosCotizacion() {
 
             <div className="w-full flex flex-col gap-2">
                 {
-                    productos?.map((item,index)=>(
+                    productos?.map((item)=>(
                         <CardProducto
-                            key={index}
+                            key={item.item}
                             data={item}
                             productos={productos}
                             agregarProductos={setProductos}

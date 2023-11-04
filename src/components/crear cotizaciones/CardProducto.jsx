@@ -18,6 +18,34 @@ function CardProducto({data,productos,agregarProductos}) {
         return numberFormat
     }
 
+    const eliminarItem = () => {
+        const id=item;
+        // Clona la lista de productos para no modificar la original
+        const nuevaListaProductos = [...productos];
+      
+        // Encuentra el índice del elemento a eliminar
+        const indexAEliminar = nuevaListaProductos.findIndex(producto => producto.item === id);
+      
+        if(indexAEliminar !== -1){
+          // Elimina el elemento encontrado
+          nuevaListaProductos.splice(indexAEliminar, 1);
+          
+          // Reenumera los elementos restantes
+          nuevaListaProductos.forEach((producto, index) => {
+            producto.item = index;
+          });
+      
+          // Actualiza la lista de productos
+          agregarProductos(nuevaListaProductos);
+        }
+    };
+
+    const handleEditarProducto=(data)=>{       
+        const editListaProductos=productos.map(producto=>producto.item===data.item ? data:producto)
+        //actualizamos el nuevo listado de productos
+        agregarProductos(editListaProductos)
+    }
+
     return (
         <div className="flex flex-row">
             <div className="w-11/12 flex flex-row  border border-black rounded bg-white">
@@ -78,14 +106,11 @@ function CardProducto({data,productos,agregarProductos}) {
             </div>
             <div className="w-1/12 flex flex-row justify-between px-1 items-center">
                 <ModalEditarItem
-                    productos={productos}
-                    agregarProductos={agregarProductos}
                     data={data}
+                    handleEditarItem={handleEditarProducto}
                 />
                 <ModalEliminarItem
-                    productos={productos}
-                    agregarProductos={agregarProductos}
-                    id={item}
+                    eliminarItem={eliminarItem}
                 />
             </div>
         </div>

@@ -4,7 +4,7 @@ import { Fragment, useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-function ModalEliminarItem({productos,agregarProductos,id}) {
+function ModalEliminarItem({eliminarItem}) {
     let [isOpen, setIsOpen] = useState(false)
 
     function closeModal() {
@@ -15,19 +15,10 @@ function ModalEliminarItem({productos,agregarProductos,id}) {
         setIsOpen(true)
     }
 
-    const eliminarItem=()=>{
-      //eliminar el producto y despues actualizar los valores de los items
-      const nuevaListaProductos=productos
-      .filter(producto =>producto.item !== id)
-      .map((producto,index)=>{
-        producto.item=index+1
-        return producto;
-      })
-
-      //agregar la nueva lista de productos
-      agregarProductos(nuevaListaProductos)
+    const eliminarProducto = () => {
+      eliminarItem()
       closeModal()
-    }
+    };
 
   return (
     <>
@@ -70,7 +61,7 @@ function ModalEliminarItem({productos,agregarProductos,id}) {
                         <h1 className='font-bold text-2xl'>¿Desea eliminar este item?</h1>
                         <div className='flex flex-row gap-5'>
                             <button
-                                onClick={eliminarItem} 
+                                onClick={eliminarProducto} 
                                 className='bg-red-500 px-5 text-black text-lg tracking-wide font-bold py-1 rounded-md shadow border outline-none'
                             >
                                 Eliminar

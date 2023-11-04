@@ -42,7 +42,7 @@ const itemsCotizacion=[
     }
 ]
 
-function ModalEditarItem({productos,agregarProductos,data}){
+function ModalEditarItem({handleEditarItem,data}){
     //alertas
     const [alert,setAlert]=useState({msg:'',error:false})
     //hide/show
@@ -95,9 +95,8 @@ function ModalEditarItem({productos,agregarProductos,data}){
             total:valTotalFormat
         }
 
-        const editListaProductos=productos.map(producto=>producto.item===editProducto.item ? editProducto:producto)
-        //actualizamos el nuevo listado de productos
-        agregarProductos(editListaProductos)
+        handleEditarItem(editProducto)
+        
         closeModal()
     }
 
