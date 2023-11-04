@@ -6,7 +6,7 @@ import CalcularValorIva from '../../helpers/CalcularValorIva.js'
 //font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
+import numeral from 'numeral';
 
 function AgregarProductos({productos,agregarProductos}) {
     const [hideBarItem,setHideBarItem]=useState(false)
@@ -36,11 +36,13 @@ function AgregarProductos({productos,agregarProductos}) {
     useEffect(()=>{
         //calculamos del valor total (dependiendo si hay un inpuesto aplicable)
         const valorInpuesto= Number(impuesto)
+        const valUniFormat = numeral(valUni).value();
         if(valorInpuesto===0){
-            const valorTotal = Number(cant)*Number(valUni)
-            setTotal(valorTotal)
+            const valorTotal = Number(cant)*valUniFormat
+            const valorTotalFormat = numeral(valorTotal).format('0,0.000');
+            setTotal(valorTotalFormat)
         }else if(valorInpuesto===19){
-            const valorTotal = Number(cant)*Number(valUni)
+            const valorTotal = Number(cant)*valUniFormat
             const valorTotalIva= CalcularValorIva(valorTotal,impuesto)
             setTotal(valorTotalIva)
         }
@@ -63,14 +65,17 @@ function AgregarProductos({productos,agregarProductos}) {
 
             return
         }
+        //formateando los valores valor unitario y total de string a numero
+        const valUniFormat = numeral(valUni).value();
+        const valTotalFormat = numeral(total).value();
         //objeto de datos del producto
         const newProducto={
             item:item,
             descripcion:descrip,
             cantidad:cant,
-            precioUnitario:valUni,
+            precioUnitario:valUniFormat,
             impuesto:impuesto,
-            total
+            total:valTotalFormat
         }
 
         //agregamos el producto
@@ -88,6 +93,32 @@ function AgregarProductos({productos,agregarProductos}) {
     const cambiarEstadoHideBarItem=()=>{
         setHideBarItem(false)
     }
+
+    
+    const handleValorUnitarioChange = (event) => {
+        const inputNumber = event.target.value;
+        const formattedValue = formatCurrency(inputNumber);
+        setValUni(formattedValue);
+    };
+    
+    const formatCurrency = (value) => {
+        if (!value) return '';
+        
+        // Remover cualquier formato existente, como comas
+        const unformattedValue = value.replace(/,/g, '');
+        
+        // Dividir el valor en parte entera y parte decimal
+        const parts = unformattedValue.split('.');
+        
+        let formattedValue = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      
+        // Si hay parte decimal, limitar a tres decimales
+        if (parts.length === 2) {
+          formattedValue += `.${parts[1].substring(0, 3)}`;
+        }
+      
+        return formattedValue;
+    };
     
     return (
         <div className="flex flex-col gap-2">
@@ -118,8 +149,8 @@ function AgregarProductos({productos,agregarProductos}) {
                         </div>
                         <input
                             value={valUni}
-                            onChange={(e)=>setValUni(e.target.value)}
-                            type="number"
+                            onChange={handleValorUnitarioChange}
+                            type="text"
                             className='border-r border-black font-semibold py-2 outline-none text-center'
                             style={{
                                 width:`15%`
@@ -152,7 +183,7 @@ function AgregarProductos({productos,agregarProductos}) {
                             style={{
                                 width:`15%`
                             }}  
-                            type="number"
+                            type="text"
                             disabled 
                         />
                     </div>

@@ -7,6 +7,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import AlertaForm from '../../components/alertas/AlertaForm'
 //helpers
 import CalcularValorIva from '../../helpers/CalcularValorIva.js'
+import numeral from 'numeral';
 //data
 const itemsCotizacion=[
     {
@@ -79,15 +80,19 @@ function ModalEditarItem({productos,agregarProductos,data}){
 
             return
         }
+        
+        //formateando los valores valor unitario y total de string a numero
+        const valUniFormat = numeral(valUni).value();
+        const valTotalFormat = numeral(total).value();
 
         //objeto de datos del producto
         const editProducto={
             item:item,
             descripcion:descrip,
             cantidad:cant,
-            precioUnitario:valUni,
+            precioUnitario:valUniFormat,
             impuesto:impuesto,
-            total
+            total:valTotalFormat
         }
 
         const editListaProductos=productos.map(producto=>producto.item===editProducto.item ? editProducto:producto)
@@ -109,15 +114,42 @@ function ModalEditarItem({productos,agregarProductos,data}){
     useEffect(()=>{
         //calculamos del valor total (dependiendo si hay un inpuesto aplicable)
         const valorInpuesto= Number(impuesto)
+        const valUniFormat = numeral(valUni).value();
         if(valorInpuesto===0){
-            const valorTotal = Number(cant)*Number(valUni)
-            setTotal(valorTotal)
+            const valorTotal = Number(cant)*valUniFormat
+            const valorTotalFormat = numeral(valorTotal).format('0,0.000');
+            setTotal(valorTotalFormat)
         }else if(valorInpuesto===19){
-            const valorTotal = Number(cant)*Number(valUni)
+            const valorTotal = Number(cant)*valUniFormat
             const valorTotalIva= CalcularValorIva(valorTotal,impuesto)
             setTotal(valorTotalIva)
         }
-    },[cant,valUni,impuesto])    
+    },[cant,valUni,impuesto])
+
+    const handleValorUnitarioChange = (event) => {
+        const inputNumber = event.target.value;
+        const formattedValue = formatCurrency(inputNumber);
+        setValUni(formattedValue);
+    };
+    
+    const formatCurrency = (value) => {
+        if (!value) return '';
+        
+        // Remover cualquier formato existente, como comas
+        const unformattedValue = value.replace(/,/g, '');
+        
+        // Dividir el valor en parte entera y parte decimal
+        const parts = unformattedValue.split('.');
+        
+        let formattedValue = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      
+        // Si hay parte decimal, limitar a tres decimales
+        if (parts.length === 2) {
+          formattedValue += `.${parts[1].substring(0, 3)}`;
+        }
+      
+        return formattedValue;
+    };
 
   return (
     <>
@@ -195,8 +227,8 @@ function ModalEditarItem({productos,agregarProductos,data}){
                         </div>
                         <input
                             value={valUni}
-                            onChange={(e)=>setValUni(e.target.value)}
-                            type="number"
+                            onChange={handleValorUnitarioChange}
+                            type="text"
                             className='border-r border-black font-semibold py-2 outline-none text-center'
                             style={{
                                 width:`15%`
@@ -229,7 +261,7 @@ function ModalEditarItem({productos,agregarProductos,data}){
                             style={{
                                 width:`15%`
                             }}  
-                            type="number"
+                            type="text"
                             disabled 
                         />
                     </div>

@@ -1,6 +1,7 @@
 //modales
 import ModalEliminarItem from "./ModalEliminarItem";
 import ModalEditarItem from "./ModalEditarItem";
+import numeral from 'numeral';
 
 function CardProducto({data,productos,agregarProductos}) {
     const {
@@ -12,8 +13,9 @@ function CardProducto({data,productos,agregarProductos}) {
         total
     }=data;
 
-    const editarItem=()=>{
-
+    const formatNumber=(value)=>{
+        const numberFormat = numeral(value).format('0,0.000');
+        return numberFormat
     }
 
     return (
@@ -39,8 +41,8 @@ function CardProducto({data,productos,agregarProductos}) {
                     >{descripcion}</p>
                 </div>
                 <input
-                    value={precioUnitario}
-                    type="number"
+                    value={formatNumber(precioUnitario)}
+                    type="text"
                     disabled
                     className='border-r border-black font-semibold py-2 outline-none text-center bg-white'
                     style={{
@@ -65,8 +67,8 @@ function CardProducto({data,productos,agregarProductos}) {
                     {`${impuesto} %`}
                 </p>
                 <input
-                    value={total}
-                    type="number"
+                    value={formatNumber(total)}
+                    type="text"
                     className="bg-white text-center rounded font-semibold"
                     style={{
                         width:`15%`
@@ -75,11 +77,6 @@ function CardProducto({data,productos,agregarProductos}) {
                 />
             </div>
             <div className="w-1/12 flex flex-row justify-between px-1 items-center">
-{/*                 <button
-                    className="bg-blue-300 px-2 py-1 rounded-md mx-auto"
-                >
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                </button> */}
                 <ModalEditarItem
                     productos={productos}
                     agregarProductos={agregarProductos}
