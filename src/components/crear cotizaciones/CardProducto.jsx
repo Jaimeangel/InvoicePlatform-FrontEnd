@@ -3,7 +3,7 @@ import ModalEliminarItem from "./ModalEliminarItem";
 import ModalEditarItem from "./ModalEditarItem";
 import numeral from 'numeral';
 
-function CardProducto({data,productos,agregarProductos}) {
+function CardProducto({data,productos,agregarProductos,index}) {
     const {
         item,
         descripcion,
@@ -30,11 +30,6 @@ function CardProducto({data,productos,agregarProductos}) {
           // Elimina el elemento encontrado
           nuevaListaProductos.splice(indexAEliminar, 1);
           
-          // Reenumera los elementos restantes
-          nuevaListaProductos.forEach((producto, index) => {
-            producto.item = index;
-          });
-      
           // Actualiza la lista de productos
           agregarProductos(nuevaListaProductos);
         }
@@ -55,7 +50,7 @@ function CardProducto({data,productos,agregarProductos}) {
                         width:`6%`
                     }} 
                 >
-                    {item}
+                    {index+1}
                 </p>
                 <div
                     className='border-r border-black'
@@ -106,6 +101,7 @@ function CardProducto({data,productos,agregarProductos}) {
             </div>
             <div className="w-1/12 flex flex-row justify-between px-1 items-center">
                 <ModalEditarItem
+                    index={index}
                     data={data}
                     handleEditarItem={handleEditarProducto}
                 />

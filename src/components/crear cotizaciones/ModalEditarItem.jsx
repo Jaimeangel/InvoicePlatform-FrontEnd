@@ -42,7 +42,7 @@ const itemsCotizacion=[
     }
 ]
 
-function ModalEditarItem({handleEditarItem,data}){
+function ModalEditarItem({handleEditarItem,data,index}){
     //alertas
     const [alert,setAlert]=useState({msg:'',error:false})
     //hide/show
@@ -209,7 +209,7 @@ function ModalEditarItem({handleEditarItem,data}){
                                 width:`6%`
                             }} 
                         >
-                            {item}
+                            {index+1}
                         </p>
                         <div
                             className='border-r border-black'

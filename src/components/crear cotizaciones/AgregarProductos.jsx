@@ -6,7 +6,10 @@ import CalcularValorIva from '../../helpers/CalcularValorIva.js'
 //font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+//libraries
 import numeral from 'numeral';
+//herlpers
+import generarID from "../../helpers/generaID.js";
 
 function AgregarProductos({productos,agregarProductos}) {
     const [hideBarItem,setHideBarItem]=useState(false)
@@ -70,7 +73,7 @@ function AgregarProductos({productos,agregarProductos}) {
         const valTotalFormat = numeral(total).value();
         //objeto de datos del producto
         const newProducto={
-            item:item,
+            item:generarID(),
             descripcion:descrip,
             cantidad:cant,
             precioUnitario:valUniFormat,
