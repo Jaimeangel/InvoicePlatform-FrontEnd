@@ -43,17 +43,20 @@ const itemsCotizacion=[
 ]
 
 function ModalEditarItem({handleEditarItem,data,index}){
+    /* console.log('aqui') */
     //alertas
     const [alert,setAlert]=useState({msg:'',error:false})
     //hide/show
     let [isOpen, setIsOpen]=useState(false)
+    //data comparacion
+    const [dataComparacion,setDataComparacion]=useState({})
     //data
     const [item,setItem]=useState(0)
     const [descrip,setDescrip]=useState('')
     const [valUni,setValUni]=useState('')
     const [cant,setCant]=useState(1)
     const [impuesto,setImpuesto]=useState(0)
-    const [total,setTotal]=useState(0)
+    const [total,setTotal]=useState('')
 
     function closeModal() {
         setIsOpen(false)
@@ -63,9 +66,43 @@ function ModalEditarItem({handleEditarItem,data,index}){
         setIsOpen(true)
     }
 
+    function closeModalSinEditar(){
+        const producto={
+            item:item,
+            descripcion:descrip,
+            cantidad:cant,
+            precioUnitario:valUni,
+            impuesto:impuesto,
+            total:total
+        }
+
+        function sonObjetosIguales(obj1, obj2) {
+            for (let prop in obj1) {
+                if (obj1[prop] !== obj2[prop]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        const sonIguales = sonObjetosIguales(producto, dataComparacion);
+
+        if(!sonIguales) {
+            setItem(dataComparacion.item)
+            setDescrip(dataComparacion.descripcion)
+            setValUni(dataComparacion.precioUnitario)
+            setCant(dataComparacion.cantidad)
+            setImpuesto(dataComparacion.impuesto)
+            setTotal(dataComparacion.total)
+        }
+        
+        closeModal()
+    }
+
+    //handler editar el producto
     const handleEditarProducto=()=>{
         //validaciones
-        if([descrip,valUni].includes('') && [total].includes(0)){  
+        if([descrip,valUni,total].includes('')){  
             setAlert({
                 msg:'Es necesario llenar todos los campos para agregar un item',
                 error:true
@@ -108,14 +145,32 @@ function ModalEditarItem({handleEditarItem,data,index}){
         setCant(data.cantidad)
         setImpuesto(data.impuesto)
         setTotal(data.total)
-    },[])
 
+        //objeto de datos del producto
+        const valUniNumber = data.precioUnitario.toString()
+        const valUniStringFormatMoney= formatCurrency(valUniNumber);
+        const valorTotalStringFormatMoney = numeral(data.total).format('0,0.000');
+        
+        const dataProducto={
+            item:data.item,
+            descripcion:data.descripcion,
+            cantidad:data.cantidad,
+            precioUnitario:valUniStringFormatMoney,
+            impuesto:data.impuesto,
+            total:valorTotalStringFormatMoney
+        }
+        setDataComparacion(dataProducto)
+    },[data])
+
+    //actualizar el valor total del item de acuerdo a cant,val unitario e impuesto 
     useEffect(()=>{
         //calculamos del valor total (dependiendo si hay un inpuesto aplicable)
         const valorInpuesto= Number(impuesto)
+        //convertimos el valor unitario string a numero
         const valUniFormat = numeral(valUni).value();
         if(valorInpuesto===0){
             const valorTotal = Number(cant)*valUniFormat
+            //convirtiendo valor numerico a string formato moneda
             const valorTotalFormat = numeral(valorTotal).format('0,0.000');
             setTotal(valorTotalFormat)
         }else if(valorInpuesto===19){
@@ -125,12 +180,22 @@ function ModalEditarItem({handleEditarItem,data,index}){
         }
     },[cant,valUni,impuesto])
 
+    useEffect(()=>{
+        if(isOpen===true){
+            const inputNumber = valUni.toString()
+            const formattedValue = formatCurrency(inputNumber);
+            setValUni(formattedValue);
+        }
+    },[isOpen])
+
+    //funcion utilizada para cambiar el val Unitario a un formato especifico [tipo string]
     const handleValorUnitarioChange = (event) => {
         const inputNumber = event.target.value;
         const formattedValue = formatCurrency(inputNumber);
         setValUni(formattedValue);
     };
     
+    //funcion formatea el valor a uno tipo moneda
     const formatCurrency = (value) => {
         if (!value) return '';
         
@@ -255,7 +320,6 @@ function ModalEditarItem({handleEditarItem,data,index}){
                         </select>
                         <input
                             value={total}
-                            onChange={(e)=>setTotal(e.target.value)}
                             className="bg-white text-center rounded font-semibold"
                             style={{
                                 width:`15%`
@@ -272,7 +336,7 @@ function ModalEditarItem({handleEditarItem,data,index}){
                             Editar
                         </button>
                         <button
-                            onClick={closeModal}
+                            onClick={closeModalSinEditar}
                             className='bg-green-500 px-5 text-black text-lg tracking-wide font-bold py-1 rounded-md shadow border outline-none'
                         >
                             Cancelar

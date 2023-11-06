@@ -21,7 +21,7 @@ function AgregarProductos({productos,agregarProductos}) {
     const [valUni,setValUni]=useState('')
     const [cant,setCant]=useState(1)
     const [impuesto,setImpuesto]=useState(0)
-    const [total,setTotal]=useState(0)
+    const [total,setTotal]=useState('')
 
     useEffect(()=>{
         const longitudProductos=productos.length
@@ -53,7 +53,7 @@ function AgregarProductos({productos,agregarProductos}) {
 
     const handleAgregarProducto=()=>{
         //validaciones
-        if([descrip,valUni].includes('') && [total].includes(0)){  
+        if([descrip,valUni,total].includes('')){  
             setAlert({
                 msg:'Es necesario llenar todos los campos para agregar un item',
                 error:true
