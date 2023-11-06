@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import FormatDinero from "../../helpers/FormatDinero";
 
-function CalculoTotalCotizacion({productos}) {
+function CalculoTotalCotizacion({productos,setCotizacion,cotizacion}) {
     //hide/show
     const [hide,setHide]=useState(true)
     //data
@@ -9,6 +9,7 @@ function CalculoTotalCotizacion({productos}) {
     const [iva,setIVA]=useState('')
     const [totalNeto,setTotalNeto]=useState('')
 
+    //actualizar valores subTotal,IVA,total
     useEffect(()=>{
         //calculo total neto
         const sumaTotalNeto = productos.reduce(function (acumulador, elemento) {
@@ -43,15 +44,28 @@ function CalculoTotalCotizacion({productos}) {
         const formatSumaTotalIVA = FormatDinero(sumaTotalIVA);
         setIVA(formatSumaTotalIVA)
 
+        //actulizando informacion en state principal
+        const newData={
+            ...cotizacion,
+            productos:productos,
+            valorTotal:sumaTotalNeto,
+            subTotal:sumaSubtotal,
+            IVA:sumaTotalIVA
+        }
+        setCotizacion(newData)
+
     },[productos])
 
+    //hide/show componente calculo total cotizacion
     useEffect(()=>{
-        //hide/show barra de agregar producto
         const productosLongitud=productos.length;
         if(productosLongitud !==0){
             setHide(false)
+        }else{
+            setHide(true)
         }
     },[productos])
+
 
     return (
         <>

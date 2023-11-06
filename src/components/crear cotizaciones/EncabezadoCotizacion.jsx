@@ -90,7 +90,7 @@ function EncabezadoCotizacion({
         if(categoriesModificado){
             const newData={
                 ...cotizacion,
-                'encabezado':categoriesModificado
+                encabezado:categoriesModificado
             }
             setCotizacion(newData)
         }
