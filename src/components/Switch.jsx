@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Switch } from '@headlessui/react'
 
 function SwitchButton({enabled, setEnabled}) {

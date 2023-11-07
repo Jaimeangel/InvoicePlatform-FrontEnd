@@ -7,28 +7,23 @@ const pasos=[
     },
     {
         paso:2,
-        text:'informacion encabezado',
-        porcentaje:24
+        text:'informacion de encabezado',
+        porcentaje:28
     },
     {
         paso:3,
         text:'agregar producto/servicio',
-        porcentaje:45
+        porcentaje:53
     },
     {
         paso:4,
-        text:'condiciones comerciales',
-        porcentaje:62
-    },
-    {
-        paso:5,
-        text:'notas',
+        text:'informacion comercial',
         porcentaje:78
     },
     {
-        paso:6,
+        paso:5,
         text:'datos de envio',
-        porcentaje:95
+        porcentaje:90
     }
 ]
 

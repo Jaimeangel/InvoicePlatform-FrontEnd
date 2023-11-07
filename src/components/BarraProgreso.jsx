@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 
-function BarraProgreso({pasos,pasoActual,cambiarPaso}) {
+function BarraProgreso({pasos,pasoActual}) {
     const [porcentajeActual,setPorcentajeActual]=useState(0)
 
     useEffect(()=>{
@@ -28,7 +28,7 @@ function BarraProgreso({pasos,pasoActual,cambiarPaso}) {
             <div className="w-full flex flex-row justify-between mt-5 items-center">
                 {
                     pasos.map((paso,i)=>(
-                        <p key={i} className="first-letter:uppercase max-w-[5rem] text-center font-semibold text-md">{paso.text}</p>
+                        <p key={i} className="first-letter:uppercase max-w-[13rem] font-semibold text-md text-center">{paso.text}</p>
                     ))
                 }
             </div>

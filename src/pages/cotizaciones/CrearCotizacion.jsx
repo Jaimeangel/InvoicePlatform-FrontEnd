@@ -2,10 +2,11 @@ import { useState } from "react";
 //components dashboard principal
 import BarraProgreso from "../../components/BarraProgreso";
 import BotonesBarraProgreso from "../../components/BotonesBarraProgreso";
-//Componentes paso
+//Componentes pasos cotizacion
 import DatosCliente from "../../components/crear cotizaciones/DatosCliente";
 import EncabezadoCotizacion from "../../components/crear cotizaciones/EncabezadoCotizacion";
 import ProductosCotizacion from "../../components/crear cotizaciones/ProductosCotizacion";
+import CondicionesComerciales from "../../components/crear cotizaciones/CondicionesComerciales.jsx";
 //Datos
 import formatData from "../../data/formatoDataCotizacion.js";
 import pasos from "../../data/pasosCotizacion.js";
@@ -13,7 +14,7 @@ import pasos from "../../data/pasosCotizacion.js";
 function CrearCotizacion() {
   //botones cambiar paso
   const numeroPasos=pasos.length;
-  const [pasoActual,setPasoActual]=useState(3)
+  const [pasoActual,setPasoActual]=useState(4)
   const [validatePaso,setValidatePaso]=useState(false)
 
   //datos cotizacion
@@ -61,6 +62,20 @@ function CrearCotizacion() {
       {
         pasoActual === 3 && (
           <ProductosCotizacion
+            cambiarPaso={setPasoActual}
+            validatePaso={validatePaso}
+            setValidatePaso={setValidatePaso}
+            numeroPasos={numeroPasos}
+            pasoActual={pasoActual}
+            cotizacion={cotizacion}
+            setCotizacion={setCotizacion}
+          />
+        )
+      }
+
+      {
+        pasoActual === 4 && (
+          <CondicionesComerciales
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
             setValidatePaso={setValidatePaso}
