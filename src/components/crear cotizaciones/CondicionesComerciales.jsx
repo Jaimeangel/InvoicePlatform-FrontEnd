@@ -88,6 +88,11 @@ function CondicionesComerciales({
         /* cambiarEstado(newCondicion.id) */
     }
 
+    //verificar si exite objeto
+    function verificarExistenciaID(array, idBuscado) {
+        return array.some(objeto => objeto.id === idBuscado);
+    }
+
     //validacion para cambiar paso
     useEffect(()=>{
         if(validatePaso){
@@ -100,14 +105,19 @@ function CondicionesComerciales({
     useEffect(()=>{
         if('condiciones' in cotizacion){
             if(Object.keys(cotizacion.condiciones).length !== 0){
-                const condicionesModificado = condiciones.map((item) => {
-                    if(item.id === cotizacion.condiciones.id){
-                        return cotizacion.condiciones;
-                    }else{
-                        return item;
-                    }
-                });
-                setCondiciones(condicionesModificado)
+                const existe = verificarExistenciaID(condiciones, cotizacion.condiciones.id);
+                if(existe){
+                    const condicionesModificado = condiciones.map((item) => {
+                        if(item.id === cotizacion.condiciones.id){
+                            return cotizacion.condiciones;
+                        }else{
+                            return item;
+                        }
+                    });
+                    setCondiciones(condicionesModificado)
+                }else{
+                    setCondiciones([cotizacion.condiciones,...condiciones])
+                }
             }
         }
 
