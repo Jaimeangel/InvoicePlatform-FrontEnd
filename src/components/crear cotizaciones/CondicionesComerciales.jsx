@@ -1,5 +1,5 @@
 //react
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Disclosure } from '@headlessui/react'
 //font awesome
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -7,9 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //componentes
 import SwitchButtonPequeño from '../SwitchButtonPequeño.jsx'
 //helpers
-import generarID from '../../helpers/generaID';
+import generarIdNumerico from '../../helpers/generaIdNumerico.js';
 
-function CondicionesComerciales() {
+function CondicionesComerciales({
+    cotizacion,
+    setCotizacion,
+    cambiarPaso,
+    validatePaso,
+    setValidatePaso,
+    numeroPasos,
+    pasoActual
+}){
     //condiciones comerciales
     const [condiciones,setCondiciones]=useState([
         {
@@ -40,6 +48,13 @@ function CondicionesComerciales() {
     //notas comerciales
     const [notas,setNotas]=useState('')
 
+    //handle cambiar de paso
+    const validateCambiarPaso=()=>{
+        if(pasoActual===numeroPasos) return
+        cambiarPaso(value=>value+1)
+    }
+    
+    //cambiar estado de eleccion de las condiciones
     const cambiarEstado=(id)=>{
         const categoriesModificado = condiciones.map(item => {
             if(item.id === id) {
@@ -53,28 +68,92 @@ function CondicionesComerciales() {
         setCondiciones(categoriesModificado)
     }
 
+    //mostrar ocultar formulario para agregar nueva condicion
     const showAgregarProducto=()=>{
         setAgregar(true)
     }
 
     const agregarCondicion=()=>{
         const newCondicion={
-            id:generarID(),
+            id:generarIdNumerico(),
             titulo:tipo,
             text:text,
-            selected:true
+            selected:false
         }
         setCondiciones([newCondicion,...condiciones])
 
         setTipo('')
         setText('')
         setAgregar(false)
+        /* cambiarEstado(newCondicion.id) */
     }
+
+    //validacion para cambiar paso
+    useEffect(()=>{
+        if(validatePaso){
+            setValidatePaso(false)
+            validateCambiarPaso()
+        }
+    },[validatePaso])
+
+    //persistencia de informacion
+    useEffect(()=>{
+        if('condiciones' in cotizacion){
+            if(Object.keys(cotizacion.condiciones).length !== 0){
+                const condicionesModificado = condiciones.map((item) => {
+                    if(item.id === cotizacion.condiciones.id){
+                        return cotizacion.condiciones;
+                    }else{
+                        return item;
+                    }
+                });
+                setCondiciones(condicionesModificado)
+            }
+        }
+
+        if('notas' in cotizacion){
+            if(cotizacion.notas !== ''){
+                setNotas(cotizacion.notas)
+            }
+        }
+    },[])
+    
+    //actulizando informacion en state principal [condiciones]
+    useEffect(()=>{
+        const condicionesModificado = condiciones.find((item) => {
+            if(item.selected === true){
+                return item;
+            }
+        });
+            
+        if(condicionesModificado){
+            const newData={
+                ...cotizacion,
+                condiciones:condicionesModificado
+            }
+            setCotizacion(newData)
+        }
+    },[condiciones])
+
+    //actulizando informacion en state principal [notas]
+    useEffect(()=>{
+        if(notas.length !==''){
+            const newData={
+                ...cotizacion,
+                notas:notas
+            }
+            setCotizacion(newData)
+        }
+    },[notas])
+
 
     return (
         <div className="w-full  bg-white rounded-lg px-10 py-6 shadow-md">
+
             <h1 className="mt-2  text-2xl font-bold">Agregar condiciones comerciales y notas</h1>
+
             <span className='text-red-600 text-sm'>* los siguiente campos no son obligatorio</span>
+            
             <div className="mx-auto w-full max-w-3xl rounded-2xl bg-white p-2">
                 
                 <Disclosure>
@@ -106,7 +185,7 @@ function CondicionesComerciales() {
                                                 <textarea
                                                     value={text}
                                                     onChange={(e)=>setText(e.target.value)}  
-                                                    rows="2"
+                                                    rows="3"
                                                     className='border outline-none rounded-md px-2 py-1'
                                                 ></textarea>
                                                 <button
@@ -165,7 +244,7 @@ function CondicionesComerciales() {
                                 <textarea
                                     value={notas}
                                     onChange={(e)=>setNotas(e.target.value)}  
-                                    rows="2"
+                                    rows="3"
                                     className='w-full border outline-none rounded-md px-2 py-1'
                                 ></textarea>
                             </Disclosure.Panel>
@@ -173,6 +252,7 @@ function CondicionesComerciales() {
                     )}
                 </Disclosure>
             </div>
+
         </div>
     )
 }

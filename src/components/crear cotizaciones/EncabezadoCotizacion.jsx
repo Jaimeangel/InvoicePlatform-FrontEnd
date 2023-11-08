@@ -66,7 +66,7 @@ function EncabezadoCotizacion({
     //persistencia de informacion
     useEffect(()=>{
         if('encabezado' in cotizacion){
-            if(cotizacion.encabezado !== ''){
+            if(Object.keys(cotizacion.encabezado).length !==0){
                 const categoriesModificado = categories.map((item) => {
                     if(item.id === cotizacion.encabezado.id){
                         return cotizacion.encabezado;
