@@ -23,7 +23,7 @@ const pasos=[
     {
         paso:5,
         text:'datos de envio',
-        porcentaje:90
+        porcentaje:95
     }
 ]
 

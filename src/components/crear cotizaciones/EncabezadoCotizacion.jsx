@@ -27,8 +27,8 @@ function EncabezadoCotizacion({
         id: 1,
         categoria:'opcion 1',
         text:{
-            texto1:'Deseamos comenzar esta cotización extendiéndole un cordial saludo. Es un gusto para nosotros presentarle la siguiente cotizacion para los productos/servicios que fueron solicitados. Valoramos su consideración y la oportunidad de ser su proveedor de confianza.',
-            texto2:'La presente cotización incluye la descripción de los productos/servicios, los precios unitarios correspondientes, las cantidades y los impuestos aplicables. Creemos que nuestra oferta es competitiva y perfectamente adaptada a sus necesidades. Queremos recordarle que estamos disponibles en todo momento para atender sus preguntas y proporcionar información adicional. Su satisfacción es nuestra prioridad, y estamos comprometidos a brindarle la mejor experiencia posible en este proceso.',
+            texto1:'Es un gusto para nosotros presentarle la siguiente cotizacion para los productos/servicios que fueron solicitados. Valoramos su consideración y la oportunidad de ser su proveedor de confianza.',
+            texto2:'La presente cotización incluye la descripción de los productos/servicios, los precios unitarios correspondientes, las cantidades y los impuestos aplicables.',
             texto3:'Esperamos que esta cotización cumpla con sus expectativas y que tengamos la oportunidad de colaborar con usted. Agradecemos su interés y quedamos a su disposición para cualquier consulta que pueda surgir.'
         },
         selecionado:false
@@ -127,8 +127,11 @@ function EncabezadoCotizacion({
   return (
     <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
 
-        {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
 
+        <h1 className="mt-2 mb-2 text-2xl font-bold">Encabezado de cotizacion</h1>
+        <h1 className="mt-2 mb-2 text-xl font-semibold italic">Puede elegir una opción de encabezado disponible o puede crear un encabezado personalizado.</h1>
+
+        {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
         <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 border mt-5">
                 {categories?.map((category) => (

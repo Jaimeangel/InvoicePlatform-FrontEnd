@@ -4,8 +4,11 @@ import createEncabezado from '../../assets/undraw_create_re_57a3.svg'
 //componentes
 import AlertImage from "../alertas/AlertaImagen.jsx";
 import SwitchButton from "../Switch.jsx";
+import AlertaForm from "../alertas/AlertaForm.jsx";
 
 function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados,cambiarEstadoEncabezado}) {
+    //alertas
+    const [alert,setAlert]=useState({msg:'',error:false})
     //boton
     const [ok,setOk]=useState(false)
     //texto
@@ -14,6 +17,21 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
     const [parrafo3,setParrafo3]=useState('')
 
     const handleEncabezadoNuevo =()=>{
+        if(!(parrafo1.trim() || parrafo2.trim() || parrafo3.trim())){
+            setAlert({
+                msg:'Es necesario llenar por lo menos alguno de los campos',
+                error:true
+            })
+            
+            setTimeout(() => {
+                setAlert({
+                    msg:'',
+                    error:true
+                })
+            }, 4000);
+
+            return
+        }
         const new_data={
             texto1:parrafo1,
             texto2:parrafo2,
@@ -45,6 +63,15 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
         }
     },[])
 
+    useEffect(()=>{
+        if(estado===false){
+            setParrafo1('')
+            setParrafo2('')
+            setParrafo3('')
+        }
+        setOk(false)
+    },[estado])
+
     return (
         <div>
             {
@@ -52,7 +79,7 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
                     <div className="w-full flex flex-col items-center">
                         <AlertImage
                             imgAlert={createEncabezado}
-                            msg='¿Te gustaria crear un encabezado personalizado?'
+                            msg='Crear un encabezado personalizado'
                         >
                             <SwitchButton
                                 enabled={estado}
@@ -65,32 +92,36 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
                         {
                             !ok ? (
                                 <div className="w-full">
-                                    <div className='flex flex-col gap-1 items-left'>
-                                        <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 1</label>
-                                        <textarea name="" id="" cols="5" rows="1"
-                                            value={parrafo1}
-                                            onChange={(e)=>setParrafo1(e.target.value)}
-                                            className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
-                                        >
-                                        </textarea>
-                                    </div>
-                                    <div className='flex flex-col gap-1 items-left'>
-                                        <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 2</label>
-                                        <textarea name="" id="" cols="5" rows="1"
-                                            value={parrafo2}
-                                            onChange={(e)=>setParrafo2(e.target.value)}
-                                            className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
-                                        >
-                                        </textarea>
-                                    </div>
-                                    <div className='flex flex-col gap-1 items-left'>
-                                        <label className='text-lg font-bold tracking-wider italic pl-1'>Parrafo 2</label>
-                                        <textarea name="" id="" cols="5" rows="1"
-                                            value={parrafo3}
-                                            onChange={(e)=>setParrafo3(e.target.value)}
-                                            className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
-                                        >
-                                        </textarea>
+                                    <h1 className="mt-2 mb-2 text-lg font-semibold italic text-justify">¡Personaliza tu encabezado! Completa uno de los campos a continuación. Para obtener mejores resultados, te sugerimos dividir tu contenido en tres párrafos. Esto ayudará a mejorar la presentación y legibilidad de tu encabezado. Despues haz click en crear encabezado.</h1>
+                                    {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
+                                    <div className="w-full">
+                                        <div className='flex flex-col gap-1 items-left'>
+                                            <label className='text-md font-bold tracking-wider italic pl-1'>parrafo 1</label>
+                                            <textarea name="" id="" cols="5" rows="1"
+                                                value={parrafo1}
+                                                onChange={(e)=>setParrafo1(e.target.value)}
+                                                className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
+                                            >
+                                            </textarea>
+                                        </div>
+                                        <div className='flex flex-col gap-1 items-left'>
+                                            <label className='text-md font-bold tracking-wider italic pl-1'>parrafo 2</label>
+                                            <textarea name="" id="" cols="5" rows="1"
+                                                value={parrafo2}
+                                                onChange={(e)=>setParrafo2(e.target.value)}
+                                                className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
+                                            >
+                                            </textarea>
+                                        </div>
+                                        <div className='flex flex-col gap-1 items-left'>
+                                            <label className='text-md font-bold tracking-wider italic pl-1'>parrafo 3</label>
+                                            <textarea name="" id="" cols="5" rows="1"
+                                                value={parrafo3}
+                                                onChange={(e)=>setParrafo3(e.target.value)}
+                                                className="bg-gray-50 w-full cursor-pointer border rounded-md px-6 py-2 outline-none"
+                                            >
+                                            </textarea>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -107,12 +138,16 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
                                 enabled={estado}
                                 setEnabled={()=>cambiarEstado(id)}
                             />
-                            <input
-                                type="button"
-                                onClick={handleEncabezadoNuevo}
-                                value={`${ok ?'Encabezado listo':'Personalizar encabezado'}`}
-                                className={`${ok ?'bg-blue-300 border border-blue-600' :'bg-slate-200 border border-slate-300'} text-black text-lg tracking-wide font-bold px-4 py-2 rounded-lg cursor-pointer`}
-                            />
+                            {
+                                !ok && (
+                                    <input
+                                        type="button"
+                                        onClick={handleEncabezadoNuevo}
+                                        value={'crear encabezado'}
+                                        className='bg-yellow-300 border-2 border-yellow-500 text-black text-lg tracking-wide font-semibold px-4 rounded-md cursor-pointer'
+                                    />
+                                )
+                            }
                         </div>
                     </div>
                 )

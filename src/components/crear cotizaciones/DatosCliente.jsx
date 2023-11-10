@@ -118,7 +118,7 @@ function DatosCliente({
 
       <div className="flex flex-row justify-between">
 
-        <div className="w-1/2 flex flex-col gap-2 px-5">
+        <div className="w-1/2 flex flex-col gap-2 pr-5">
 
           <div className="flex flex-row gap-3 items-center">
             <p className="font-semibold text-lg">Tipo de documento:</p>
@@ -160,7 +160,7 @@ function DatosCliente({
 
         </div>
 
-        <div className="w-1/2 flex flex-col gap-2 px-5">
+        <div className="w-1/2 flex flex-col gap-2 pl-5">
 
           <div className="flex flex-row gap-3 items-center">
             <p className="font-semibold text-lg">Numero:</p>

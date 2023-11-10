@@ -2,7 +2,7 @@
 import { useState,useEffect } from 'react';
 import { Disclosure } from '@headlessui/react'
 //font awesome
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faL } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //componentes
 import SwitchButtonPequeño from '../SwitchButtonPequeño.jsx'
@@ -22,20 +22,20 @@ function CondicionesComerciales({
     const [condiciones,setCondiciones]=useState([
         {
             id:1,
-            titulo:'abono de la mitad',
-            text:`abono del 50% al inicio y el pago restante del total de la factura despues de la entrega de los productos`,
+            titulo:'pago inicial de la mitad del monto total',
+            text:`para iniciar el pedido, se solicita un pago inicial equivalente al 50% del monto total. El importe restante deberá abonarse tras la recepción satisfactoria de los productos solicitados.`,
             selected:false
         },
         {
             id:2,
-            titulo:'abono del 40%',
-            text:`abono del 40% al inicio y el pago restante del total de la factura despues de la entrega de los productos`,
+            titulo:'pago completo al inicio del pedido',
+            text:`se requiere el pago total de los productos y servicios al inicio del pedido.`,
             selected:false
         },
         {
             id:3,
             titulo:'pago a 30 dias',
-            text:`pago del total del monto facturado 30 dias despues de la entrega de los productos`,
+            text:`el pago del monto total facturado se realizará 30 días después de la entrega de los productos.`,
             selected:false
         }
     ])
@@ -69,7 +69,7 @@ function CondicionesComerciales({
     }
 
     //mostrar ocultar formulario para agregar nueva condicion
-    const showAgregarProducto=()=>{
+    const showAgregarCondicion=()=>{
         setAgregar(true)
     }
 
@@ -91,6 +91,12 @@ function CondicionesComerciales({
     //verificar si exite objeto
     function verificarExistenciaID(array, idBuscado) {
         return array.some(objeto => objeto.id === idBuscado);
+    }
+
+    const cancelarAgregarCondicion=()=>{
+        setAgregar(false)
+        setTipo('')
+        setText('')
     }
 
     //validacion para cambiar paso
@@ -160,9 +166,9 @@ function CondicionesComerciales({
     return (
         <div className="w-full  bg-white rounded-lg px-10 py-6 shadow-md">
 
-            <h1 className="mt-2  text-2xl font-bold">Agregar condiciones comerciales y notas</h1>
+            <h1 className="mt-2  text-2xl font-bold">Condiciones comerciales y notas</h1>
 
-            <span className='text-red-600 text-sm'>* los siguiente campos no son obligatorio</span>
+            <span className='text-red-600 text-sm'>* los siguiente campos son opcionales</span>
             
             <div className="mx-auto w-full max-w-3xl rounded-2xl bg-white p-2">
                 
@@ -179,10 +185,11 @@ function CondicionesComerciales({
                                 />
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 border rounded-lg mt-2">
-                                <div className='flex flex-col gap-4'>
-                                {
+                                <div className='flex flex-col'>
+                                    <h1 className="text-lg font-semibold italic text-justify px-5">Selecciona una opción de terminos de pago predefinida o crea tu propio término de pago personalizado</h1>
+                                    {
                                         agregar && (
-                                            <div className='flex flex-col gap-3 shadow px-5 py-3 rounded-lg border'>
+                                            <div className='flex flex-col gap-3 my-2 shadow px-5 py-3 rounded-lg border'>
                                                 <div className='flex flex-row gap-3'>
                                                     <p className='font-bold mb-1'>Tipo:</p>
                                                     <input
@@ -198,31 +205,39 @@ function CondicionesComerciales({
                                                     rows="3"
                                                     className='border outline-none rounded-md px-2 py-1'
                                                 ></textarea>
-                                                <button
-                                                    onClick={agregarCondicion}
-                                                    className="w-[7rem] first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
-                                                >
-                                                    agregar
-                                                </button>
+                                                <div className='flex flex-row gap-5'>
+                                                    <button
+                                                        onClick={agregarCondicion}
+                                                        className="w-[7rem] first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                                                    >
+                                                        agregar
+                                                    </button>
+                                                    <button
+                                                        onClick={cancelarAgregarCondicion}
+                                                        className="w-[7rem] first-letter:uppercase rounded  bg-blue-200 border-2 border-blue-400 font-semibold tracking-wide"
+                                                    >
+                                                        cancelar
+                                                    </button>
+                                                </div>
                                             </div>                                
                                         )
                                     }
                                     {
                                         !agregar && (
                                             <button
-                                                onClick={showAgregarProducto}
-                                                className="w-[20rem] first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                                                onClick={showAgregarCondicion}
+                                                className="self-end w-[20rem] my-1 first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
                                             >
-                                                agregar condicion personalizada
+                                                crear termino de pago personalizado
                                             </button>
                                         )
                                     }
                                     {
                                         condiciones.map((condicion)=>(
-                                            <div key={condicion.id} className='flex flex-col shadow px-5 py-3 rounded-lg border'>
-                                                <p className='font-bold mb-1 first-letter:uppercase'>{`Tipo: ${condicion.titulo}`}</p>
+                                            <div key={condicion.id} className='flex flex-col shadow px-5 py-3 my-2 rounded-lg border'>
+                                                <p className='font-bold mb-1 first-letter:uppercase'>{`Terminos de pago: ${condicion.titulo}`}</p>
                                                 <p className='text-justify first-letter:uppercase'>{`${condicion.text}`}</p>
-                                                <div className='text-end'>
+                                                <div className='text-end mt-2'>
                                                     <SwitchButtonPequeño
                                                         enabled={condicion.selected}
                                                         setEnabled={()=>cambiarEstado(condicion.id)}
@@ -250,7 +265,7 @@ function CondicionesComerciales({
                                 />
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 border rounded-lg mt-2">
-                                <h2 className='font-semibold mb-2 first-letter:uppercase text-lg'>Agregar notas</h2>
+                                <h2 className='font-semibold mb-2 first-letter:uppercase text-lg'>Agregar nota</h2>
                                 <textarea
                                     value={notas}
                                     onChange={(e)=>setNotas(e.target.value)}  

@@ -59,8 +59,7 @@ function CardProducto({data,productos,agregarProductos,index}) {
                     }} 
                 >
                     <p
-                        rows="3"
-                        className="w-full bg-white outline-none px-3 py-1 font-semibold"
+                        className="w-full bg-white outline-none px-3 py-1 font-semibold text-justify"
                     >{descripcion}</p>
                 </div>
                 <input
