@@ -7,6 +7,7 @@ import DatosCliente from "../../components/crear cotizaciones/DatosCliente";
 import EncabezadoCotizacion from "../../components/crear cotizaciones/EncabezadoCotizacion";
 import ProductosCotizacion from "../../components/crear cotizaciones/ProductosCotizacion";
 import CondicionesComerciales from "../../components/crear cotizaciones/CondicionesComerciales.jsx";
+import DatosEnvio from "../../components/crear cotizaciones/DatosEnvio.jsx";
 //Datos
 import formatData from "../../data/formatoDataCotizacion.js";
 import pasos from "../../data/pasosCotizacion.js";
@@ -83,6 +84,21 @@ function CrearCotizacion() {
             pasoActual={pasoActual}
             cotizacion={cotizacion}
             setCotizacion={setCotizacion}
+          />
+        )
+      }
+
+      {
+        pasoActual === 5 && (
+          <DatosEnvio
+            cambiarPaso={setPasoActual}
+            validatePaso={validatePaso}
+            setValidatePaso={setValidatePaso}
+            numeroPasos={numeroPasos}
+            pasoActual={pasoActual}
+            cotizacion={cotizacion}
+            setCotizacion={setCotizacion}
+            cliente={cliente}
           />
         )
       }

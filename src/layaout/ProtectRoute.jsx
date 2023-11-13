@@ -49,9 +49,11 @@ function ProtectRoute() {
                             alert.err
                                 ?
                                     (
-                                        <AlertImage
-                                            msgError={alertAuth.msg}
-                                        />
+                                        <div className="mt-16">
+                                            <AlertImage
+                                                msgError={alertAuth.msg}
+                                            />
+                                        </div>
                                     )
                                 :
                                     (
