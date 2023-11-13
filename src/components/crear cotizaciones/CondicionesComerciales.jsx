@@ -92,7 +92,7 @@ function CondicionesComerciales({
     function verificarExistenciaID(array, idBuscado) {
         return array.some(objeto => objeto.id === idBuscado);
     }
-
+    //cancelar agregar condicion y limpiar el estado
     const cancelarAgregarCondicion=()=>{
         setAgregar(false)
         setTipo('')

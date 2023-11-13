@@ -2,7 +2,7 @@
 import { useState,useEffect } from 'react';
 import { Disclosure } from '@headlessui/react'
 //font awesome
-import { faChevronUp, faL } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faReceipt ,faFloppyDisk,faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //helpers
 import generarIdNumerico from '../../helpers/generaIdNumerico';
@@ -143,7 +143,7 @@ function DatosEnvio({cliente}) {
                     {({ open }) => (
                         <>
                             <Disclosure.Button className="flex w-full items-center border border-black justify-between rounded-lg bg-slate-100 px-4 py-2 text-left text-md font-semibold text-black">
-                                <span>Contacto via email</span>
+                                <span>contacto via Email</span>
                                 <FontAwesomeIcon 
                                     icon={faChevronUp}
                                     className={`${
@@ -153,6 +153,7 @@ function DatosEnvio({cliente}) {
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 border rounded-lg mt-2">
                                 <div className='flex flex-col'>
+                                    <h1 className="text-lg font-semibold italic text-justify px-5">Tu cotizacion sera enviada a los siguientes emails listados. Puedes agregar otro destino agregando otro email.</h1>
                                     {
                                         addEmail && (
                                             <div className='flex flex-col gap-3 my-2 shadow px-5 py-3 rounded-lg border'>
@@ -218,7 +219,7 @@ function DatosEnvio({cliente}) {
                     {({ open }) => (
                         <>
                             <Disclosure.Button className="flex w-full items-center border border-black justify-between rounded-lg bg-slate-100 px-4 py-2 text-left text-md font-semibold text-black">
-                                <span>Contacto telefonico</span>
+                                <span>contacto via WhatsApp</span>
                                 <FontAwesomeIcon 
                                     icon={faChevronUp}
                                     className={`${
@@ -228,6 +229,7 @@ function DatosEnvio({cliente}) {
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 border rounded-lg mt-2">
                                 <div className='flex flex-col'>
+                                <h1 className="text-lg font-semibold italic text-justify px-5">Tu cotizacion sera enviada a los siguientes celulares listados mediante WhatsApp. Puedes agregar otro destino agregando otro celular.</h1>
                                     {
                                         addCel && (
                                             <div className='flex flex-col gap-3 my-2 shadow px-5 py-3 rounded-lg border'>
@@ -288,6 +290,21 @@ function DatosEnvio({cliente}) {
                         </>
                     )}
                 </Disclosure>
+            </div>
+
+            <div className='w-full flex flex-row justify-around mt-8'>
+                <button className='w-[15rem] flex flex-row justify-center gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-green-200 border-green-500 hover:shadow-md'>
+                    <FontAwesomeIcon icon={faReceipt} style={{color: "#000000",}}/>
+                    <p className="first-letter:uppercase">visualizar cotizacion</p>
+                </button>
+                <button className='w-[15rem] flex flex-row justify-center gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-blue-200 border-blue-500 hover:shadow-md'>
+                    <FontAwesomeIcon icon={faFloppyDisk} style={{color: "#000000",}}/>
+                    <p className="first-letter:uppercase">guardar</p>
+                </button>
+                <button className='w-[15rem] flex flex-row justify-center gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-yellow-200 border-yellow-500 hover:shadow-md'>
+                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#000000",}}/>
+                    <p className="first-letter:uppercase">guardar y enviar</p>
+                </button>
             </div>
 
         </div>
