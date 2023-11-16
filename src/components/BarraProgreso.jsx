@@ -28,7 +28,7 @@ function BarraProgreso({pasos,pasoActual}) {
             <div className="w-full flex flex-row justify-between mt-5 items-center">
                 {
                     pasos.map((paso,i)=>(
-                        <p key={i} className="first-letter:uppercase max-w-[13rem] font-semibold text-md text-center">{paso.text}</p>
+                        <p key={i} className="first-letter:uppercase max-w-[10rem] font-semibold text-md text-center">{paso.text}</p>
                     ))
                 }
             </div>

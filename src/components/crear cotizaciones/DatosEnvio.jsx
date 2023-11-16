@@ -2,14 +2,23 @@
 import { useState,useEffect } from 'react';
 import { Disclosure } from '@headlessui/react'
 //font awesome
-import { faChevronUp, faReceipt ,faFloppyDisk,faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //helpers
 import generarIdNumerico from '../../helpers/generaIdNumerico';
 //componentes
 import SwitchButtonPequeño from '../SwitchButtonPequeño';
 
-function DatosEnvio({cliente}) {
+function DatosEnvio({
+    setDataEnvio,
+    dataEnvio,
+    cliente,
+    cambiarPaso,
+    validatePaso,
+    setValidatePaso,
+    numeroPasos,
+    pasoActual
+}){
     //datos contacto
     const [email,setEmail]=useState([
         {
@@ -41,7 +50,7 @@ function DatosEnvio({cliente}) {
     const [newEmail,setNewEmail]=useState('')
     const [newCel,setNewCel]=useState('')
 
-    //cargar informacion del cliente
+    //cargar informacion de contacto del cliente
     useEffect(()=>{
         const existEmail=email.some(email => email?.email === cliente?.email)
         if(!existEmail){
@@ -66,6 +75,49 @@ function DatosEnvio({cliente}) {
 
     },[])
 
+    //validacion para cambiar paso
+    useEffect(()=>{
+        if(validatePaso){
+            setValidatePaso(false)
+            validateCambiarPaso()
+        }
+    },[validatePaso])
+
+    //guardar informacion de contacto en state principal
+    useEffect(()=>{
+        const dataContactoEmail=dataEnvio.email;
+
+        const newDestinosEmail=email
+            .filter(email => email.selected)
+            .map(email => email.email);
+
+        dataContactoEmail.destinos=newDestinosEmail;
+        setDataEnvio({
+            email:dataContactoEmail,
+            ...dataEnvio
+        })
+    },[email])
+
+    //guardar informacion de contacto en state principal
+    useEffect(()=>{
+        const dataContactoCelular=dataEnvio.celular;
+        
+        const newDestinosCelular=celular
+            .filter(celular => celular.selected)
+            .map(celular => celular.celular);
+
+        dataContactoCelular.destinos=newDestinosCelular;
+        setDataEnvio({
+            celular:dataContactoCelular,
+            ...dataEnvio
+        })
+    },[celular])
+
+    //handle cambiar de paso
+    const validateCambiarPaso=()=>{
+        if(pasoActual===numeroPasos) return
+        cambiarPaso(value=>value+1)
+    }
     //cambiar estado de email seleccionados
     const cambiarEstadoEmail=(id)=>{
         const emailModificado = email.map(email => {
@@ -78,7 +130,7 @@ function DatosEnvio({cliente}) {
         });
         setEmail(emailModificado)
     }
-    //cambiar estado de email seleccionados
+    //cambiar estado de celular seleccionados
     const cambiarEstadoCelular=(id)=>{
         const celularModificado = celular.map(celular => {
             if(celular.id === id) {
@@ -108,6 +160,7 @@ function DatosEnvio({cliente}) {
         setAddCel(false)
         setNewCel('')
     }
+    //add nuevo email
     const agregarNewEmail=()=>{
         const newEmailAgregar={
             id:generarIdNumerico(),
@@ -118,7 +171,7 @@ function DatosEnvio({cliente}) {
         setAddEmail(false)
         setNewEmail('')
     }
-
+    //add nuevo celular
     const agregarNewCelular=()=>{
         const newCelularAgregar={
             id:generarIdNumerico(),
@@ -129,16 +182,16 @@ function DatosEnvio({cliente}) {
         setAddCel(false)
         setNewCel('')
     }
+
     return (
         <div className="w-full  bg-white rounded-lg px-10 py-6 shadow-md">
 
             <h1 className="mt-2  text-2xl font-bold tracking-wide">Datos de envio</h1>
 
-            <h1 className="mt-2 mb-2 text-xl font-semibold italic tracking-wide">Verifica la informacion de contacto de tu cliente a donde llegara su cotizacion. Puedes visualizar tu documento cotizacion tambien.</h1>
+            <h1 className="mt-2 mb-2 text-xl font-semibold italic tracking-wide">Verifica la informacion de contacto de tu cliente a donde llegara su cotizacion.</h1>
 
             
             <div className="mx-auto w-full max-w-3xl rounded-2xl bg-white p-2">
-                
                 <Disclosure>
                     {({ open }) => (
                         <>
@@ -290,21 +343,6 @@ function DatosEnvio({cliente}) {
                         </>
                     )}
                 </Disclosure>
-            </div>
-
-            <div className='w-full flex flex-row justify-around mt-8'>
-                <button className='w-[15rem] flex flex-row justify-center gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-green-200 border-green-500 hover:shadow-md'>
-                    <FontAwesomeIcon icon={faReceipt} style={{color: "#000000",}}/>
-                    <p className="first-letter:uppercase">visualizar cotizacion</p>
-                </button>
-                <button className='w-[15rem] flex flex-row justify-center gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-blue-200 border-blue-500 hover:shadow-md'>
-                    <FontAwesomeIcon icon={faFloppyDisk} style={{color: "#000000",}}/>
-                    <p className="first-letter:uppercase">guardar</p>
-                </button>
-                <button className='w-[15rem] flex flex-row justify-center gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-yellow-200 border-yellow-500 hover:shadow-md'>
-                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#000000",}}/>
-                    <p className="first-letter:uppercase">guardar y enviar</p>
-                </button>
             </div>
 
         </div>
