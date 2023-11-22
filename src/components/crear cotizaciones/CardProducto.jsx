@@ -3,7 +3,7 @@ import ModalEliminarItem from "./ModalEliminarItem";
 import ModalEditarItem from "./ModalEditarItem";
 import numeral from 'numeral';
 
-function CardProducto({data,productos,agregarProductos,index}) {
+function CardProducto({data,productos,agregarProductos,index,view=false}) {
     const {
         item,
         descripcion,
@@ -43,7 +43,7 @@ function CardProducto({data,productos,agregarProductos,index}) {
 
     return (
         <div className="flex flex-row">
-            <div className="w-11/12 flex flex-row  border border-black rounded bg-white">
+            <div className={`${view ? 'w-full': 'w-11/12 '} flex flex-row  border border-black rounded bg-white`}>
                 <p
                     className='border-r border-black text-center font-semibold py-2'
                     style={{
@@ -98,16 +98,21 @@ function CardProducto({data,productos,agregarProductos,index}) {
                     disabled 
                 />
             </div>
-            <div className="w-1/12 flex flex-row justify-between px-1 items-center">
-                <ModalEditarItem
-                    index={index}
-                    data={data}
-                    handleEditarItem={handleEditarProducto}
-                />
-                <ModalEliminarItem
-                    eliminarItem={eliminarItem}
-                />
-            </div>
+
+            {
+                !view && (
+                    <div className="w-1/12 flex flex-row justify-between px-1 items-center">
+                        <ModalEditarItem
+                            index={index}
+                            data={data}
+                            handleEditarItem={handleEditarProducto}
+                        />
+                        <ModalEliminarItem
+                            eliminarItem={eliminarItem}
+                        />
+                    </div>
+                )
+            }
         </div>
     )
 }

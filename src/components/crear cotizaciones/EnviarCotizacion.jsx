@@ -6,7 +6,8 @@ import AlertImage from '../alertas/AlertaImagen';
 //imagen
 import EmailImage from '../../assets/undraw_team_chat_re_vbq1.svg'
 
-function EnviarCotizacion() {
+
+function EnviarCotizacion({cotizacion,cliente}){
 
     return(
         <div className="w-full flex flex-col bg-white rounded-lg px-10 py-6 shadow-md">
@@ -28,6 +29,7 @@ function EnviarCotizacion() {
 }
 
 export default EnviarCotizacion;
+
 {/*                 <div className='w-1/2 flex flex-col gap-5 pl-5'>
                     <button className='w-full flex flex-row justify-center gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-green-400 border-green-500 hover:shadow-md'>
                         <FontAwesomeIcon icon={faFloppyDisk} style={{color: "#000000",}}/>
