@@ -3,6 +3,7 @@ import { faReceipt ,faFloppyDisk,faPaperPlane } from '@fortawesome/free-solid-sv
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //componentes
 import AlertImage from '../alertas/AlertaImagen';
+import DocumentoPDFCotizacion from './DocumentoPDFCotizacion';
 //imagen
 import EmailImage from '../../assets/undraw_team_chat_re_vbq1.svg'
 
@@ -24,6 +25,11 @@ function EnviarCotizacion({cotizacion,cliente}){
                     </button>
                 </AlertImage>
             </div>
+
+            <DocumentoPDFCotizacion
+                cotizacion={cotizacion}
+                cliente={cliente}
+            />
         </div>
     )
 }
