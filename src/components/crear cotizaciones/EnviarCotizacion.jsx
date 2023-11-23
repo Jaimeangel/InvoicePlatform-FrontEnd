@@ -6,12 +6,18 @@ import AlertImage from '../alertas/AlertaImagen';
 import DocumentoPDFCotizacion from './DocumentoPDFCotizacion';
 //imagen
 import EmailImage from '../../assets/undraw_team_chat_re_vbq1.svg'
+//React PDFs
+import { PDFViewer } from '@react-pdf/renderer';
+//Hooks
+import useAuth from '../../hooks/useAuth';
 
 
 function EnviarCotizacion({cotizacion,cliente}){
 
+    const {auth}=useAuth()
+
     return(
-        <div className="w-full flex flex-col bg-white rounded-lg px-10 py-6 shadow-md">
+/*         <div className="w-full flex flex-col bg-white rounded-lg px-10 py-6 shadow-md">
             <h1 className="mt-2  text-2xl font-bold tracking-wide">Enviar cotizacion</h1>
             <h1 className="mt-2 mb-2 text-xl font-semibold italic tracking-wide">Visualiza tu documento de cotizacion que sera enviado a tu cliente. Despues puedes guardarlo y enviarlo.</h1>
             
@@ -26,11 +32,14 @@ function EnviarCotizacion({cotizacion,cliente}){
                 </AlertImage>
             </div>
 
-            <DocumentoPDFCotizacion
-                cotizacion={cotizacion}
-                cliente={cliente}
-            />
-        </div>
+        </div> */
+            <PDFViewer>
+                <DocumentoPDFCotizacion
+                    cotizacion={cotizacion}
+                    cliente={cliente}
+                    auth={auth}
+                />
+            </PDFViewer>
     )
 }
 
