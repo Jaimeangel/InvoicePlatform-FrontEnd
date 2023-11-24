@@ -161,26 +161,36 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             </Text>
                         </View>
                     </View>
-                    <Text
+                    <View
                         style={{
-                            display:'block',
-                            fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                            fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
+                            width: '100%',
+                            display:'flex',
+                            flexDirection:'column',
                             marginBottom:'20px'
                         }}
                     >
-                        Ref: Cotizacion
-                    </Text>
-                    <Text
-                        style={{
-                            display:'block',
-                            fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                            fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
-                            marginBottom:'20px'
-                        }}
-                    >
-                        Cordial saludo
-                    </Text>
+                        <Text
+                            style={{
+                                display:'block',
+                                fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
+                                fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
+                                alignSelf:'flex-end'
+                            }}
+                        >
+                            Ref: Cotizacion
+                        </Text>
+                        <Text
+                            style={{
+                                display:'block',
+                                fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
+                                fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
+                                
+                            }}
+                        >
+                            Cordial saludo
+                        </Text>
+
+                    </View>
                     <Text
                         style={{
                             display:'block',
@@ -249,7 +259,7 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             flexDirection: 'column',
                             alignItems: 'flex-end', // 'flex-end' corresponde a items-end en Tailwind CSS
                             gap: '4px', // Reemplaza con el valor correcto de gap-1 en Tailwind CSS
-                            marginBottom:'20px'
+                            marginBottom:'30px'
                         }}
                     >
                         <Text
