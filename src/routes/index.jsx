@@ -7,6 +7,8 @@ import CotizacionesDashboard from '../pages/cotizaciones/CotizacionesDashboard.j
 import CrearCotizacion from '../pages/cotizaciones/CrearCotizacion.jsx'
 //login
 import Login from '../pages/autenticacion/login.jsx'
+//configuraciones
+import ConfigPerfil from '../components/ConfigPerfil.jsx'
 
 const router=createBrowserRouter([
     {
@@ -26,6 +28,10 @@ const router=createBrowserRouter([
               element:<h1>Viendo las cotizaciones</h1>
             }
           ]
+        },
+        {
+          path:'configuraciones',
+          element:<ConfigPerfil/>
         }
       ]
     },

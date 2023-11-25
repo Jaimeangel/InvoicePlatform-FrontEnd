@@ -160,7 +160,7 @@ function DatosCliente({
 
         </div>
 
-        <div className="w-1/2 flex flex-col gap-2 pl-5">
+        <div className="w-1/2 flex flex-col gap-2 pl-20">
 
           <div className="flex flex-row gap-3 items-center">
             <p className="font-semibold text-lg">Numero:</p>
