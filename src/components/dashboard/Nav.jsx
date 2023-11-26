@@ -5,7 +5,7 @@ import { faGripLines,faUser } from '@fortawesome/free-solid-svg-icons';
 //Hooks
 import useAuth from '../../hooks/useAuth'
 //componentes
-import Perfil from '../Perfil';
+import Perfil from '../perfil/Perfil';
 
 function Nav({openSideNav}) {
     const {auth}=useAuth()
