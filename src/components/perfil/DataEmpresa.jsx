@@ -5,7 +5,7 @@ import SelectForm from '../SelectForm.jsx'
 //tipos de responsabilidad fiscal
 import { regimen } from '../../data/formatoDataCliente.js'
 
-function DataEmpresa({data}) {
+function DataEmpresa({data}){
     //permitir habilitar editar un campo input
     const [disabled,setDisabled]=useState(true)
     //data
@@ -17,6 +17,8 @@ function DataEmpresa({data}) {
     const [direccion,setDireccion]=useState(data?.direccion)
     const [nombreComercial,setNombreComercial]=useState(data?.nombreComercial)
     const [tipoFiscal,setTipoFiscal]=useState(data?.tipoFiscal)
+    const [email,setEmail]=useState(data?.email)
+    const [celularEmpresarial,setCelularEmpresarial]=useState(data?.celularEmpresarial)
 
     return (
         <div className='flex flex-col px-5 py-5 border rounded-md shadow-sm mt-5'>
@@ -57,8 +59,7 @@ function DataEmpresa({data}) {
                 </div>
             </div>
             
-            <div className='mt-5'>
-                <div className='w-full flex flex-row gap-5'>
+                <div className='w-full flex flex-row gap-3 mt-5'>
                     <div className='w-1/2'>
                         <InputForm
                             callback={setRazonSocial}
@@ -68,7 +69,7 @@ function DataEmpresa({data}) {
                             disabled={disabled}
                         />
                     </div>
-                    <div className='w-1/2 flex flex-row gap-5'>
+                    <div className='w-1/2 flex flex-row gap-3'>
                         <div className='w-[80%]'>
                             <InputForm
                                 callback={setNit}
@@ -89,9 +90,8 @@ function DataEmpresa({data}) {
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div className='mt-5 w-full flex flex-row gap-5'>
+            <div className='mt-5 w-full flex flex-row gap-3'>
                 <div className='w-1/2'>
                     <InputForm
                         callback={setNombreComercial}
@@ -112,7 +112,7 @@ function DataEmpresa({data}) {
                 </div>
             </div>
 
-            <div className='w-full mt-5 flex flex-row gap-5'>
+            <div className='w-full mt-5 flex flex-row gap-3'>
                 <div className='w-1/4'>
                     <InputForm
                         callback={setCiudad}
@@ -137,6 +137,27 @@ function DataEmpresa({data}) {
                         value={direccion}
                         typeInput='text'
                         name='dirección'
+                        disabled={disabled}
+                    />
+                </div>
+            </div>
+
+            <div className='w-full mt-5 flex flex-row gap-3'>
+                <div className='w-2/3'>
+                    <InputForm
+                        callback={setEmail}
+                        value={email}
+                        typeInput='email'
+                        name='email empresarial'
+                        disabled={disabled}
+                    />
+                </div>
+                <div className='w-1/3'>
+                    <InputForm
+                        callback={setCelularEmpresarial}
+                        value={celularEmpresarial}
+                        typeInput='number'
+                        name='contacto empresarial'
                         disabled={disabled}
                     />
                 </div>

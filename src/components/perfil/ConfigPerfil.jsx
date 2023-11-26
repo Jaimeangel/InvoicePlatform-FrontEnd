@@ -1,6 +1,7 @@
 import useAuth from '../../hooks/useAuth'
 //componentes
 import DataEmpresa from './DataEmpresa';
+import DatosRepresentante from './DatosRepresentante';
 
 function ConfigPerfil(){
     const {auth}=useAuth()
@@ -28,8 +29,14 @@ function ConfigPerfil(){
             </div>
             
             {
-                auth.tipo === 'empresa' && <DataEmpresa data={auth}/>
+                auth.tipo === 'empresa' && (
+                    <div>
+                        <DataEmpresa data={auth}/>
+                        <DatosRepresentante data={auth}/>
+                    </div>
+                )
             }
+            
         </div>
     )
 }
