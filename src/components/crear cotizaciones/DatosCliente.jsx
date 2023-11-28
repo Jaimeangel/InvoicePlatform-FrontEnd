@@ -118,7 +118,7 @@ function DatosCliente({
 
       <div className="flex flex-row justify-between">
 
-        <div className="w-1/2 flex flex-col gap-2 pr-5">
+        <div className="w-2/3 flex flex-col gap-2 pr-5">
 
           <div className="flex flex-row gap-3 items-center">
             <p className="font-semibold text-lg">Tipo de documento:</p>
@@ -160,14 +160,14 @@ function DatosCliente({
 
         </div>
 
-        <div className="w-1/2 flex flex-col gap-2 pl-20">
+        <div className="w-1/3 flex flex-col gap-2 pl-10">
 
-          <div className="flex flex-row gap-3 items-center">
+          <div className="flex flex-row gap-3">
             <p className="font-semibold text-lg">Numero:</p>
             <p className="text-lg tracking-wider italic font-semibold">{numeroCotizacion}</p>
           </div>
 
-          <div className="flex flex-row gap-3 items-center">
+          <div className="flex flex-col gap-3">
             <p className="font-semibold text-lg">Fecha de elaboracion:</p>
             <input
               value={fecha}

@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import generarIdNumerico from '../../helpers/generaIdNumerico';
 //componentes
 import SwitchButtonPequeño from '../SwitchButtonPequeño';
+//hooks
+import useAuth from '../../hooks/useAuth';
 
 function DatosEnvio({
     setDataEnvio,
@@ -19,60 +21,48 @@ function DatosEnvio({
     numeroPasos,
     pasoActual
 }){
+    const {auth}=useAuth()
     //datos contacto
-    const [email,setEmail]=useState([
-        {
-            id:generarIdNumerico(),
-            email:'centraldeoveroles10@hotmail.com',
-            selected:true
-        },
-    ])
+    const [email,setEmail]=useState([])
+    const [celular,setCelular]=useState([])
 
-    const [celular,setCelular]=useState([
-        {
-            id:generarIdNumerico(),
-            celular:'3102516026',
-            selected:true
-        },
-        {
-            id:generarIdNumerico(),
-            celular:'3103499663',
-            selected:true
-        },
-    ])
-
-    //agregar email
+    //agregar email/celular
     const [addEmail,setAddEmail]=useState(false)
-    //agregar celular
     const [addCel,setAddCel]=useState(false)
 
-    //formularios email y celular
+    //formularios nuevo email/celular
     const [newEmail,setNewEmail]=useState('')
     const [newCel,setNewCel]=useState('')
 
-    //cargar informacion de contacto del cliente
+    //cargar informacion de contacto del Cliente/Usuario
     useEffect(()=>{
-        const existEmail=email.some(email => email?.email === cliente?.email)
-        if(!existEmail){
-            const newEmail={
-                id:generarIdNumerico(),
-                email:cliente.email,
-                selected:true
+        //data contacto
+        const emails=[auth?.emailRepresentante,auth?.email,cliente?.email]
+        const celulares=[cliente?.celular,auth?.celularEmpresarial,auth?.celularRepresentante]
+        //cargar contacto state
+        const emailToSend=emails?.forEach((emailValidate)=>{
+            const existEmailUsuario=email.some(email => email?.email === emailValidate)
+            if(!existEmailUsuario){
+                const newEmail={
+                    id:generarIdNumerico(),
+                    email:emailValidate,
+                    selected:true
+                }
+                setEmail((prevEmail) => [...prevEmail, newEmail])
             }
-            setEmail([...email,newEmail])
-        }
-
-        const existCelular=celular.some(celular => celular?.celular === cliente?.celular)
-        if(!existCelular){
-            const newCelular={
-                id:generarIdNumerico(),
-                celular:cliente.celular,
-                selected:true
+        })
+        
+        const celularToSend=celulares?.forEach((celularValidate)=>{
+            const existCelularCliente=celular.some(celular => celular?.celular === celularValidate)
+            if(!existCelularCliente){
+                const newCelular={
+                    id:generarIdNumerico(),
+                    celular:celularValidate,
+                    selected:true
+                }
+                setCelular((prevCelular) => [...prevCelular,newCelular])
             }
-    
-            setCelular([...celular,newCelular])
-        }
-
+        })
     },[])
 
     //validacion para cambiar paso
@@ -246,7 +236,8 @@ function DatosEnvio({
                                             </button>
                                         )
                                     }
-                                    {
+                                    {   
+                                        
                                         email?.map((email)=>(
                                             <div key={email.id} className='flex flex-row items-center  justify-between shadow px-5 py-2 my-2 rounded-lg border'>
                                                 <div className='flex flex-row'>
