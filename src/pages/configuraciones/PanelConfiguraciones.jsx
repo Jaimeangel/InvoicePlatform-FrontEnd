@@ -7,11 +7,11 @@ const configuraciones=[
         texto:'datos perfil',
         link:'data-perfil'
     },
-/*     {
+    {
         id:2,
-        texto:'cotizacion',
+        texto:'configuracion cotizacion',
         link:'configuracion-cotizacion'
-    } */
+    }
 ]
 
 function PanelConfiguraciones(){

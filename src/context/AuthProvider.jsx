@@ -50,12 +50,37 @@ function AuthProvider({children}) {
         authUser()
     },[])
 
+    //metodos
+    const cargarImagenesUsuario= async (file)=>{
+        console.log(file)
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':"multipart/form-data",
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const {data} = await axios.post('http://localhost:5000/api/usuarios/imagenes-upload',file,config)
+            return data
+        } catch (error) {
+            console.log(error)
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
     return (
         <AuthContext.Provider
             value={{
                 setAuth,
                 auth,
-                alert 
+                alert,
+                cargarImagenesUsuario 
             }}
         >
             {children}

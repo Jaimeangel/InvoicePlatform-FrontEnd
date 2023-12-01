@@ -10,6 +10,8 @@ import Login from '../pages/autenticacion/login.jsx'
 //configuraciones
 import PanelConfiguraciones from '../pages/configuraciones/PanelConfiguraciones.jsx'
 import ConfigPerfil from '../components/perfil/ConfigPerfil.jsx'
+import ContadorCotizaciones from '../helpers/ContadorCotizaciones.js'
+import ConfigCotizacion from '../components/perfil/ConfigCotizacion.jsx'
 
 const router=createBrowserRouter([
     {
@@ -37,6 +39,10 @@ const router=createBrowserRouter([
             {
               path:'data-perfil',
               element:<ConfigPerfil/>
+            },
+            {
+              path:'configuracion-cotizacion',
+              element:<ConfigCotizacion/>
             }
           ]
         }
