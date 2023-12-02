@@ -51,8 +51,7 @@ function AuthProvider({children}) {
     },[])
 
     //metodos
-    const cargarImagenesUsuario= async (file)=>{
-        console.log(file)
+    const cargarImagenUsuarioProfile= async (file)=>{
         const token=localStorage.getItem(tkn)
 
         if(!token) return
@@ -65,7 +64,7 @@ function AuthProvider({children}) {
         }
 
         try {
-            const {data} = await axios.post('http://localhost:5000/api/usuarios/imagenes-upload',file,config)
+            const {data} = await axios.post('http://localhost:5000/api/usuarios/imagenes-upload-profile',file,config)
             return data
         } catch (error) {
             console.log(error)
@@ -80,7 +79,7 @@ function AuthProvider({children}) {
                 setAuth,
                 auth,
                 alert,
-                cargarImagenesUsuario 
+                cargarImagenUsuarioProfile 
             }}
         >
             {children}

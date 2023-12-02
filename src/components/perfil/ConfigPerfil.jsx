@@ -9,8 +9,8 @@ function ConfigPerfil(){
         <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
 
             <div className='flex flex-row items-center gap-10'>
-                <div className='w-[8rem] h-[8rem] border shadow-sm rounded-full'>
-
+                <div className='w-[8rem] h-[8rem] border shadow-md rounded-full'>
+                    <img src={auth?.images?.profileImange.url} alt='imagen de perfil' />
                 </div>
                 <div>
                     <p className='font-bold text-2xl'>

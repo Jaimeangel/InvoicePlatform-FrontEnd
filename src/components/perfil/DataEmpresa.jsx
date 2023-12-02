@@ -59,7 +59,7 @@ function DataEmpresa({data}){
                 </div>
             </div>
             
-                <div className='w-full flex flex-row gap-3 mt-5'>
+            <div className='w-full flex flex-row gap-3 mt-5'>
                     <div className='w-1/2'>
                         <InputForm
                             callback={setRazonSocial}
@@ -89,7 +89,7 @@ function DataEmpresa({data}){
                             />
                         </div>
                     </div>
-                </div>
+            </div>
 
             <div className='mt-5 w-full flex flex-row gap-3'>
                 <div className='w-1/2'>

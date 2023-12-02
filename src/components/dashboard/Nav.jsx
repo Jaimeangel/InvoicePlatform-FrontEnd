@@ -14,10 +14,8 @@ function Nav({openSideNav}) {
         <div className='w-full h-20 flex flex-row px-4 py-4 justify-between items-center'>
 
             <div className='w-3/12 flex flex-row items-center'>
-                <div className='w-[70%] '>
-                    <h1 className='font-black text-3xl text-yellow-500 tracking-wider'>
-                        MSproject
-                    </h1>
+                <div className='w-[70%]'>
+                    <img src={auth?.images?.profileImange.url} className='w-16 h-16' />
                 </div>
                 <button
                     className='w-[30%] text-start'
