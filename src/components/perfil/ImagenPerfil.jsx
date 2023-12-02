@@ -4,7 +4,7 @@ import useAuth from '../../hooks/useAuth'
 function ImagenPerfil() {
     const {cargarImagenUsuarioProfile,auth}=useAuth()
     const [fileImage,setFile]=useState(null)
-    const [profileImange,setProfileImange]=useState(auth?.images?.profileImange.url)
+    const [profileImange,setProfileImange]=useState(auth?.images?.profileImange?.url)
 
     const cargarImagen= async (e)=>{
         e.preventDefault()
@@ -30,11 +30,15 @@ function ImagenPerfil() {
                 </div>
             </div>
             <div className='mt-5 flex flex-row items-center'>
-                <div
-                    className='w-1/2'
-                > 
-                    <img src={profileImange} className='w-24 h-24'/>
-                </div>
+                { profileImange && 
+                    (
+                        <div
+                            className='w-1/2'
+                        > 
+                            <img src={profileImange} className='w-24 h-24'/>
+                        </div>
+                    ) 
+                }
                 <form 
                     className='w-1/2 flex flex-col gap-4'
                 >
@@ -44,7 +48,7 @@ function ImagenPerfil() {
                     />
                     <button
                         onClick={cargarImagen}
-                        className='border bg-slate-200 border-slate-600 rounded-md outline-none'
+                        className='max-w-sm  border bg-slate-200 border-slate-600 rounded-md outline-none'
                     >
                         Subir archivo
                     </button>

@@ -64,8 +64,30 @@ function AuthProvider({children}) {
         }
 
         try {
-            const {data} = await axios.post('http://localhost:5000/api/usuarios/imagenes-upload-profile',file,config)
-            return data
+            const response = await axios.post('http://localhost:5000/api/usuarios/imagenes-upload-profile',file,config)
+            return response
+        } catch (error) {
+            console.log(error)
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
+    const cargarImagenUsuarioCotizacion = async (file)=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':"multipart/form-data",
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/usuarios/imagenes-upload-cotizacion',file,config)
+            return response
         } catch (error) {
             console.log(error)
             const errMsg= ValidateErrors(error)
@@ -79,7 +101,8 @@ function AuthProvider({children}) {
                 setAuth,
                 auth,
                 alert,
-                cargarImagenUsuarioProfile 
+                cargarImagenUsuarioProfile,
+                cargarImagenUsuarioCotizacion
             }}
         >
             {children}
