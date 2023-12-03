@@ -95,6 +95,28 @@ function AuthProvider({children}) {
         }
     }
 
+    const cargarImagenUsuarioFirmaDigital = async (file)=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':"multipart/form-data",
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/usuarios/imagenes-upload-firma-digital',file,config)
+            return response
+        } catch (error) {
+            console.log(error)
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
     return (
         <AuthContext.Provider
             value={{
@@ -102,7 +124,8 @@ function AuthProvider({children}) {
                 auth,
                 alert,
                 cargarImagenUsuarioProfile,
-                cargarImagenUsuarioCotizacion
+                cargarImagenUsuarioCotizacion,
+                cargarImagenUsuarioFirmaDigital
             }}
         >
             {children}

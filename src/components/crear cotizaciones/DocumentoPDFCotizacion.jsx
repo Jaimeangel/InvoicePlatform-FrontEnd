@@ -106,10 +106,11 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             fontWeight: '600', // El valor '600' corresponde a font-semibold en Tailwind
                             fontSize: '13px', // El valor '1.125rem' corresponde a text-lg en Tailwind
                             marginBottom:'30px',
-                            marginTop:'10px'
+                            marginTop:'10px',
+                            textTransform: 'capitalize'
                         }}
                     >
-                        {`${capitalizarPrimeraLetra(auth.ciudad)} , ${capitalizarPrimeraLetra(auth.departamento)} ${formatoFecha(cotizacion.fecha)}`}
+                        {`${auth.ciudad} , ${auth.departamento} ${formatoFecha(cotizacion.fecha)}`}
                     </Text>
                     
                     <View
@@ -150,9 +151,10 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                                 style={{
                                     fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
                                     fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
+                                    textTransform: 'capitalize'
                                 }}
                             >
-                                {`${capitalizarPrimeraLetra(cliente.ciudad)}`}
+                                {`${cliente.ciudad}`}
                             </Text>
                         </View>
                         <View
@@ -235,10 +237,11 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                                             borderRight:`${item.id === itemsCotizacion.length ? 'none' : '1px solid #000' }`,
                                             textAlign: 'center',
                                             fontWeight: '600',
-                                            fontSize: '13px'
+                                            fontSize: '13px',
+                                            textTransform: 'capitalize'
                                         }} 
                                     >
-                                        {capitalizarPrimeraLetra(item.categoria)}
+                                        {item.categoria}
                                     </Text>
                                 ))
                             }
@@ -304,7 +307,8 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             display: 'flex',
                             flexDirection: 'column',
                             textAlign: 'justify', // 'justify' corresponde a text-justify en Tailwind CSS
-                            gap:'10px'
+                            gap:'10px',
+                            marginBottom:'20px'
                         }}
                     >
                         {
@@ -369,6 +373,40 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                                 </View>
                             )
                         }
+                    </View>
+                    <View
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap:'2px'
+                        }}
+                    >
+                        <Image
+                            style={{
+                                width: '150px'
+                            }} 
+                            src={{ uri:auth?.images?.firmaRepresentante?.url , method: "GET", headers: { "Cache-Control": "no-cache" }, body: "" }} 
+                        />
+                        <Text
+                            style={{
+                                fontWeight: '700',
+                                fontSize: '12px',
+                                marginBottom:'3px',
+                                textTransform: 'uppercase'
+                            }}
+                        >
+                            {`${auth.nombres} ${auth.apellidos}`}
+                        </Text>
+                        <Text
+                            style={{
+                                fontWeight: '700',
+                                fontSize: '12px',
+                                marginBottom:'3px',
+                                textTransform: 'uppercase'
+                            }}
+                        >
+                                {`${auth.cargoRepresentante}`}
+                        </Text>
                     </View>
                 </View>
 

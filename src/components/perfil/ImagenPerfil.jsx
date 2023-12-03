@@ -29,18 +29,18 @@ function ImagenPerfil() {
                     <p className='font-bold text-2xl'>Imagen de perfil</p>
                 </div>
             </div>
-            <div className='mt-5 flex flex-row items-center'>
+            <div className='mt-5 flex flex-col gap-5'>
                 { profileImange && 
                     (
                         <div
-                            className='w-1/2'
+                            className='full'
                         > 
                             <img src={profileImange} className='w-24 h-24'/>
                         </div>
                     ) 
                 }
                 <form 
-                    className='w-1/2 flex flex-col gap-4'
+                    className='full flex flex-col gap-4'
                 >
                     <input 
                         type="file"

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 
-function ImagenCotizacion(){
-    const {cargarImagenUsuarioCotizacion,auth}=useAuth()
+function ImagenFirmaDigital(){
+    const {cargarImagenUsuarioFirmaDigital,auth}=useAuth()
     const [fileImage,setFile]=useState(null)
-    const [cotizacionImage,setCotizacionImage]=useState(auth?.images?.cotizacionImage?.url)
+    const [firmaRepresentante,setFirmaRepresentante]=useState(auth?.images?.firmaRepresentante?.url)
 
     const cargarImagen= async (e)=>{
         e.preventDefault()
@@ -12,7 +12,7 @@ function ImagenCotizacion(){
             const formData = new FormData();
             formData.append('image',fileImage)
             try {
-                const response = await cargarImagenUsuarioCotizacion(formData)
+                const response = await cargarImagenUsuarioFirmaDigital(formData)
                 console.log(response)
             } catch (error) {
                 console.log(error)
@@ -26,16 +26,16 @@ function ImagenCotizacion(){
         <div className='flex flex-col px-5 py-5 border rounded-md shadow-sm'>   
             <div className='flex flex-row justify-between items-center'>
                 <div>
-                    <p className='font-bold text-2xl'>Imagen de cotizacion</p>
-                    <p className='font-semibold text-lg'>Esta imagen se presentara en la cabecera de su documento cotizacion</p>
+                    <p className='font-bold text-2xl'>Imagen firma digital</p>
+                    <p className='font-semibold text-lg'>Cargar firma digital para tu cotizacion. Cargar tu firma en tu documento de cotizacion es opcional</p>
                 </div>
             </div>
             <div className='mt-5 flex flex-col items-center'>
-                { cotizacionImage && (
+                { firmaRepresentante && (
                         <div
                             className='w-full'
                         > 
-                            <img src={cotizacionImage} className='max-w-2xl' />
+                            <img src={firmaRepresentante} className='max-w-md'/>
                         </div>
                     )
                 }
@@ -58,4 +58,4 @@ function ImagenCotizacion(){
     )
 }
 
-export default ImagenCotizacion
+export default ImagenFirmaDigital
