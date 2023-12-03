@@ -1,10 +1,12 @@
 import React from 'react'
 //componentes React Pdf 
-import {Document,Page,View,Text} from '@react-pdf/renderer'
+import {Document,Page,View,Text,Image} from '@react-pdf/renderer'
 //componentes
 import CardProductoPDF from './CardProductPDF.jsx'
 //helpers
 import FormatDinero from '../../helpers/FormatDinero';
+//hooks
+import useAuth from '../../hooks/useAuth.jsx'
 //data
 const itemsCotizacion=[
     {
@@ -40,6 +42,7 @@ const itemsCotizacion=[
 ]
 
 function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
+    
     function capitalizarPrimeraLetra(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
@@ -90,13 +93,20 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                         padding: '16px 24px', // px-10 se traduce a 16px en Tailwind por defecto, ajusta según tus necesidades
                     }}
                 >
+                    <Image
+                        style={{
+                            borderRadius: '5px',
+                        }} 
+                        src={{ uri:auth?.images?.cotizacionImage?.url , method: "GET", headers: { "Cache-Control": "no-cache" }, body: "" }} 
+                    />
 
                     <Text
                         style={{
                             display:'block',
                             fontWeight: '600', // El valor '600' corresponde a font-semibold en Tailwind
                             fontSize: '13px', // El valor '1.125rem' corresponde a text-lg en Tailwind
-                            marginBottom:'40px'
+                            marginBottom:'30px',
+                            marginTop:'10px'
                         }}
                     >
                         {`${capitalizarPrimeraLetra(auth.ciudad)} , ${capitalizarPrimeraLetra(auth.departamento)} ${formatoFecha(cotizacion.fecha)}`}
