@@ -33,13 +33,15 @@ function EnviarCotizacion({cotizacion,cliente}){
             </div>
 
         </div> */
-            <PDFViewer>
+        <div className="w-full h-screen flex flex-col bg-white rounded-lg px-10 py-6 shadow-md">
+            <PDFViewer className='w-full h-screen'>
                 <DocumentoPDFCotizacion
                     cotizacion={cotizacion}
                     cliente={cliente}
                     auth={auth}
                 />
             </PDFViewer>
+        </div>
     )
 }
 

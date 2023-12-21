@@ -7,9 +7,6 @@ import AlertImage from '../alertas/AlertaImagen.jsx'
 import succesImage from '../../assets/undraw_done_re_oak4.svg'
 //hooks
 import useCliente from '../../hooks/useCliente.jsx'
-//font awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faX } from '@fortawesome/free-solid-svg-icons'
 //data cliente
 import {tipo,identificaciones,regimen} from '../../data/formatoDataCliente.js'
 
@@ -25,7 +22,7 @@ function FormCreateCliente({close}) {
     const [alert,setAlert]=useState({msg:'',error:false})
 
     //identificacion
-    const [tipoRazon,SetTipoRazon]=useState('')
+    const [tipoRazon,SetTipoRazon]=useState('persona')
     const [tipoIdenti,setTipoIdenti]=useState('')
     const [numberIdenti,SetNumberIdenti]=useState('')
     const [digitVerify,setDigitVerify]=useState('')
@@ -42,99 +39,77 @@ function FormCreateCliente({close}) {
     const [apellidoContact,setApellidoContact]=useState('')
     const [email,setEmail]=useState('')
     const [celular,SetCelular]=useState('')
-    const [tipoFiscal,SetTipoFiscal]=useState('')
+    const [tipoFiscal,SetTipoFiscal]=useState('no iva')
 
    
-    //efectos
-    //cargar con valores por defecto
+    //Basado en tipo de razon social cambiar tipo de identidad
     useEffect(()=>{
-        SetTipoRazon('persona')
-        SetTipoFiscal('no iva')
-    },[])
-
-    //cambiar tipo de identidad segun el tipo
-    useEffect(()=>{
-        if(tipoRazon==='persona'){
-            setTipoIdenti('cedula')
-        }else if(tipoRazon==='empresa'){
-            setTipoIdenti('nit')
+        const tipoIdentiMapping = {
+            'persona': 'cedula',
+            'empresa': 'nit'
+        };
+    
+        if(tipoRazon in tipoIdentiMapping) {
+            setTipoIdenti(tipoIdentiMapping[tipoRazon]);
         }
     },[tipoRazon])
 
-    //Para tipo de cliente persona
-    //entonces nombre es igual a nombre de contacto
-    //tambien apellidos es igual a apellidos de contacto
+    //Si tipo de cliente es persona entonces nombre es igual a nombre de contacto (aplica para apellido)
     useEffect(()=>{
-        if(nombres!==''){
-            setNombreContact(nombres)
-        }
-        if(apellidos!==''){
-            setApellidoContact(apellidos)
-        }
+        setNombreContact(nombres)
+        setApellidoContact(apellidos)
     },[nombres,apellidos])
 
-    const handleSubmit=(e)=>{
+    const handleSubmitFormulario=(e)=>{
         e.preventDefault()
-        
-        //validacion de campos de formularios
-        if(tipoRazon==='persona'){
-            if([tipoIdenti,numberIdenti,tipoFiscal,nombres,apellidos,nombreContact,apellidoContact,email].includes('')){
+        // Validación de campos obligatorios
+        if (tipoRazon === 'persona' || tipoRazon === 'empresa') {
+            const validacionCampos = [tipoIdenti,numberIdenti,tipoFiscal,nombreContact,apellidoContact,email].includes('');
+            if (validacionCampos) {
                 setAlert({
-                    msg:'Todos los campos marcados como obligatorios deben ser llenados',
-                    error:true
-                })
-                return
-            }
-        }else if(tipoRazon==='empresa'){
-            if([tipoIdenti,numberIdenti,tipoFiscal,razSocial,nombreContact,apellidoContact,email].includes('')){
-                setAlert({
-                    msg:'Todos los campos marcados como obligatorios deben ser llenados',
-                    error:true
-                })
-                return
+                    msg: 'Todos los campos marcados como obligatorios deben ser llenados',
+                    error: true
+                });
+                return;
             }
         }
 
         const guardarCliente = async ()=>{
+            // Campos comunes para ambos tipos de razón
+            const camposComunes = {
+                tipoIdenti,
+                identificacion: numberIdenti,
+                digitVerify,
+                nombreComercial: nombComercial,
+                ciudad,
+                direccion,
+                nombreContact,
+                apellidoContact,
+                email,
+                celular,
+                tipoFiscal
+            };
+
+            // Agregar campos específicos según el tipo de razón
             let data;
-            //el objeto data se crea segun el tipo de cliente
-            if(tipoRazon==='persona'){
-                data={
-                    "tipo":tipoRazon,
-                    "tipoIdenti":tipoIdenti,
-                    "identificacion":numberIdenti,
-                    "digitVerify":digitVerify,
-                    "nombres":nombres,
-                    "apellidos":apellidos,
-                    "nombreComercial":nombComercial,
-                    "ciudad":ciudad,
-                    "direccion":direccion,
-                    "nombreContacto":nombreContact,
-                    "apellidoContacto":apellidoContact,
-                    "email":email,
-                    "celular":celular,
-                    "tipoFiscal":tipoFiscal
-                }
-            }else if(tipoRazon==='empresa'){
-                data={
-                    "tipo":tipoRazon,
-                    "tipoIdenti":tipoIdenti,
-                    "identificacion":numberIdenti,
-                    "digitVerify":digitVerify,
-                    "razonSocial":razSocial,
-                    "nombreComercial":nombComercial,
-                    "ciudad":ciudad,
-                    "direccion":direccion,
-                    "nombreContacto":nombreContact,
-                    "apellidoContacto":apellidoContact,
-                    "email":email,
-                    "celular":celular,
-                    "tipoFiscal":tipoFiscal
-                }
+            if (tipoRazon === 'persona') {
+                data = {
+                    tipo: tipoRazon,
+                    ...camposComunes,
+                    nombres,
+                    apellidos
+                };
+            } else if (tipoRazon === 'empresa') {
+                data = {
+                    tipo: tipoRazon,
+                    ...camposComunes,
+                    razonSocial: razSocial
+                };
             }
 
             try {
                 await crearClienteByUsuario(data)
+                SetDone(true)
             } catch (err) {
                 setAlert({
                     msg:err.response.data.msg,
@@ -147,13 +122,10 @@ function FormCreateCliente({close}) {
 
     return (
         <form 
-            onSubmit={handleSubmit}
-        >
-            
-            {
-                !done 
-                ? 
-                (
+            onSubmit={handleSubmitFormulario}
+        > 
+            !done 
+            ? 
                     <div className='w-full flex flex-col gap-5'>
                         {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
 
@@ -351,20 +323,17 @@ function FormCreateCliente({close}) {
 
                         </div>
                     </div>
-                )
-                :
-                (   
-                    <div className='max-w-lg flex flex-col mx-auto'>
-                        <button
-                            onClick={close}
-                            className='w-[2rem] self-end mr-8 tracking-wider bg-gray-100 hover:bg-gray-300 cursor-pointer border border-gray-600 rounded-full px-2 py-1 font-bold'
-                        >
-                            <FontAwesomeIcon icon={faX} />
-                        </button>
-                        <AlertImage imgAlert={succesImage} msg={`El cliente ha sido creado con exito`}></AlertImage>
+            :
+                    <div className='max-w-lg  mx-auto'>
+                        <AlertImage imgAlert={succesImage} msg={`El cliente ha sido creado con exito`}>
+                            <button
+                                onClick={close}
+                                className='w-1/2 tracking-wider uppercase mx-auto bg-gray-100 hover:bg-gray-300 cursor-pointer border border-gray-600 rounded-md px-2 py-1 font-bold'
+                            >
+                                cerrar ventana
+                            </button>
+                        </AlertImage>
                     </div>
-                )
-            }
         </form>
     )
 }

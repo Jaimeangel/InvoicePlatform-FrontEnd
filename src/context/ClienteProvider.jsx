@@ -50,8 +50,8 @@ function ClienteProvider({children}) {
         try {
             const {data} = await axios.post('http://localhost:5000/api/clientes',dataCliente,config)
             setClientes([...clientes,data])
+            return data
         } catch (error) {
-            console.log(error)
             const errMsg= ValidateErrors(error)
             throw new Error(errMsg);
         }

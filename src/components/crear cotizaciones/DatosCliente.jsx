@@ -6,7 +6,7 @@ import useAuth from '../../hooks/useAuth.jsx'
 import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
 //componentes
 import SearchForm from "../SearchForm.jsx";
-import ModalCrearCliente from "./ModalCrearCliente.jsx";
+import ModalCrearCliente from "../cliente/ModalCrearCliente.jsx";
 import AlertaForm from "../alertas/AlertaForm.jsx";
 
 function DatosCliente({
@@ -20,57 +20,44 @@ function DatosCliente({
   pasoActual,
   numeroPasos
 }){
-  //hooks
   const {
     obtenerClientesByUsuario,
-    clientes
+    clientes // clientes de bases de datos
   }=useCliente()
 
   const {
     auth
   }=useAuth()
 
-  //state
-  const [contacto,setContacto]=useState('')
+  //data componente
+  const [contacto,setContacto]=useState(cliente) // la informacion de cliente elegido viene del state principal
   const [numeroCotizacion,SetNumberCotizacion]=useState('ctz')
   const [fecha,setDate]=useState('')
 
-  //alertas
+  //estado de alerta
   const [alert,setAlert]=useState({msg:'',error:false})
-
-  const validateCambiarPaso=()=>{
-    if(pasoActual===numeroPasos) return
-    cambiarPaso(value=>value+1)
-  }
   
-  //cargar clientes
   useEffect(()=>{
+    //cargar clientes base de datos
     const getClientes= async ()=>{
       const clientes = await obtenerClientesByUsuario()
     }
     getClientes()
-  },[])
 
-  //persistencia de informacion
-  useEffect(()=>{
-    if(Object.keys(cliente).length !== 0){
-      setContacto(cliente)
-    }
-
-    if('fecha' && 'numeroCotizacion' in cotizacion){
-      if(cotizacion.numeroCotizacion !== ''){
-        SetNumberCotizacion(cotizacion.numeroCotizacion)
-      }
-      if(cotizacion.fecha !== ''){
-        setDate(cotizacion.fecha)
-      }
+    //persistencia de informacion
+    const { fecha, numeroCotizacion } = cotizacion;
+    setDate(fecha); //fecha
+    
+    if (numeroCotizacion !== '') {
+      SetNumberCotizacion(numeroCotizacion); // numero cotizacion
     }
   },[])
 
-  //validacion para cambiar paso
+  //validacion para cambiar al siguiente paso
   useEffect(()=>{
     if(validatePaso){
-      if([contacto,numeroCotizacion,fecha].includes('')){
+      const camposRequeridos = [contacto,numeroCotizacion,fecha].includes('');
+      if(camposRequeridos){
           
           setAlert({
             msg:'Es necesario llenar todos los campos para pasar al siguiente paso',
@@ -85,11 +72,10 @@ function DatosCliente({
           }, 4000);
   
           setValidatePaso(false)
-  
           return
       }
       setValidatePaso(false)
-      validateCambiarPaso()
+      cambiarPasoSiguiente()
     }
   },[validatePaso])
 
@@ -103,10 +89,15 @@ function DatosCliente({
     setCotizacion(newData)
   },[contacto,fecha])
 
-  //guardar informacion del cliente
+  //guardar informacion del cliente elegido
   const handleChange =(dataCliente)=>{
-    setCliente(dataCliente) 
-    setContacto(dataCliente)
+    setCliente(dataCliente) // guarda informacion de cliente en state principal
+    setContacto(dataCliente) // guarda informacion de cliente en state local
+  }
+
+  const cambiarPasoSiguiente=()=>{
+    if(pasoActual===numeroPasos ) return
+    cambiarPaso(value => value + 1 ) //cambiar al paso siguiente
   }
 
   return (
@@ -140,7 +131,7 @@ function DatosCliente({
           </div>
 
           {
-            contacto !== '' && (
+            Object.keys(contacto).length !== 0 && (
               <div className="w-full flex flex-col gap-1">
                 <label className="font-semibold text-lg">Contacto</label>
                 <p className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm">

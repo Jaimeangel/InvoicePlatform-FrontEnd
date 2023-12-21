@@ -4,7 +4,7 @@ import { Fragment, useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 //components
-import FormCreateCliente from '../cliente/FormCreateCliente';
+import FormCreateCliente from './FormCreateCliente';
 
 export default function ModalCrearCliente() {
   let [isOpen, setIsOpen] = useState(false)
