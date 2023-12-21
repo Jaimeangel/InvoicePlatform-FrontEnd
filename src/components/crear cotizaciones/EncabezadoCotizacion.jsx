@@ -45,41 +45,19 @@ function EncabezadoCotizacion({
       },
     ])
 
-    const cambiarEstado=(id)=>{
-        const categoriesModificado = categories.map(item => {
-            if(item.id === id) {
-                item.selecionado=!item.selecionado
-                return item;
-            }else {
-                item.selecionado=false
+    //persistencia de informacion
+    useEffect(()=>{
+        const categoriesModificado = categories.map((item) => {
+            if(item.id === cotizacion?.encabezado?.id){
+                return cotizacion.encabezado;
+            }else{
                 return item;
             }
         });
         setCategories(categoriesModificado)
-    }
-
-    const validateCambiarPaso=()=>{
-        if(pasoActual===numeroPasos) return
-        cambiarPaso(value=>value+1)
-    }
-
-    //persistencia de informacion
-    useEffect(()=>{
-        if('encabezado' in cotizacion){
-            if(Object.keys(cotizacion.encabezado).length !==0){
-                const categoriesModificado = categories.map((item) => {
-                    if(item.id === cotizacion.encabezado.id){
-                        return cotizacion.encabezado;
-                    }else{
-                        return item;
-                    }
-                });
-                setCategories(categoriesModificado)
-            }
-        }
     },[])
 
-    //actulizando informacion en state principal
+    //actualizacion informacion en state principal
     useEffect(()=>{
         const categoriesModificado = categories.find((item) => {
             if(item.selecionado === true){
@@ -96,7 +74,7 @@ function EncabezadoCotizacion({
         }
     },[categories])
 
-    //validacion para cambiar paso
+    //validacion para cambiar al siguiente paso
     useEffect(()=>{
         if(validatePaso){
             const isSelectOption = categories.some((item) => item.selecionado === true );
@@ -119,32 +97,51 @@ function EncabezadoCotizacion({
                 return
             }
             setValidatePaso(false)
-            validateCambiarPaso()
+            cambiarPasoSiguiente()
         }
     },[validatePaso])
 
+    //cambiar el estado de seleccionado de las opciones de encabezado disponibles
+    const cambiarEstado=(id)=>{
+        const categoriesModificado = categories.map(item => {
+            if(item.id === id) {
+                item.selecionado=!item.selecionado
+                return item;
+            }else {
+                item.selecionado=false
+                return item;
+            }
+        });
+        setCategories(categoriesModificado)
+    }
 
-  return (
+    const cambiarPasoSiguiente=()=>{
+        if(pasoActual===numeroPasos) return
+        cambiarPaso(value=> value + 1 ) //cambiar al paso siguiente
+    }
+
+  return(
     <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
-
 
         <h1 className="mt-2 mb-2 text-2xl font-bold">Encabezado de cotizacion</h1>
         <h1 className="mt-2 mb-2 text-xl font-semibold italic">Puede elegir una opción de encabezado disponible o puede crear un encabezado personalizado.</h1>
 
         {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
+
         <Tab.Group>
+
             <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 border mt-5">
                 {categories?.map((category) => (
                     <Tab
-                    key={category.id}
-                    className={({ selected }) =>
-                        classNames(
-                        'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-black first-letter:uppercase border-none outline-none',
-                        selected
-                            ? 'bg-white shadow'
-                            : 'text-black'
-                        )
-                    }
+                        key={category.id}
+                        className={({ selected }) =>
+                            classNames(
+                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-black first-letter:uppercase border-none outline-none',
+                            selected
+                                ? 'bg-white shadow'
+                                : 'text-black'
+                            )
+                        }
                     >
                         {category.categoria}
                     </Tab>
@@ -160,7 +157,6 @@ function EncabezadoCotizacion({
                         {
                             item.categoria !== 'personalizado' 
                             ? 
-                            (
                                 <div className='flex flex-col gap-5'>
                                     <div className='flex flex-col gap-4 font-semibold'>
                                         <p className='text-justify'>{item.text.texto1}</p>
@@ -172,9 +168,7 @@ function EncabezadoCotizacion({
                                         setEnabled={()=>cambiarEstado(item.id)}
                                     />
                                 </div>
-                            )
                             :
-                            (
                                 <EncabezadoPersonalizado
                                     encabezados={categories}
                                     cambiarEstadoEncabezado={setCategories}
@@ -183,11 +177,11 @@ function EncabezadoCotizacion({
                                     cambiarEstado={cambiarEstado}
                                     encabezado={item}
                                 />
-                            )
                         }
                     </Tab.Panel>
                 ))}
             </Tab.Panels>
+
         </Tab.Group>
     </div>
   )
