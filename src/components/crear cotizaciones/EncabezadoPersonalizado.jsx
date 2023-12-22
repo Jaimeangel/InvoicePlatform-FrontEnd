@@ -6,11 +6,18 @@ import AlertImage from "../alertas/AlertaImagen.jsx";
 import SwitchButton from "../Switch.jsx";
 import AlertaForm from "../alertas/AlertaForm.jsx";
 
-function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados,cambiarEstadoEncabezado}) {
+function EncabezadoPersonalizado({
+    encabezado,
+    estado,
+    id,
+    cambiarEstado,
+    encabezados,
+    cambiarEstadoEncabezado
+}){
     //alertas
     const [alert,setAlert]=useState({msg:'',error:false})
-    //boton
-    const [ok,setOk]=useState(false)
+    //visualizar UI encabezado personalizado
+    const [showEncabezadoCreado,setShowEncabezadoCreado]=useState(false)
     //texto
     const [parrafo1,setParrafo1]=useState('')
     const [parrafo2,setParrafo2]=useState('')
@@ -40,7 +47,7 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
 
         const encabezadosModificados = encabezados.map(item => {
             if(item.id === id) {
-                item.text= new_data
+                item.text = new_data
                 return item;
             }else {
                 return item;
@@ -48,34 +55,62 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
         });
 
         cambiarEstadoEncabezado(encabezadosModificados)
-        setOk(true)
+        setShowEncabezadoCreado(true)
 
     }
 
+    //persistencia de informacion
     useEffect(()=>{
-        if(encabezado.selecionado===true){
-            setParrafo1(encabezado.text.texto1)
-            setParrafo2(encabezado.text.texto2)
-            setParrafo3(encabezado.text.texto3)
-
-            //cambiar boton
-            setOk(true)
+        //verifica si esta seleccionado,y si lo esta, verifica si tiene contenido agregado por boton.
+        if (encabezado.selecionado === true &&
+            (encabezado.text.texto1 !== '' || 
+             encabezado.text.texto2 !== '' ||
+             encabezado.text.texto3 !== '')) {
+        
+            setParrafo1(encabezado.text.texto1);
+            setParrafo2(encabezado.text.texto2);
+            setParrafo3(encabezado.text.texto3);
+        
+            // Cambiar boton
+            setShowEncabezadoCreado(true);
         }
     },[])
 
+    //resetear valores por defecto cuando la opcion encabezado personalizado se desactive
     useEffect(()=>{
-        if(estado===false){
-            setParrafo1('')
-            setParrafo2('')
-            setParrafo3('')
+        if(estado === false){
+            //reset valores de data encabezado personalizado
+            setParrafo1('');
+            setParrafo2('');
+            setParrafo3('');
+
+            setShowEncabezadoCreado(false)
+
+            //reset valores categoria personalizado del state padre
+            const new_data={
+                texto1:parrafo1,
+                texto2:parrafo2,
+                texto3:parrafo3
+            }
+            
+            const encabezadosModificados = encabezados.map(item => {
+                if(item.id === id) {
+                    item.text = new_data
+                    return item;
+                }else {
+                    return item;
+                }
+            });
+    
+            cambiarEstadoEncabezado(encabezadosModificados)
         }
-        setOk(false)
     },[estado])
 
     return (
         <div>
             {
-                !estado ? (
+                !estado 
+                ?
                     <div className="w-full flex flex-col items-center">
                         <AlertImage
                             imgAlert={createEncabezado}
@@ -87,13 +122,16 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
                             />
                         </AlertImage>
                     </div>
-                ):(
+                :
                     <div className="flex flex-col gap-5">
                         {
-                            !ok ? (
+                            !showEncabezadoCreado 
+                            ? 
+                            
                                 <div className="w-full">
                                     <h1 className="mt-2 mb-2 text-lg font-semibold italic text-justify">¡Personaliza tu encabezado! Completa uno de los campos a continuación. Para obtener mejores resultados, te sugerimos dividir tu contenido en tres párrafos. Esto ayudará a mejorar la presentación y legibilidad de tu encabezado. Despues haz click en crear encabezado.</h1>
                                     {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
+
                                     <div className="w-full">
                                         <div className='flex flex-col gap-1 items-left'>
                                             <label className='text-md font-bold tracking-wider italic pl-1'>parrafo 1</label>
@@ -124,14 +162,12 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
                                         </div>
                                     </div>
                                 </div>
-
-                            ):(
+                            :
                                 <div className='flex flex-col gap-4 font-semibold'>
                                     <p className='text-justify'>{parrafo1}</p>
                                     <p className='text-justify'>{parrafo2}</p>
                                     <p className='text-justify'>{parrafo3}</p>
                                 </div>
-                            )
                         }
                         <div className="flex flex-row justify-between px-3 items-center">
                             <SwitchButton
@@ -139,7 +175,7 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
                                 setEnabled={()=>cambiarEstado(id)}
                             />
                             {
-                                !ok && (
+                                !showEncabezadoCreado && (
                                     <input
                                         type="button"
                                         onClick={handleEncabezadoNuevo}
@@ -150,7 +186,6 @@ function EncabezadoPersonalizado({encabezado,estado,id,cambiarEstado,encabezados
                             }
                         </div>
                     </div>
-                )
             }
         </div>
     )

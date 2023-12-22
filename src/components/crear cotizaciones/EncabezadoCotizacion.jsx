@@ -71,6 +71,12 @@ function EncabezadoCotizacion({
                 encabezado:categoriesModificado
             }
             setCotizacion(newData)
+        }else{
+            const newData={
+                ...cotizacion,
+                encabezado:{}
+            }
+            setCotizacion(newData)
         }
     },[categories])
 
