@@ -1,5 +1,5 @@
-import numeral from 'numeral';
 import { View,Text } from '@react-pdf/renderer';
+import { formatoMonedaDosDecimales } from '../../helpers/formatoMonedas';
 
 function CardProductoPDF({data,index}) {
     const {
@@ -12,7 +12,7 @@ function CardProductoPDF({data,index}) {
     }=data;
 
     const formatNumber=(value)=>{
-        const numberFormat = numeral(value).format('0,0.000');
+        const numberFormat = formatoMonedaDosDecimales(value);
         return numberFormat
     }
 

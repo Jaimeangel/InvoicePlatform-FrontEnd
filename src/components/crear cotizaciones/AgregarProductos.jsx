@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 //componentes
 import AlertaForm from "../alertas/AlertaForm";
-//helpers
-import CalcularValorIva from '../../helpers/CalcularValorIva.js'
 //font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-//libraries
-import numeral from 'numeral';
 //herlpers
 import generarID from "../../helpers/generaID.js";
+import CalcularValorIva from '../../helpers/CalcularValorIva.js'
+import { 
+    formatoMonedaInputChange,
+    formatearMonedaStringToNumber,
+    formatoMonedaDosDecimales
+} from "../../helpers/formatoMonedas.js";
 
 function AgregarProductos({productos,agregarProductos}) {
-    const [hideBarItem,setHideBarItem]=useState(false)
+    const [showPanelAgregarItem,setShowPanelAgregarItem]=useState(true)
     //alertas
     const [alert,setAlert]=useState({msg:'',error:false})
     //data
@@ -23,28 +25,29 @@ function AgregarProductos({productos,agregarProductos}) {
     const [impuesto,setImpuesto]=useState(0)
     const [total,setTotal]=useState('')
 
+    // actualizar item / switch panel agregar item
     useEffect(()=>{
         const longitudProductos=productos.length
-        //actualiza el numerador del campo items
+        
         const item_lenght=longitudProductos + 1;
         setItem(item_lenght)
-        //Esconde o muestra la barra de creacion de items
-        if(longitudProductos !== 0){
-            setHideBarItem(true)
+
+        if(longitudProductos === 0){
+            setShowPanelAgregarItem(true)
         }else{
-            setHideBarItem(false)
+            setShowPanelAgregarItem(false)
         }
     },[productos])
 
+    // actualizacion del valor total dependiendo del impuesto
     useEffect(()=>{
-        //calculamos del valor total (dependiendo si hay un inpuesto aplicable)
         const valorInpuesto= Number(impuesto)
-        const valUniFormat = numeral(valUni).value();
-        if(valorInpuesto===0){
+        const valUniFormat = formatearMonedaStringToNumber(valUni);
+        if(valorInpuesto === 0){
             const valorTotal = Number(cant)*valUniFormat
-            const valorTotalFormat = numeral(valorTotal).format('0,0.000');
+            const valorTotalFormat = formatoMonedaDosDecimales(valorTotal);
             setTotal(valorTotalFormat)
-        }else if(valorInpuesto===19){
+        }else if(valorInpuesto === 19){
             const valorTotal = Number(cant)*valUniFormat
             const valorTotalIva= CalcularValorIva(valorTotal,impuesto)
             setTotal(valorTotalIva)
@@ -68,10 +71,11 @@ function AgregarProductos({productos,agregarProductos}) {
 
             return
         }
-        //formateando los valores valor unitario y total de string a numero
-        const valUniFormat = numeral(valUni).value();
-        const valTotalFormat = numeral(total).value();
-        //objeto de datos del producto
+
+        const valUniFormat = formatearMonedaStringToNumber(valUni);
+        const valTotalFormat = formatearMonedaStringToNumber(total);
+        
+        //data producto
         const newProducto={
             item:generarID(),
             descripcion:descrip,
@@ -93,41 +97,21 @@ function AgregarProductos({productos,agregarProductos}) {
         setTotal(0)
     }
 
-    const cambiarEstadoHideBarItem=()=>{
-        setHideBarItem(false)
+    const cambiarEstadoPanelAgregarItem=()=>{
+        setShowPanelAgregarItem(true)
     }
 
-    
     const handleValorUnitarioChange = (event) => {
         const inputNumber = event.target.value;
-        const formattedValue = formatCurrency(inputNumber);
+        const formattedValue = formatoMonedaInputChange(inputNumber);
         setValUni(formattedValue);
-    };
-    
-    const formatCurrency = (value) => {
-        if (!value) return '';
-        
-        // Remover cualquier formato existente, como comas
-        const unformattedValue = value.replace(/,/g, '');
-        
-        // Dividir el valor en parte entera y parte decimal
-        const parts = unformattedValue.split('.');
-        
-        let formattedValue = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      
-        // Si hay parte decimal, limitar a tres decimales
-        if (parts.length === 2) {
-          formattedValue += `.${parts[1].substring(0, 3)}`;
-        }
-      
-        return formattedValue;
     };
     
     return (
         <div className="flex flex-col gap-2">
             {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
             {
-                !hideBarItem && (
+                showPanelAgregarItem && (
                     <div className="w-11/12 flex flex-row  border border-black rounded bg-white">
                         <p
                             className='border-r border-black text-center font-semibold py-2'
@@ -193,22 +177,20 @@ function AgregarProductos({productos,agregarProductos}) {
                 )
             }
             {
-                hideBarItem ? (
-                    <button
-                        onClick={cambiarEstadoHideBarItem}
-                        className="w-1/12 first-letter:uppercase py-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
-                    >
-                        <FontAwesomeIcon icon={faPlus} />
-                    </button>
-                ):(
+                showPanelAgregarItem ? 
                     <button
                         onClick={handleAgregarProducto}
                         className="w-2/12 first-letter:uppercase py-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
                     >
                         agregar item
                     </button>
-                )
-
+                :
+                    <button
+                        onClick={cambiarEstadoPanelAgregarItem}
+                        className="w-1/12 first-letter:uppercase py-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                    >
+                        <FontAwesomeIcon icon={faPlus} />
+                    </button>
             }
         </div>
     )

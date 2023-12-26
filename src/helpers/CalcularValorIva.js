@@ -1,9 +1,9 @@
-import numeral from 'numeral';
+import { formatoMonedaDosDecimales } from './formatoMonedas';
 
 function CalcularValorIVA(valor,iva) {
     const ivaValor = Number(valor)*(Number(iva)/100)
     const newValor = Number(valor) + ivaValor
-    const formatNewValor = numeral(newValor).format('0,0.000');
+    const formatNewValor = formatoMonedaDosDecimales(newValor);
     return formatNewValor;
 }
 

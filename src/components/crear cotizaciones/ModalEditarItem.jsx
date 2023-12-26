@@ -7,7 +7,12 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import AlertaForm from '../../components/alertas/AlertaForm'
 //helpers
 import CalcularValorIva from '../../helpers/CalcularValorIva.js'
-import numeral from 'numeral';
+import { 
+    formatearMonedaStringToNumber, 
+    formatoMonedaDosDecimales,
+    formatoMonedaInputChange
+} from '../../helpers/formatoMonedas.js';
+import { compararDosObjetos } from '../../helpers/compararObjetos.js'
 //data
 const itemsCotizacion=[
     {
@@ -43,13 +48,12 @@ const itemsCotizacion=[
 ]
 
 function ModalEditarItem({handleEditarItem,data,index}){
-    /* console.log('aqui') */
     //alertas
     const [alert,setAlert]=useState({msg:'',error:false})
-    //hide/show
+
     let [isOpen, setIsOpen]=useState(false)
-    //data comparacion
-    const [dataComparacion,setDataComparacion]=useState({})
+    const [dataOriginal,setDataOriginal]=useState({})
+
     //data
     const [item,setItem]=useState(0)
     const [descrip,setDescrip]=useState('')
@@ -57,6 +61,52 @@ function ModalEditarItem({handleEditarItem,data,index}){
     const [cant,setCant]=useState(1)
     const [impuesto,setImpuesto]=useState(0)
     const [total,setTotal]=useState('')
+
+    // actualizar informacion y guardar data para comparacion
+    useEffect(()=>{
+        // cambiar a formatos moneda correspondientes
+        const valUniFormatoString= formatoMonedaInputChange(data.precioUnitario.toString());
+        const valorTotalFormatoMonedaString = formatoMonedaDosDecimales(data.total);
+
+        setItem(data.item)
+        setDescrip(data.descripcion)
+        setValUni(valUniFormatoString)
+        setCant(data.cantidad)
+        setImpuesto(data.impuesto)
+        setTotal(valorTotalFormatoMonedaString)
+        
+        const dataProducto={
+            item:data.item,
+            descripcion:data.descripcion,
+            cantidad:data.cantidad,
+            precioUnitario:valUniFormatoString,
+            impuesto:data.impuesto,
+            total:valorTotalFormatoMonedaString
+        }
+        setDataOriginal(dataProducto)
+    },[data])
+
+    // actualizacion del valor total dependiendo del impuesto 
+    useEffect(()=>{
+        const valorInpuesto= Number(impuesto)
+        console.log(valUni)
+        const valUniFormat = formatearMonedaStringToNumber(valUni);
+        if(valorInpuesto===0){
+            const valorTotal = Number(cant)*valUniFormat
+            const valorTotalFormat = formatoMonedaDosDecimales(valorTotal);
+            setTotal(valorTotalFormat)
+        }else if(valorInpuesto===19){
+            const valorTotal = Number(cant)*valUniFormat
+            const valorTotalIva= CalcularValorIva(valorTotal,impuesto)
+            setTotal(valorTotalIva)
+        }
+    },[cant,valUni,impuesto])
+    
+    const handleValorUnitarioChange = (event) => {
+        const inputNumber = event.target.value;
+        const formattedValue = formatoMonedaInputChange(inputNumber);
+        setValUni(formattedValue);
+    };
 
     function closeModal() {
         setIsOpen(false)
@@ -67,41 +117,19 @@ function ModalEditarItem({handleEditarItem,data,index}){
     }
 
     function closeModalSinEditar(){
-        const producto={
-            item:item,
-            descripcion:descrip,
-            cantidad:cant,
-            precioUnitario:valUni,
-            impuesto:impuesto,
-            total:total
-        }
-
-        function sonObjetosIguales(obj1, obj2) {
-            for (let prop in obj1) {
-                if (obj1[prop] !== obj2[prop]) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        const sonIguales = sonObjetosIguales(producto, dataComparacion);
-
-        if(!sonIguales) {
-            setItem(dataComparacion.item)
-            setDescrip(dataComparacion.descripcion)
-            setValUni(dataComparacion.precioUnitario)
-            setCant(dataComparacion.cantidad)
-            setImpuesto(dataComparacion.impuesto)
-            setTotal(dataComparacion.total)
-        }
+        // volver a informacion original
+        setItem(dataOriginal.item)
+        setDescrip(dataOriginal.descripcion)
+        setValUni(dataOriginal.precioUnitario)
+        setCant(dataOriginal.cantidad)
+        setImpuesto(dataOriginal.impuesto)
+        setTotal(dataOriginal.total)
         
         closeModal()
     }
 
-    //handler editar el producto
     const handleEditarProducto=()=>{
-        //validaciones
+        // validaciones
         if([descrip,valUni,total].includes('')){  
             setAlert({
                 msg:'Es necesario llenar todos los campos para agregar un item',
@@ -118,11 +146,10 @@ function ModalEditarItem({handleEditarItem,data,index}){
             return
         }
         
-        //formateando los valores valor unitario y total de string a numero
-        const valUniFormat = numeral(valUni).value();
-        const valTotalFormat = numeral(total).value();
+        const valUniFormat = formatearMonedaStringToNumber(valUni);
+        const valTotalFormat = formatearMonedaStringToNumber(total);
 
-        //objeto de datos del producto
+        //data
         const editProducto={
             item:item,
             descripcion:descrip,
@@ -133,87 +160,8 @@ function ModalEditarItem({handleEditarItem,data,index}){
         }
 
         handleEditarItem(editProducto)
-        
         closeModal()
     }
-
-    //cargar la informacion del producto/item
-    useEffect(()=>{
-        setItem(data.item)
-        setDescrip(data.descripcion)
-        setValUni(data.precioUnitario)
-        setCant(data.cantidad)
-        setImpuesto(data.impuesto)
-        setTotal(data.total)
-
-        //objeto de datos del producto
-        const valUniNumber = data.precioUnitario.toString()
-        const valUniStringFormatMoney= formatCurrency(valUniNumber);
-        const valorTotalStringFormatMoney = numeral(data.total).format('0,0.000');
-        
-        const dataProducto={
-            item:data.item,
-            descripcion:data.descripcion,
-            cantidad:data.cantidad,
-            precioUnitario:valUniStringFormatMoney,
-            impuesto:data.impuesto,
-            total:valorTotalStringFormatMoney
-        }
-        setDataComparacion(dataProducto)
-    },[data])
-
-    //actualizar el valor total del item de acuerdo a cant,val unitario e impuesto 
-    useEffect(()=>{
-        //calculamos del valor total (dependiendo si hay un inpuesto aplicable)
-        const valorInpuesto= Number(impuesto)
-        //convertimos el valor unitario string a numero
-        const valUniFormat = numeral(valUni).value();
-        if(valorInpuesto===0){
-            const valorTotal = Number(cant)*valUniFormat
-            //convirtiendo valor numerico a string formato moneda
-            const valorTotalFormat = numeral(valorTotal).format('0,0.000');
-            setTotal(valorTotalFormat)
-        }else if(valorInpuesto===19){
-            const valorTotal = Number(cant)*valUniFormat
-            const valorTotalIva= CalcularValorIva(valorTotal,impuesto)
-            setTotal(valorTotalIva)
-        }
-    },[cant,valUni,impuesto])
-
-    useEffect(()=>{
-        if(isOpen===true){
-            const inputNumber = valUni.toString()
-            const formattedValue = formatCurrency(inputNumber);
-            setValUni(formattedValue);
-        }
-    },[isOpen])
-
-    //funcion utilizada para cambiar el val Unitario a un formato especifico [tipo string]
-    const handleValorUnitarioChange = (event) => {
-        const inputNumber = event.target.value;
-        const formattedValue = formatCurrency(inputNumber);
-        setValUni(formattedValue);
-    };
-    
-    //funcion formatea el valor a uno tipo moneda
-    const formatCurrency = (value) => {
-        if (!value) return '';
-        
-        // Remover cualquier formato existente, como comas
-        const unformattedValue = value.replace(/,/g, '');
-        
-        // Dividir el valor en parte entera y parte decimal
-        const parts = unformattedValue.split('.');
-        
-        let formattedValue = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      
-        // Si hay parte decimal, limitar a tres decimales
-        if (parts.length === 2) {
-          formattedValue += `.${parts[1].substring(0, 3)}`;
-        }
-      
-        return formattedValue;
-    };
 
   return (
     <>

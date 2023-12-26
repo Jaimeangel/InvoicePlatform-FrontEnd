@@ -1,7 +1,7 @@
 //modales
 import ModalEliminarItem from "./ModalEliminarItem";
 import ModalEditarItem from "./ModalEditarItem";
-import numeral from 'numeral';
+import { formatoMonedaDosDecimales } from "../../helpers/formatoMonedas";
 
 function CardProducto({data,productos,agregarProductos,index,view=false}) {
     const {
@@ -13,31 +13,23 @@ function CardProducto({data,productos,agregarProductos,index,view=false}) {
         total
     }=data;
 
-    const formatNumber=(value)=>{
-        const numberFormat = numeral(value).format('0,0.000');
+    const formatNumberDosDecimales = (value) => {
+        const numberFormat = formatoMonedaDosDecimales(value);
         return numberFormat
     }
 
     const eliminarItem = () => {
         const id=item;
-        // Clona la lista de productos para no modificar la original
         const nuevaListaProductos = [...productos];
-      
-        // Encuentra el índice del elemento a eliminar
         const indexAEliminar = nuevaListaProductos.findIndex(producto => producto.item === id);
-      
         if(indexAEliminar !== -1){
-          // Elimina el elemento encontrado
           nuevaListaProductos.splice(indexAEliminar, 1);
-          
-          // Actualiza la lista de productos
           agregarProductos(nuevaListaProductos);
         }
     };
 
     const handleEditarProducto=(data)=>{       
         const editListaProductos=productos.map(producto=>producto.item===data.item ? data:producto)
-        //actualizamos el nuevo listado de productos
         agregarProductos(editListaProductos)
     }
 
@@ -63,7 +55,7 @@ function CardProducto({data,productos,agregarProductos,index,view=false}) {
                     >{descripcion}</p>
                 </div>
                 <input
-                    value={formatNumber(precioUnitario)}
+                    value={formatNumberDosDecimales(precioUnitario)}
                     type="text"
                     disabled
                     className='border-r border-black font-semibold py-2 outline-none text-center bg-white'
@@ -89,7 +81,7 @@ function CardProducto({data,productos,agregarProductos,index,view=false}) {
                     {`${impuesto} %`}
                 </p>
                 <input
-                    value={formatNumber(total)}
+                    value={formatNumberDosDecimales(total)}
                     type="text"
                     className="bg-white text-center rounded font-semibold"
                     style={{

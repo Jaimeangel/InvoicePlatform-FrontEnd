@@ -47,9 +47,9 @@ function ProductosCotizacion({
         numeroPasos,
         pasoActual
 }){
-    //alertas
+    // alertas
     const [alert,setAlert]=useState({msg:'',error:false})
-    //productos
+    // productos
     const [productos,setProductos]=useState([])
 
     //handle cambiar de paso
@@ -85,11 +85,9 @@ function ProductosCotizacion({
         }
     },[validatePaso])
 
-    //persistencia de informacion
+    // persistencia de informacion
     useEffect(()=>{
-        if(cotizacion.productos.length !==0){
-            setProductos(cotizacion.productos)
-        }
+        setProductos(cotizacion.productos)
     },[])
 
     return (
