@@ -1,4 +1,3 @@
-//pasos barra de progreso
 const pasos=[
     {
         paso:1,

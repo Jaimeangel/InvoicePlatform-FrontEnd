@@ -147,6 +147,7 @@ function AgregarProductos({productos,agregarProductos}) {
                             value={cant}
                             onChange={(e)=>setCant(e.target.value)}
                             type="number"
+                            min="1"
                             className='border-r border-black font-semibold py-2 outline-none text-center'
                             style={{
                                 width:`8%`
