@@ -57,7 +57,6 @@ function ModalEditarItem({handleEditarItem,data,index}){
     // actualizacion del valor total dependiendo del impuesto 
     useEffect(()=>{
         const valorInpuesto= Number(impuesto)
-        console.log(valUni)
         const valUniFormat = formatearMonedaStringToNumber(valUni);
         if(valorInpuesto===0){
             const valorTotal = Number(cant)*valUniFormat
@@ -71,9 +70,12 @@ function ModalEditarItem({handleEditarItem,data,index}){
     },[cant,valUni,impuesto])
     
     const handleValorUnitarioChange = (event) => {
+        const patron = /^[0-9,\.]+$/
         const inputNumber = event.target.value;
-        const formattedValue = formatoMonedaInputChange(inputNumber);
-        setValUni(formattedValue);
+        if(patron.test(inputNumber)){
+            const formattedValue = formatoMonedaInputChange(inputNumber);
+            setValUni(formattedValue);
+        }
     };
 
     function closeModal() {

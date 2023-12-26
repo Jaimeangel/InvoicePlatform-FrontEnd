@@ -102,9 +102,12 @@ function AgregarProductos({productos,agregarProductos}) {
     }
 
     const handleValorUnitarioChange = (event) => {
+        const patron = /^[0-9,\.]+$/
         const inputNumber = event.target.value;
-        const formattedValue = formatoMonedaInputChange(inputNumber);
-        setValUni(formattedValue);
+        if(patron.test(inputNumber)){
+            const formattedValue = formatoMonedaInputChange(inputNumber);
+            setValUni(formattedValue);
+        }
     };
     
     return (
