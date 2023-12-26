@@ -265,41 +265,45 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             ))
                         }
                     </View>
-                    <View
-                        style={{
-                            width: '100%', // '100%' corresponde a w-full en Tailwind CSS
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'flex-end', // 'flex-end' corresponde a items-end en Tailwind CSS
-                            gap: '4px', // Reemplaza con el valor correcto de gap-1 en Tailwind CSS
-                            marginBottom:'30px'
-                        }}
-                    >
-                        <Text
-                            style={{
-                                fontSize: '14px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                                fontWeight: '500', // '500' corresponde a font-medium en Tailwind CSS
-                            }}
-                        >
-                            {`Subtotal: ${formatSumaSubtotal}`}
-                        </Text>
-                        <Text
-                            style={{
-                                fontSize: '14px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                                fontWeight: '500', // '500' corresponde a font-medium en Tailwind CSS
-                            }}
-                        >
-                            {`IVA 19%: ${formatSumaTotalIVA}`}
-                        </Text>
-                        <Text
-                            style={{
-                                fontSize: '16px', // '1.5rem' corresponde a text-2xl en Tailwind CSS
-                                fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
-                            }}
-                        >
-                            {`Total Neto: ${formatSumaTotalNeto}`}
-                        </Text>
-                    </View>
+                    {
+                        cotizacion.mostrarTotal === true && (
+                            <View
+                                style={{
+                                    width: '100%', // '100%' corresponde a w-full en Tailwind CSS
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-end', // 'flex-end' corresponde a items-end en Tailwind CSS
+                                    gap: '4px', // Reemplaza con el valor correcto de gap-1 en Tailwind CSS
+                                    marginBottom:'30px'
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: '14px', // '1.125rem' corresponde a text-lg en Tailwind CSS
+                                        fontWeight: '500', // '500' corresponde a font-medium en Tailwind CSS
+                                    }}
+                                >
+                                    {`Subtotal: ${formatSumaSubtotal}`}
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontSize: '14px', // '1.125rem' corresponde a text-lg en Tailwind CSS
+                                        fontWeight: '500', // '500' corresponde a font-medium en Tailwind CSS
+                                    }}
+                                >
+                                    {`IVA 19%: ${formatSumaTotalIVA}`}
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontSize: '16px', // '1.5rem' corresponde a text-2xl en Tailwind CSS
+                                        fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
+                                    }}
+                                >
+                                    {`Total Neto: ${formatSumaTotalNeto}`}
+                                </Text>
+                            </View>
+                        )
+                    }
 
                     <View
                         style={{

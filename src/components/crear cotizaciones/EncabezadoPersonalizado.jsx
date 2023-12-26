@@ -23,7 +23,7 @@ function EncabezadoPersonalizado({
     const [parrafo2,setParrafo2]=useState('')
     const [parrafo3,setParrafo3]=useState('')
 
-    const handleEncabezadoNuevo =()=>{
+    const handleCrearEncabezadoNuevo = ()=>{
         if(!(parrafo1.trim() || parrafo2.trim() || parrafo3.trim())){
             setAlert({
                 msg:'Es necesario llenar por lo menos alguno de los campos',
@@ -178,7 +178,7 @@ function EncabezadoPersonalizado({
                                 !showEncabezadoCreado && (
                                     <input
                                         type="button"
-                                        onClick={handleEncabezadoNuevo}
+                                        onClick={handleCrearEncabezadoNuevo}
                                         value={'crear encabezado'}
                                         className='bg-yellow-300 border-2 border-yellow-500 text-black text-lg tracking-wide font-semibold px-4 rounded-md cursor-pointer'
                                     />

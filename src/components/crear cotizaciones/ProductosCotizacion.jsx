@@ -130,13 +130,11 @@ function ProductosCotizacion({
                 />
             </div>
 
-            <div>
-                <CalculoTotalCotizacion
-                    productos={productos}
-                    setCotizacion={setCotizacion}
-                    cotizacion={cotizacion}
-                />
-            </div>
+            <CalculoTotalCotizacion
+                productos={productos}
+                setCotizacion={setCotizacion}
+                cotizacion={cotizacion}
+            />
         </div>
     )
 }

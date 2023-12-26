@@ -7,7 +7,8 @@ const formatData={
     subTotal:0,
     IVA:0,
     condiciones:{},
-    notas:''
+    notas:'',
+    mostrarTotal:true
 }
 
 export default formatData;
