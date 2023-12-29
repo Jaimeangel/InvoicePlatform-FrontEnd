@@ -80,17 +80,21 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
     const formatSumaTotalIVA = FormatDinero(cotizacion.IVA);
 
     return(
-        <Document>
+        <Document
+        >
             <Page 
                 size='A4'
+                style={{
+                    position:'relative',
+                    padding: '16px 24px 35px 24px'
+                }}
             >
                 <View
                     style={{
                         width: '100%',
                         display: 'flex',
                         flexDirection: 'column',
-                        backgroundColor: 'white',
-                        padding: '16px 24px', // px-10 se traduce a 16px en Tailwind por defecto, ajusta según tus necesidades
+                        backgroundColor: 'white'
                     }}
                 >
                     <Image
@@ -312,7 +316,6 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             flexDirection: 'column',
                             textAlign: 'justify', // 'justify' corresponde a text-justify en Tailwind CSS
                             gap:'10px',
-                            marginBottom:'20px'
                         }}
                     >
                         {
@@ -378,42 +381,42 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             )
                         }
                     </View>
-                    <View
+                </View>
+                <View
+                    style={{
+                        width:'100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap:'2px'
+                    }}
+                >
+                    <Image
                         style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap:'2px'
-                        }}
-                    >
-                        <Image
-                            style={{
                                 width: '150px'
                             }} 
-                            src={{ uri:auth?.images?.firmaRepresentante?.url , method: "GET", headers: { "Cache-Control": "no-cache" }, body: "" }} 
-                        />
-                        <Text
-                            style={{
-                                fontWeight: '700',
-                                fontSize: '12px',
-                                marginBottom:'3px',
-                                textTransform: 'uppercase'
-                            }}
-                        >
-                            {`${auth.nombres} ${auth.apellidos}`}
-                        </Text>
-                        <Text
-                            style={{
-                                fontWeight: '700',
-                                fontSize: '12px',
-                                marginBottom:'3px',
-                                textTransform: 'uppercase'
-                            }}
-                        >
-                                {`${auth.cargoRepresentante}`}
-                        </Text>
-                    </View>
+                        src={{ uri:auth?.images?.firmaRepresentante?.url , method: "GET", headers: { "Cache-Control": "no-cache" }, body: "" }} 
+                    />
+                    <Text
+                        style={{
+                            fontWeight: '700',
+                            fontSize: '12px',
+                            marginBottom:'3px',
+                            textTransform: 'uppercase'
+                        }}
+                    >
+                        {`${auth.nombres} ${auth.apellidos}`}
+                    </Text>
+                    <Text
+                        style={{
+                            fontWeight: '700',
+                            fontSize: '12px',
+                            marginBottom:'3px',
+                            textTransform: 'uppercase'
+                        }}
+                    >
+                        {`${auth.cargoRepresentante}`}
+                    </Text>
                 </View>
-
             </Page>
         </Document>
     )

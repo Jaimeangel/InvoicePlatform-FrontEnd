@@ -22,9 +22,41 @@ function DatosEnvio({
     pasoActual
 }){
     const {auth}=useAuth()
-    //datos contacto
-    const [email,setEmail]=useState([])
-    const [celular,setCelular]=useState([])
+    // datos contacto
+    const [email,setEmail]=useState([
+        {
+            id:1,
+            email:auth?.emailRepresentante,
+            selected:true
+        },
+        {
+            id:2,
+            email:auth?.email,
+            selected:true
+        },
+        {
+            id:3,
+            email:cliente?.email,
+            selected:true
+        }
+    ])
+    const [celular,setCelular]=useState([
+        {
+            id:3,
+            celular:auth?.celularEmpresarial,
+            selected:true
+        },
+        {
+            id:4,
+            celular:auth?.celularRepresentante,
+            selected:true
+        },
+        {
+            id:5,
+            celular:cliente?.celular,
+            selected:true
+        }
+    ])
 
     //agregar email/celular
     const [addEmail,setAddEmail]=useState(false)
@@ -34,33 +66,60 @@ function DatosEnvio({
     const [newEmail,setNewEmail]=useState('')
     const [newCel,setNewCel]=useState('')
 
-    //cargar informacion de contacto del Cliente/Usuario
     useEffect(()=>{
-        //data contacto
-        const emails=[auth?.emailRepresentante,auth?.email,cliente?.email]
-        const celulares=[cliente?.celular,auth?.celularEmpresarial,auth?.celularRepresentante]
-        //cargar contacto state
-        const emailToSend=emails?.forEach((emailValidate)=>{
-            const existEmailUsuario=email.some(email => email?.email === emailValidate)
-            if(!existEmailUsuario){
-                const newEmail={
+        // cargar datos contacto a state principal
+        const cargarEmailStatePrincipal = email?.forEach( emailValidate => {
+            const existeEmailStatePrincipal = dataEnvio.email.destinos.includes(emailValidate.email)
+            
+            if(!existeEmailStatePrincipal){
+                const dataContacto = dataEnvio.email;
+                dataContacto.destinos = [emailValidate.email,...dataContacto.destinos]
+                setDataEnvio({
+                    email:dataContacto,
+                    ...dataEnvio
+                })
+            }
+        })
+
+        const cargarCelularStatePrincipal = celular?.forEach( celularValidate => {
+            const existeCelularStatePrincipal = dataEnvio.celular.destinos.includes(celularValidate.celular)
+            
+            if(!existeCelularStatePrincipal){
+                const dataContacto = dataEnvio.celular;
+                dataContacto.destinos = [celularValidate.celular,...dataContacto.destinos]
+                setDataEnvio({
+                    celular:dataContacto,
+                    ...dataEnvio
+                })
+            }
+        })
+
+        // cargar datos de contacto de state principal no incluidos en estate local
+        const cargarEmailStateLocal = dataEnvio.email.destinos?.forEach( emailValidate => {
+            const arrayEmail = email.map( eml => eml.email)
+            const existeEmailStateLocal = arrayEmail.includes(emailValidate)
+            
+            if(!existeEmailStateLocal){
+                const newEmailAgregar={
                     id:generarIdNumerico(),
                     email:emailValidate,
                     selected:true
                 }
-                setEmail((prevEmail) => [...prevEmail, newEmail])
+                setEmail([...email,newEmailAgregar])
             }
         })
-        
-        const celularToSend=celulares?.forEach((celularValidate)=>{
-            const existCelularCliente=celular.some(celular => celular?.celular === celularValidate)
-            if(!existCelularCliente){
-                const newCelular={
+
+        const cargarCelularStateLocal = dataEnvio.celular.destinos?.forEach( celularValidate => {
+            const arrayCelular = celular.map( eml => eml.celular)
+            const existeCelularStateLocal = arrayCelular.includes(celularValidate)
+            
+            if(!existeCelularStateLocal){
+                const newCelularAgregar={
                     id:generarIdNumerico(),
                     celular:celularValidate,
                     selected:true
                 }
-                setCelular((prevCelular) => [...prevCelular,newCelular])
+                setCelular([...celular,newCelularAgregar])
             }
         })
     },[])
@@ -73,104 +132,75 @@ function DatosEnvio({
         }
     },[validatePaso])
 
-    //guardar informacion de contacto en state principal
+    // guardar informacion en state principal
     useEffect(()=>{
-        const dataContactoEmail=dataEnvio.email;
-
-        const newDestinosEmail=email
-            .filter(email => email.selected)
-            .map(email => email.email);
-
-        dataContactoEmail.destinos=newDestinosEmail;
-        setDataEnvio({
-            email:dataContactoEmail,
-            ...dataEnvio
-        })
+        guardarInformacionEstatePrincipal(email,'email')
     },[email])
 
-    //guardar informacion de contacto en state principal
-    useEffect(()=>{
-        const dataContactoCelular=dataEnvio.celular;
-        
-        const newDestinosCelular=celular
-            .filter(celular => celular.selected)
-            .map(celular => celular.celular);
-
-        dataContactoCelular.destinos=newDestinosCelular;
-        setDataEnvio({
-            celular:dataContactoCelular,
-            ...dataEnvio
-        })
+    // guardar informacion en state principal
+    useEffect(() => {
+        guardarInformacionEstatePrincipal(celular,'celular')
     },[celular])
 
-    //handle cambiar de paso
-    const validateCambiarPaso=()=>{
-        if(pasoActual===numeroPasos) return
-        cambiarPaso(value=>value+1)
+    const guardarInformacionEstatePrincipal = (listaContacto,atributoModificar)=>{
+        const dataContacto = dataEnvio[atributoModificar];
+        
+        const contactosSeleccionados = listaContacto
+            .filter(contacto => contacto.selected)
+            .map(contacto => contacto[atributoModificar]);
+
+        dataContacto.destinos = contactosSeleccionados;
+        setDataEnvio({
+            [atributoModificar]:dataContacto,
+            ...dataEnvio
+        })
     }
-    //cambiar estado de email seleccionados
-    const cambiarEstadoEmail=(id)=>{
-        const emailModificado = email.map(email => {
-            if(email.id === id) {
-                email.selected=!email.selected
-                return email;
+
+    // cambiar estado booleano de seleccion de tipo de contacto
+    const cambiarEstadoListaContacto=(id,lista,callback) => {
+        const listaModificada = lista.map( item => {
+            if(item.id === id) {
+                item.selected=!item.selected
+                return item;
             }else {
-                return email;
+                return item;
             }
         });
-        setEmail(emailModificado)
+        callback(listaModificada)
     }
-    //cambiar estado de celular seleccionados
-    const cambiarEstadoCelular=(id)=>{
-        const celularModificado = celular.map(celular => {
-            if(celular.id === id) {
-                celular.selected=!celular.selected
-                return celular;
-            }else {
-                return celular;
-            }
-        });
-        setCelular(celularModificado)
-    }
-    //show/hide agregar email
-    const showAddEmail=()=>{
-        setAddEmail(true)
-    }
-    //show/hide agregar celular
-    const showAddCelular=()=>{
-        setAddCel(true)
-    }
-    //cancelar agregar nuevo email
-    const cancelarAddEmail=()=>{
-        setAddEmail(false)
-        setNewEmail('')
-    }
-    //cancelar agregar nuevo email
-    const cancelarAddCelular=()=>{
-        setAddCel(false)
-        setNewCel('')
-    }
-    //add nuevo email
+    
+    // agregar nuevo email
     const agregarNewEmail=()=>{
+        
         const newEmailAgregar={
             id:generarIdNumerico(),
             email:newEmail,
-            selected:false
+            selected:true
         }
+
         setEmail([...email,newEmailAgregar])
         setAddEmail(false)
         setNewEmail('')
+
     }
-    //add nuevo celular
-    const agregarNewCelular=()=>{
+    // agregar nuevo celular
+    const agregarNewCelular = () => {
+
         const newCelularAgregar={
             id:generarIdNumerico(),
             celular:newCel,
-            selected:false
+            selected:true
         }
+
         setCelular([...celular,newCelularAgregar])
         setAddCel(false)
         setNewCel('')
+
+    }
+    // handle cambiar de paso
+    const validateCambiarPaso=()=>{
+        if(pasoActual===numeroPasos) return
+        cambiarPaso(value=>value+1)
     }
 
     return (
@@ -182,6 +212,7 @@ function DatosEnvio({
 
             
             <div className="mx-auto w-full max-w-3xl rounded-2xl bg-white p-2">
+
                 <Disclosure>
                     {({ open }) => (
                         <>
@@ -196,12 +227,13 @@ function DatosEnvio({
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 border rounded-lg mt-2">
                                 <div className='flex flex-col'>
-                                    <h1 className="text-lg font-semibold italic text-justify px-5">Tu cotizacion sera enviada a los siguientes emails listados. Puedes agregar otro destino agregando otro email.</h1>
+                                    <h1 className="text-lg font-semibold italic text-justify px-5">Tu cotizacion sera enviada a los siguientes emails listados abajo. Puedes agregar otro email .</h1>
                                     {
-                                        addEmail && (
+                                        addEmail ?
+                                        
                                             <div className='flex flex-col gap-3 my-2 shadow px-5 py-3 rounded-lg border'>
                                                 <div className='flex flex-row gap-3'>
-                                                    <p className='font-bold mb-1'>Nuevo email:</p>
+                                                    <p className='font-bold mb-1'>nuevo email:</p>
                                                     <input
                                                         value={newEmail}
                                                         onChange={(e)=>setNewEmail(e.target.value)} 
@@ -212,42 +244,41 @@ function DatosEnvio({
                                                 <div className='flex flex-row gap-5'>
                                                     <button
                                                         onClick={agregarNewEmail}
-                                                        className="w-[7rem] first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                                                        className="w-[7rem] rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
                                                     >
                                                         agregar
                                                     </button>
                                                     <button
-                                                        onClick={cancelarAddEmail}
-                                                        className="w-[7rem] first-letter:uppercase rounded  bg-blue-200 border-2 border-blue-400 font-semibold tracking-wide"
+                                                        onClick={()=>{
+                                                            setAddEmail(false)
+                                                            setNewEmail('')
+                                                        }}
+                                                        className="w-[7rem] rounded  bg-blue-200 border-2 border-blue-400 font-semibold tracking-wide"
                                                     >
                                                         cancelar
                                                     </button>
                                                 </div>
                                             </div>                                
-                                        )
-                                    }
-                                    {
-                                        !addEmail && (
+                                        :
                                             <button
-                                                onClick={showAddEmail}
-                                                className="self-end w-[10rem] my-1 first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                                                onClick={()=>setAddEmail(true)}
+                                                className="self-end w-[10rem] my-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
                                             >
                                                 agregar email
                                             </button>
-                                        )
                                     }
                                     {   
                                         
-                                        email?.map((email)=>(
-                                            <div key={email.id} className='flex flex-row items-center  justify-between shadow px-5 py-2 my-2 rounded-lg border'>
+                                        email?.map((emailItem)=>(
+                                            <div key={emailItem.id} className='flex flex-row items-center  justify-between shadow px-5 py-2 my-2 rounded-lg border'>
                                                 <div className='flex flex-row'>
                                                     <h3 className='font-bold'>email:&nbsp;</h3>
-                                                    <h3>{`${email.email}`}</h3>
+                                                    <h3>{`${emailItem.email}`}</h3>
                                                 </div>
                                                 <div className='mt-2'>
                                                     <SwitchButtonPequeño
-                                                        enabled={email.selected}
-                                                        setEnabled={()=>cambiarEstadoEmail(email.id)}
+                                                        enabled={emailItem.selected}
+                                                        setEnabled={()=>cambiarEstadoListaContacto(emailItem.id,email,setEmail)}
                                                     />
                                                 </div>
                                             </div>
@@ -273,12 +304,13 @@ function DatosEnvio({
                             </Disclosure.Button>
                             <Disclosure.Panel className="px-4 pt-4 pb-2 border rounded-lg mt-2">
                                 <div className='flex flex-col'>
-                                <h1 className="text-lg font-semibold italic text-justify px-5">Tu cotizacion sera enviada a los siguientes celulares listados mediante WhatsApp. Puedes agregar otro destino agregando otro celular.</h1>
+                                <h1 className="text-lg font-semibold italic text-justify px-5">Tu cotizacion sera enviada a la siguiente lista de celulares mediante WhatsApp. Puedes agregar otro celular.</h1>
                                     {
-                                        addCel && (
+                                        addCel ?
+                                        
                                             <div className='flex flex-col gap-3 my-2 shadow px-5 py-3 rounded-lg border'>
                                                 <div className='flex flex-row gap-3'>
-                                                    <p className='font-bold mb-1'>Nuevo celular:</p>
+                                                    <p className='font-bold mb-1'>nuevo celular:</p>
                                                     <input
                                                         value={newCel}
                                                         onChange={(e)=>setNewCel(e.target.value)} 
@@ -289,41 +321,40 @@ function DatosEnvio({
                                                 <div className='flex flex-row gap-5'>
                                                     <button
                                                         onClick={agregarNewCelular}
-                                                        className="w-[7rem] first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                                                        className="w-[7rem] rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
                                                     >
                                                         agregar
                                                     </button>
                                                     <button
-                                                        onClick={cancelarAddCelular}
-                                                        className="w-[7rem] first-letter:uppercase rounded  bg-blue-200 border-2 border-blue-400 font-semibold tracking-wide"
+                                                        onClick={()=>{
+                                                            setAddCel(false)
+                                                            setNewCel('')
+                                                        }}
+                                                        className="w-[7rem] rounded  bg-blue-200 border-2 border-blue-400 font-semibold tracking-wide"
                                                     >
                                                         cancelar
                                                     </button>
                                                 </div>
-                                            </div>                                
-                                        )
-                                    }
-                                    {
-                                        !addCel && (
+                                            </div>
+                                        :  
                                             <button
-                                                onClick={showAddCelular}
-                                                className="self-end w-[10rem] my-1 first-letter:uppercase rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
+                                                onClick={()=>setAddCel(true)}
+                                                className="self-end w-[10rem] my-1 rounded  bg-yellow-300 border-2 border-yellow-500 font-semibold tracking-wide"
                                             >
                                                 agregar celular
                                             </button>
-                                        )
                                     }
                                     {
-                                        celular?.map((celular)=>(
-                                            <div key={celular.id} className='flex flex-row items-center  justify-between shadow px-5 py-2 my-2 rounded-lg border'>
+                                        celular?.map((celularItem)=>(
+                                            <div key={celularItem.id} className='flex flex-row items-center  justify-between shadow px-5 py-2 my-2 rounded-lg border'>
                                                 <div className='flex flex-row'>
                                                     <h3 className='font-bold'>celular:&nbsp;</h3>
-                                                    <h3>{`${celular.celular}`}</h3>
+                                                    <h3>{`${celularItem.celular}`}</h3>
                                                 </div>
                                                 <div className='mt-2'>
                                                     <SwitchButtonPequeño
-                                                        enabled={celular.selected}
-                                                        setEnabled={()=>cambiarEstadoCelular(celular.id)}
+                                                        enabled={celularItem.selected}
+                                                        setEnabled={()=>cambiarEstadoListaContacto(celularItem.id,celular,setCelular)}
                                                     />
                                                 </div>
                                             </div>

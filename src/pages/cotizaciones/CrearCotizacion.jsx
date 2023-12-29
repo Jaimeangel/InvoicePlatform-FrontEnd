@@ -16,7 +16,7 @@ import pasos from "../../data/pasosCotizacion.js";
 function CrearCotizacion() {
   //botones cambiar paso
   const numeroPasos=pasos.length;
-  const [pasoActual,setPasoActual]=useState(4)
+  const [pasoActual,setPasoActual]=useState(1)
   const [validatePaso,setValidatePaso]=useState(false)
 
   //datos cotizacion
@@ -26,12 +26,10 @@ function CrearCotizacion() {
   //datos de envio
   const [dataEnvio, setDataEnvio] = useState({
     email:{
-      tipo: 'email',
-      destinos: []
+      destinos:[]
     },
     celular:{
-      tipo: 'celular',
-      destinos: []
+      destinos:[]
     }
   })
 
@@ -43,7 +41,7 @@ function CrearCotizacion() {
       />
 
       {
-        pasoActual === 1 && (
+        pasoActual === 1 && 
           <DatosCliente
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
@@ -55,11 +53,10 @@ function CrearCotizacion() {
             setCotizacion={setCotizacion}
             cotizacion={cotizacion}
           />
-        )
       }
 
       {
-        pasoActual === 2 && (
+        pasoActual === 2 && 
           <EncabezadoCotizacion
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
@@ -69,11 +66,10 @@ function CrearCotizacion() {
             cotizacion={cotizacion}
             setCotizacion={setCotizacion}
           />
-        )
       }
 
       {
-        pasoActual === 3 && (
+        pasoActual === 3 && 
           <ProductosCotizacion
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
@@ -83,11 +79,10 @@ function CrearCotizacion() {
             cotizacion={cotizacion}
             setCotizacion={setCotizacion}
           />
-        )
       }
 
       {
-        pasoActual === 4 && (
+        pasoActual === 4 && 
           <CondicionesComerciales
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
@@ -97,11 +92,10 @@ function CrearCotizacion() {
             cotizacion={cotizacion}
             setCotizacion={setCotizacion}
           />
-        )
       }
 
       {
-        pasoActual === 5 && (
+        pasoActual === 5 && 
           <DatosEnvio
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
@@ -112,11 +106,10 @@ function CrearCotizacion() {
             setDataEnvio={setDataEnvio}
             dataEnvio={dataEnvio}
           />
-        )
       }
 
       {
-        pasoActual === 6 && (
+        pasoActual === 6 && 
           <EnviarCotizacion
             cambiarPaso={setPasoActual}
             validatePaso={validatePaso}
@@ -127,7 +120,6 @@ function CrearCotizacion() {
             setCotizacion={setCotizacion}
             cliente={cliente}
           />
-        )
       }
       
       <BotonesBarraProgreso

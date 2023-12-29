@@ -28,8 +28,8 @@ function EncabezadoCotizacion({
         categoria:'opcion 1',
         text:{
             texto1:'Es un gusto para nosotros presentarle la siguiente cotizacion para los productos/servicios que fueron solicitados.',
-            texto2:'La presente cotización incluye la descripción de los productos/servicios, los precios unitarios correspondientes, las cantidades y los impuestos aplicables.',
-            texto3:'Esperamos que esta cotización cumpla con sus expectativas y que tengamos la oportunidad de colaborar con usted. Agradecemos su interés y quedamos a su disposición para cualquier consulta que pueda surgir.'
+            texto2:'Esperamos que esta cotización cumpla con sus expectativas y que tengamos la oportunidad de colaborar con ustedes. Estamos a su disposición para cualquier consulta que pueda surgir.',
+            texto3:''
         },
         selecionado:false
       },

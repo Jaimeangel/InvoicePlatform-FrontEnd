@@ -124,6 +124,7 @@ function FormCreateCliente({close}) {
         <form 
             onSubmit={handleSubmitFormulario}
         > 
+        {
             !done 
             ? 
                     <div className='w-full flex flex-col gap-5'>
@@ -334,6 +335,7 @@ function FormCreateCliente({close}) {
                             </button>
                         </AlertImage>
                     </div>
+        }
         </form>
     )
 }
