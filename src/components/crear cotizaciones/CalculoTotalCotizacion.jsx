@@ -6,7 +6,7 @@ function CalculoTotalCotizacion({productos,setCotizacion,cotizacion}) {
     //hide/show componente
     const [hide,setHide]=useState(true)
     // show datos en cotizacion pdf
-    const [estado,setEstado]=useState(true)
+    const [estado,setEstado]=useState(cotizacion.mostrarTotal)
     //data
     const [subtotal,setSubtotal]=useState('')
     const [iva,setIVA]=useState('')

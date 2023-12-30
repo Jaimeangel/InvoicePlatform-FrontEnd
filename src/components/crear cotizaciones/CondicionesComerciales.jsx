@@ -136,6 +136,12 @@ function CondicionesComerciales({
                 condiciones:condicionesModificado
             }
             setCotizacion(newData)
+        }else{
+            const newData={
+                ...cotizacion,
+                condiciones:{}
+            }
+            setCotizacion(newData)
         }
     },[condiciones])
 
