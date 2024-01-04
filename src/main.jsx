@@ -8,13 +8,16 @@ import router from './routes'
 //contexts
 import AuthProvider from './context/AuthProvider'
 import ClienteProvider from './context/ClienteProvider'
+import CotizacionProvider from './context/CotizacionProvider'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <ClienteProvider>
-      <RouterProvider
-        router={router}
-      />
-    </ClienteProvider>
+    <CotizacionProvider>
+      <ClienteProvider>
+        <RouterProvider
+          router={router}
+        />
+      </ClienteProvider>
+    </CotizacionProvider>
   </AuthProvider>
 )

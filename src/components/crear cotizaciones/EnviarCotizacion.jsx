@@ -7,14 +7,43 @@ import DocumentoPDFCotizacion from './DocumentoPDFCotizacion';
 //imagen
 import EmailImage from '../../assets/undraw_team_chat_re_vbq1.svg'
 //React PDFs
-import { PDFViewer } from '@react-pdf/renderer';
+import { 
+    PDFViewer,
+    usePDF
+} from '@react-pdf/renderer';
 //Hooks
 import useAuth from '../../hooks/useAuth';
-
+import useCotizacion from '../../hooks/useCotizacion';
 
 function EnviarCotizacion({cotizacion,cliente}){
+    const {
+        auth
+    }=useAuth()
 
-    const {auth}=useAuth()
+    const {
+        subirPdfToBucket
+    } = useCotizacion()
+
+
+    const Docu = 
+        <DocumentoPDFCotizacion
+            cotizacion={cotizacion}
+            cliente={cliente}
+            auth={auth}
+        />
+    const [documento] = usePDF({ document: Docu });
+
+    const cargarPdfBucket = async ()=>{
+        if(documento.blob != null){
+            const formData = new FormData();
+            formData.append('pdf',documento.blob)
+            try {
+                const response = await subirPdfToBucket(formData)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
 
     return(
 /*         <div className="w-full flex flex-col bg-white rounded-lg px-10 py-6 shadow-md">
@@ -34,14 +63,21 @@ function EnviarCotizacion({cotizacion,cliente}){
 
         </div> */
         <div className="w-full h-screen flex flex-col bg-white rounded-lg px-10 py-6 shadow-md">
-            <PDFViewer className='w-full h-screen'>
+{/*             <PDFViewer className='w-full h-screen'>
                 <DocumentoPDFCotizacion
                     cotizacion={cotizacion}
                     cliente={cliente}
                     auth={auth}
                 />
-            </PDFViewer>
+            </PDFViewer> */}
+            <h1>aqui pdf</h1>
+            <button
+                onClick={cargarPdfBucket}
+            >
+                SUBIR
+            </button>
         </div>
+
     )
 }
 
