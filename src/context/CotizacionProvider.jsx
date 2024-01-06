@@ -29,11 +29,34 @@ function CotizacionProvider({children}){
             const errMsg= ValidateErrors(error)
             throw new Error(errMsg);
         }
+    } 
+
+    const obtenerCotizacionesLength = async ()=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const {data:{lengthCotizaciones}} = await axios('http://localhost:5000/api/cotizaciones',config)
+            return lengthCotizaciones
+        } catch (error) {
+            console.log(error)
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
     }
     return (
         <CotizacionContext.Provider
             value={{
-                subirPdfToBucket
+                subirPdfToBucket,
+                obtenerCotizacionesLength
             }}
         >
             {children}

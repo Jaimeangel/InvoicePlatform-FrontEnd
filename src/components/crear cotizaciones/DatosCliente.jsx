@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 //hooks
 import useCliente from '../../hooks/useCliente.jsx'
 import useAuth from '../../hooks/useAuth.jsx'
+import useCotizacion from "../../hooks/useCotizacion.jsx";
 //herlpers
 import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
 //componentes
@@ -29,6 +30,9 @@ function DatosCliente({
     auth
   }=useAuth()
 
+  const {
+    obtenerCotizacionesLength
+  }=useCotizacion()
   //data componente
   const [contacto,setContacto]=useState(cliente) // la informacion de cliente elegido viene del state principal
   const [numeroCotizacion,SetNumberCotizacion]=useState('ctz')
@@ -51,6 +55,19 @@ function DatosCliente({
     if (numeroCotizacion !== '') {
       SetNumberCotizacion(numeroCotizacion); // numero cotizacion
     }
+  },[])
+
+  useEffect(()=>{
+    const numberCotizacion = async ()=>{
+      try {
+        const number = await obtenerCotizacionesLength()
+        const numberCotizacion = ContadorCotizaciones(number)
+        SetNumberCotizacion(numberCotizacion)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    numberCotizacion()
   },[])
 
   //validacion para cambiar al siguiente paso
