@@ -119,6 +119,7 @@ function CrearCotizacion() {
             cotizacion={cotizacion}
             setCotizacion={setCotizacion}
             cliente={cliente}
+            dataEnvio={dataEnvio}
           />
       }
       

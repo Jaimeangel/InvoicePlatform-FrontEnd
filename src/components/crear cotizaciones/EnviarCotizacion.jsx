@@ -15,7 +15,7 @@ import {
 import useAuth from '../../hooks/useAuth';
 import useCotizacion from '../../hooks/useCotizacion';
 
-function EnviarCotizacion({cotizacion,cliente}){
+function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
     const {
         auth
     }=useAuth()
@@ -37,6 +37,9 @@ function EnviarCotizacion({cotizacion,cliente}){
         if(documento.blob != null){
             const formData = new FormData();
             formData.append('pdf',documento.blob)
+            formData.append('contacto',JSON.stringify(dataEnvio))
+            formData.append('cotizacion',JSON.stringify(cotizacion))
+            formData.append('cliente',JSON.stringify(cliente))
             try {
                 const response = await subirPdfToBucket(formData)
             } catch (error) {
