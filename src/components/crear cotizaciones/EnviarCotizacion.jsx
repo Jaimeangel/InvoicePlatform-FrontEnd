@@ -66,19 +66,13 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
 
         </div> */
         <div className="w-full h-screen flex flex-col bg-white rounded-lg px-10 py-6 shadow-md">
-{/*             <PDFViewer className='w-full h-screen'>
+            <PDFViewer className='w-full h-screen'>
                 <DocumentoPDFCotizacion
                     cotizacion={cotizacion}
                     cliente={cliente}
                     auth={auth}
                 />
-            </PDFViewer> */}
-            <h1>aqui pdf</h1>
-            <button
-                onClick={cargarPdfBucket}
-            >
-                SUBIR
-            </button>
+            </PDFViewer>
         </div>
 
     )

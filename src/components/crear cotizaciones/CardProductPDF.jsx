@@ -23,6 +23,7 @@ function CardProductoPDF({data,index}) {
                 flexDirection: 'row',
                 fontSize: '13px'
             }}
+            wrap={false}
         >
             <View
                 style={{
