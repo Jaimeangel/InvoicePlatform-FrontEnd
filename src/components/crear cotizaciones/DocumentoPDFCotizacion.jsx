@@ -86,7 +86,7 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                 size='A4'
                 style={{
                     position:'relative',
-                    padding: '16px 24px 35px 24px'
+                    padding: '30px 24px 35px 24px'
                 }}
             >
                 <View
@@ -99,7 +99,7 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                 >
                     <Image
                         style={{
-                            borderRadius: '5px',
+                            borderRadius: '5px'
                         }} 
                         src={{ uri:auth?.images?.cotizacionImage?.url , method: "GET", headers: { "Cache-Control": "no-cache" }, body: "" }} 
                     />
@@ -162,10 +162,6 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                             </Text>
                         </View>
                         <View
-                            style={{
-                                width: '15%', // '50%' corresponde a w-1/2 en Tailwind CSS
-                                textAlign: 'end', // 'end' corresponde a text-end en Tailwind CSS
-                            }}
                         >
                             <Text
                                 style={{
@@ -278,13 +274,14 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                                     flexDirection: 'column',
                                     alignItems: 'flex-end', // 'flex-end' corresponde a items-end en Tailwind CSS
                                     gap: '4px', // Reemplaza con el valor correcto de gap-1 en Tailwind CSS
-                                    marginBottom:'30px'
+                                    marginBottom:'25px'
                                 }}
+                                wrap={false}
                             >
                                 <Text
                                     style={{
                                         fontSize: '14px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                                        fontWeight: '500', // '500' corresponde a font-medium en Tailwind CSS
+                                        fontWeight: '400', // '500' corresponde a font-medium en Tailwind CSS
                                     }}
                                 >
                                     {`Subtotal: ${formatSumaSubtotal}`}
@@ -292,7 +289,7 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                                 <Text
                                     style={{
                                         fontSize: '14px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                                        fontWeight: '500', // '500' corresponde a font-medium en Tailwind CSS
+                                        fontWeight: '400', // '500' corresponde a font-medium en Tailwind CSS
                                     }}
                                 >
                                     {`IVA 19%: ${formatSumaTotalIVA}`}
@@ -310,112 +307,118 @@ function DocumentoPDFCotizacion({cotizacion,cliente,auth}) {
                     }
 
                     <View
-                        style={{
-                            width: '100%', // '100%' corresponde a w-full en Tailwind CSS
-                            display: 'flex',
-                            flexDirection: 'column',
-                            textAlign: 'justify', // 'justify' corresponde a text-justify en Tailwind CSS
-                            gap:'10px',
-                        }}
+                        wrap={false}
                     >
-                        {
-                            Object.keys(cotizacion.condiciones).length !== 0 && (
-                                <View
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        gap:'1px'
-                                    }}
-                                >
-                                    <Text
+                        <View
+                            style={{
+                                width: '100%', // '100%' corresponde a w-full en Tailwind CSS
+                                display: 'flex',
+                                flexDirection: 'column',
+                                textAlign: 'justify', // 'justify' corresponde a text-justify en Tailwind CSS
+                                gap:'17px'
+                            }}
+                        >
+                            {
+                                Object.keys(cotizacion.condiciones).length !== 0 && (
+                                    <View
                                         style={{
-                                            fontWeight: '700', // '700' corresponde a font-bold en Tailwind CSS
-                                            fontSize: '14px', // '1.875rem' corresponde a text-xl en Tailwind CSS
-                                            marginBottom:'3px'
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap:'1px'
                                         }}
+                                        wrap={false}
                                     >
-                                        {`Condiciones comerciales: ${cotizacion.condiciones.titulo}`}
-                                    </Text>
-                                    <Text
+                                        <Text
+                                            style={{
+                                                fontWeight: '700', // '700' corresponde a font-bold en Tailwind CSS
+                                                fontSize: '14px', // '1.875rem' corresponde a text-xl en Tailwind CSS
+                                                marginBottom:'3px'
+                                            }}
+                                        >
+                                            {`Condiciones comerciales: ${cotizacion.condiciones.titulo}`}
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
+                                                fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
+                                                fontStyle: 'italic', // Establece la fuente en cursiva
+                                                lineHeight: '1.2px'
+                                            }}
+                                        >
+                                            {`${capitalizarPrimeraLetra(cotizacion.condiciones.text)}`}
+                                        </Text>
+                                    </View>
+                                )
+                            }
+                            {
+                                cotizacion.notas !== '' && (
+                                    <View
                                         style={{
-                                            fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
-                                            fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                                            fontStyle: 'italic', // Establece la fuente en cursiva
-                                            lineHeight: '1.2px'
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap:'1px'
                                         }}
+                                        wrap={false}
                                     >
-                                        {`${capitalizarPrimeraLetra(cotizacion.condiciones.text)}`}
-                                    </Text>
-                                </View>
-                            )
-                        }
-                        {
-                            cotizacion.notas !== '' && (
-                                <View
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        gap:'1px'
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            fontWeight: '700', // '700' corresponde a font-bold en Tailwind CSS
-                                            fontSize: '14px', // '1.875rem' corresponde a text-xl en Tailwind CSS
-                                            marginBottom:'3px'
-                                        }}
-                                    >
-                                        {`Notas`}
-                                    </Text>
-                                    <Text
-                                        style={{
-                                            fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
-                                            fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
-                                            fontStyle: 'italic', // Establece la fuente en cursiva
-                                            lineHeight: '1.2px'
-                                        }}
-                                    >
-                                        {`${capitalizarPrimeraLetra(cotizacion.notas)}`}
-                                    </Text>
-                                </View>
-                            )
-                        }
+                                        <Text
+                                            style={{
+                                                fontWeight: '700', // '700' corresponde a font-bold en Tailwind CSS
+                                                fontSize: '14px', // '1.875rem' corresponde a text-xl en Tailwind CSS
+                                                marginBottom:'3px'
+                                            }}
+                                        >
+                                            {`Notas`}
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                fontWeight: '600', // '600' corresponde a font-semibold en Tailwind CSS
+                                                fontSize: '13px', // '1.125rem' corresponde a text-lg en Tailwind CSS
+                                                fontStyle: 'italic', // Establece la fuente en cursiva
+                                                lineHeight: '1.2px'
+                                            }}
+                                        >
+                                            {`${capitalizarPrimeraLetra(cotizacion.notas)}`}
+                                        </Text>
+                                    </View>
+                                )
+                            }
+                        </View>
+                        <View
+                            style={{
+                                width:'100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                marginTop:'30px'
+                            }}
+                        >
+                            <Image
+                                style={{
+                                        width: '150px'
+                                    }} 
+                                src={{ uri:auth?.images?.firmaRepresentante?.url , method: "GET", headers: { "Cache-Control": "no-cache" }, body: "" }} 
+                            />
+                            <Text
+                                style={{
+                                    fontWeight: '700',
+                                    fontSize: '12px',
+                                    marginBottom:'1px',
+                                    textTransform: 'uppercase'
+                                }}
+                            >
+                                {`${auth.nombres} ${auth.apellidos}`}
+                            </Text>
+                            <Text
+                                style={{
+                                    fontWeight: '700',
+                                    fontSize: '12px',
+                                    marginBottom:'1px',
+                                    textTransform: 'uppercase'
+                                }}
+                            >
+                                {`${auth.cargoRepresentante}`}
+                            </Text>
+                        </View>
                     </View>
-                </View>
-                <View
-                    style={{
-                        width:'100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap:'2px'
-                    }}
-                >
-                    <Image
-                        style={{
-                                width: '150px'
-                            }} 
-                        src={{ uri:auth?.images?.firmaRepresentante?.url , method: "GET", headers: { "Cache-Control": "no-cache" }, body: "" }} 
-                    />
-                    <Text
-                        style={{
-                            fontWeight: '700',
-                            fontSize: '12px',
-                            marginBottom:'3px',
-                            textTransform: 'uppercase'
-                        }}
-                    >
-                        {`${auth.nombres} ${auth.apellidos}`}
-                    </Text>
-                    <Text
-                        style={{
-                            fontWeight: '700',
-                            fontSize: '12px',
-                            marginBottom:'3px',
-                            textTransform: 'uppercase'
-                        }}
-                    >
-                        {`${auth.cargoRepresentante}`}
-                    </Text>
                 </View>
             </Page>
         </Document>
