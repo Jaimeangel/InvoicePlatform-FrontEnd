@@ -29,19 +29,16 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
     const [statusEnvio,setStatusEnvio]=useState(false)
     const [error,setError]=useState(false)
 
-/*     const Docu = 
+    const Docu = 
         <DocumentoPDFCotizacion
             cotizacion={cotizacion}
             cliente={cliente}
             auth={auth}
         />
-    const [documento] = usePDF({ document: Docu }); */
+    const [documento] = usePDF({ document: Docu });
 
     const cargarPdfBucket = async ()=>{
-        setTimeout(() => {
-            errorEnvio()
-        }, 6000);
-/*         if(documento.blob != null){
+        if(documento.blob != null){
             const formData = new FormData();
             formData.append('pdf',documento.blob)
             formData.append('contacto',JSON.stringify(dataEnvio))
@@ -49,12 +46,13 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
             formData.append('cliente',JSON.stringify(cliente))
             try {
                 const response = await subirPdfToBucket(formData)
+                console.log(response)
                 setStatusEnvio(true)
             } catch (error) {
                 console.log(error)
                 errorEnvio()
             }
-        } */
+        }
     }
 
     const enviarCotizacion =()=>{
@@ -67,7 +65,6 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
     const closeModal =()=>{
         setModalEnvio(false)
         setError(false)
-        setStatusEnvio(false)
     }
 
     const envioExitoso =()=>{
@@ -123,14 +120,14 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
             }
             <h1 className="mt-2 mb-2 text-xl font-semibold italic tracking-wide">Visualiza tu documento de cotizacion que sera enviado a tu cliente. Despues puedes guardarlo y enviarlo.</h1>
 
+            <PDFViewer className='w-full h-screen mt-5'>
+                    <DocumentoPDFCotizacion
+                        cotizacion={cotizacion}
+                        cliente={cliente}
+                        auth={auth}
+                    />
+            </PDFViewer> 
         </div>
-/*         <PDFViewer className='w-full h-screen'>
-                <DocumentoPDFCotizacion
-                    cotizacion={cotizacion}
-                    cliente={cliente}
-                    auth={auth}
-                />
-        </PDFViewer>  */
     )
 }
 

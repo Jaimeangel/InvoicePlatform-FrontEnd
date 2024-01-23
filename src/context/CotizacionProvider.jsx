@@ -24,7 +24,7 @@ function CotizacionProvider({children}){
 
         try {
             const {data} = await axios.post('http://localhost:5000/api/cotizaciones/document-pdf-upload',file,config)
-            return data.url
+            return data
         } catch (error) {
             const errMsg= ValidateErrors(error)
             throw new Error(errMsg);

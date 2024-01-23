@@ -16,7 +16,7 @@ import pasos from "../../data/pasosCotizacion.js";
 function CrearCotizacion() {
   //botones cambiar paso
   const numeroPasos=pasos.length;
-  const [pasoActual,setPasoActual]=useState(6)
+  const [pasoActual,setPasoActual]=useState(1)
   const [validatePaso,setValidatePaso]=useState(false)
 
   //datos cotizacion
