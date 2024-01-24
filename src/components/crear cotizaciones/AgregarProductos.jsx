@@ -79,9 +79,9 @@ function AgregarProductos({productos,agregarProductos}) {
         const newProducto={
             item:generarID(),
             descripcion:descrip,
-            cantidad:cant,
+            cantidad:Number(cant),
             precioUnitario:valUniFormat,
-            impuesto:impuesto,
+            impuesto:Number(impuesto),
             total:valTotalFormat
         }
 

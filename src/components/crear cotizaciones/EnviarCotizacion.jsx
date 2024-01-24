@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //componentes
 import DocumentoPDFCotizacion from './DocumentoPDFCotizacion';
 import ModalEnviarCotizacion from './ModalEnviarCotizacion';
-
+// helpers
+import FormatoCotizacionDB from '../../helpers/FormatoCotizacionDB';
 //React PDFs
 import { 
     PDFViewer,
@@ -39,10 +40,16 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
 
     const cargarPdfBucket = async ()=>{
         if(documento.blob != null){
+            const dataCotizacion = FormatoCotizacionDB({
+                dataContacto:dataEnvio,
+                dataCotizacion:cotizacion,
+                dataCliente:cliente,
+                dataUser:auth
+            })
+            
             const formData = new FormData();
             formData.append('pdf',documento.blob)
-            formData.append('contacto',JSON.stringify(dataEnvio))
-            formData.append('cotizacion',JSON.stringify(cotizacion))
+            formData.append('cotizacion',JSON.stringify(dataCotizacion))
             formData.append('cliente',JSON.stringify(cliente))
             try {
                 const response = await subirPdfToBucket(formData)
