@@ -40,7 +40,8 @@ function DatosEnvio({
             selected:true
         }
     ])
-    const [celular,setCelular]=useState([
+    const [celular,setCelular]=useState([])
+/*     const [celular,setCelular]=useState([
         {
             id:3,
             celular:auth?.celularEmpresarial,
@@ -56,7 +57,7 @@ function DatosEnvio({
             celular:cliente?.celular,
             selected:true
         }
-    ])
+    ]) */
 
     //agregar email/celular
     const [addEmail,setAddEmail]=useState(false)
@@ -68,7 +69,7 @@ function DatosEnvio({
 
     useEffect(()=>{
         // cargar datos contacto a state principal
-        const cargarEmailStatePrincipal = email?.forEach( emailValidate => {
+/*         const cargarEmailStatePrincipal = email?.forEach( emailValidate => {
             const existeEmailStatePrincipal = dataEnvio.email.destinos.includes(emailValidate.email)
             
             if(!existeEmailStatePrincipal){
@@ -79,23 +80,37 @@ function DatosEnvio({
                     ...dataEnvio
                 })
             }
-        })
+        }) */
 
-        const cargarCelularStatePrincipal = celular?.forEach( celularValidate => {
-            const existeCelularStatePrincipal = dataEnvio.celular.destinos.includes(celularValidate.celular)
+        const cargarCelularStatePrincipal = ()=>{
+            let celulares = [auth?.celularEmpresarial,auth?.celularRepresentante,cliente?.celular]
+            celulares = celulares.filter( element => element != null && element != undefined)
             
-            if(!existeCelularStatePrincipal){
-                const dataContacto = dataEnvio.celular;
-                dataContacto.destinos = [celularValidate.celular,...dataContacto.destinos]
-                setDataEnvio({
-                    celular:dataContacto,
-                    ...dataEnvio
+            let newCelulares = []
+
+            const verifyCelular = ()=>{
+                celulares?.forEach( element => {
+                    const isExist =  dataEnvio.celular.destinos?.includes(element);
+                    if(!isExist){
+                        newCelulares.push(element)
+                    }
                 })
-            }
-        })
+            } 
+            verifyCelular()
+
+            newCelulares = [...dataEnvio.celular.destinos,...newCelulares]
+            
+            setDataEnvio(prevDataEnvio => ({
+                ...prevDataEnvio,
+                celular: {
+                    destinos: [...newCelulares]
+                }
+            }))
+        }
+        cargarCelularStatePrincipal() 
 
         // cargar datos de contacto de state principal no incluidos en estate local
-        const cargarEmailStateLocal = dataEnvio.email.destinos?.forEach( emailValidate => {
+/*         const cargarEmailStateLocal = dataEnvio.email.destinos?.forEach( emailValidate => {
             const arrayEmail = email.map( eml => eml.email)
             const existeEmailStateLocal = arrayEmail.includes(emailValidate)
             
@@ -107,9 +122,9 @@ function DatosEnvio({
                 }
                 setEmail([...email,newEmailAgregar])
             }
-        })
+        }) */
 
-        const cargarCelularStateLocal = dataEnvio.celular.destinos?.forEach( celularValidate => {
+/*         const cargarCelularStateLocal = dataEnvio.celular.destinos?.forEach( celularValidate => {
             const arrayCelular = celular.map( eml => eml.celular)
             const existeCelularStateLocal = arrayCelular.includes(celularValidate)
             
@@ -121,7 +136,7 @@ function DatosEnvio({
                 }
                 setCelular([...celular,newCelularAgregar])
             }
-        })
+        }) */
     },[])
 
     //validacion para cambiar paso
@@ -133,14 +148,14 @@ function DatosEnvio({
     },[validatePaso])
 
     // guardar informacion en state principal
-    useEffect(()=>{
+/*     useEffect(()=>{
         guardarInformacionEstatePrincipal(email,'email')
-    },[email])
+    },[email]) */
 
     // guardar informacion en state principal
-    useEffect(() => {
+/*     useEffect(() => {
         guardarInformacionEstatePrincipal(celular,'celular')
-    },[celular])
+    },[celular]) */
 
     const guardarInformacionEstatePrincipal = (listaContacto,atributoModificar)=>{
         const dataContacto = dataEnvio[atributoModificar];
