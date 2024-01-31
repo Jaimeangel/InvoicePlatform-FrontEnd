@@ -24,41 +24,7 @@ function DatosEnvio({
     const {auth}=useAuth()
     // datos contacto
     const [email,setEmail]=useState([])
-/*     const [email,setEmail]=useState([
-        {
-            id:1,
-            email:auth?.emailRepresentante,
-            selected:true
-        },
-        {
-            id:2,
-            email:auth?.email,
-            selected:true
-        },
-        {
-            id:3,
-            email:cliente?.email,
-            selected:true
-        }
-    ]) */
     const [celular,setCelular]=useState([])
-/*     const [celular,setCelular]=useState([
-        {
-            id:3,
-            celular:auth?.celularEmpresarial,
-            selected:true
-        },
-        {
-            id:4,
-            celular:auth?.celularRepresentante,
-            selected:true
-        },
-        {
-            id:5,
-            celular:cliente?.celular,
-            selected:true
-        }
-    ]) */
 
     //agregar email/celular
     const [addEmail,setAddEmail]=useState(false)
@@ -165,16 +131,6 @@ function DatosEnvio({
         }
     },[validatePaso])
 
-    // guardar informacion en state principal
-/*     useEffect(()=>{
-        guardarInformacionEstatePrincipal(email,'email')
-    },[email]) */
-
-    // guardar informacion en state principal
-/*     useEffect(() => {
-        guardarInformacionEstatePrincipal(celular,'celular')
-    },[celular]) */
-
     const guardarInformacionEstatePrincipal = (listaContacto,atributoModificar)=>{
         const dataContacto = dataEnvio[atributoModificar];
         
@@ -190,7 +146,7 @@ function DatosEnvio({
     }
 
     // cambiar estado booleano de seleccion de tipo de contacto
-    const cambiarEstadoListaContacto=(id,lista,callback) => {
+    const cambiarEstadoListaContacto=(id,lista,callback,type) => {
         const listaModificada = lista.map( item => {
             if(item.id === id) {
                 item.selected=!item.selected
@@ -200,18 +156,26 @@ function DatosEnvio({
             }
         });
         callback(listaModificada)
+
+        if(type==='email'){
+            guardarInformacionEstatePrincipal(email,'email')
+        }else if(type === 'celular'){
+            guardarInformacionEstatePrincipal(celular,'celular')
+        }
     }
     
     // agregar nuevo email
     const agregarNewEmail=()=>{
         
-        const newEmailAgregar={
-            id:generarIdNumerico(),
-            email:newEmail,
-            selected:true
-        }
+        const newEmails = [...dataEnvio.email.destinos,newEmail]
+            
+        setDataEnvio(prevDataEnvio => ({
+            ...prevDataEnvio,
+            email: {
+                destinos: [...newEmails]
+            }
+        }))
 
-        setEmail([...email,newEmailAgregar])
         setAddEmail(false)
         setNewEmail('')
 
@@ -219,13 +183,15 @@ function DatosEnvio({
     // agregar nuevo celular
     const agregarNewCelular = () => {
 
-        const newCelularAgregar={
-            id:generarIdNumerico(),
-            celular:newCel,
-            selected:true
-        }
+        const newCelulares = [...dataEnvio.celular.destinos,newCel]
+            
+        setDataEnvio(prevDataEnvio => ({
+            ...prevDataEnvio,
+            celular: {
+                destinos: [...newCelulares]
+            }
+        }))
 
-        setCelular([...celular,newCelularAgregar])
         setAddCel(false)
         setNewCel('')
 
@@ -311,7 +277,7 @@ function DatosEnvio({
                                                 <div className='mt-2'>
                                                     <SwitchButtonPequeño
                                                         enabled={emailItem.selected}
-                                                        setEnabled={()=>cambiarEstadoListaContacto(emailItem.id,email,setEmail)}
+                                                        setEnabled={()=>cambiarEstadoListaContacto(emailItem.id,email,setEmail,'email')}
                                                     />
                                                 </div>
                                             </div>
@@ -387,7 +353,7 @@ function DatosEnvio({
                                                 <div className='mt-2'>
                                                     <SwitchButtonPequeño
                                                         enabled={celularItem.selected}
-                                                        setEnabled={()=>cambiarEstadoListaContacto(celularItem.id,celular,setCelular)}
+                                                        setEnabled={()=>cambiarEstadoListaContacto(celularItem.id,celular,setCelular,'celular')}
                                                     />
                                                 </div>
                                             </div>
