@@ -23,7 +23,8 @@ function DatosEnvio({
 }){
     const {auth}=useAuth()
     // datos contacto
-    const [email,setEmail]=useState([
+    const [email,setEmail]=useState([])
+/*     const [email,setEmail]=useState([
         {
             id:1,
             email:auth?.emailRepresentante,
@@ -39,7 +40,7 @@ function DatosEnvio({
             email:cliente?.email,
             selected:true
         }
-    ])
+    ]) */
     const [celular,setCelular]=useState([])
 /*     const [celular,setCelular]=useState([
         {
@@ -69,18 +70,31 @@ function DatosEnvio({
 
     useEffect(()=>{
         // cargar datos contacto a state principal
-/*         const cargarEmailStatePrincipal = email?.forEach( emailValidate => {
-            const existeEmailStatePrincipal = dataEnvio.email.destinos.includes(emailValidate.email)
+        const cargarEmailStatePrincipal = ()=>{
+            let emails = [auth?.emailRepresentante,auth?.email,cliente?.email]
+            emails = emails.filter( element => element != null && element != undefined)
             
-            if(!existeEmailStatePrincipal){
-                const dataContacto = dataEnvio.email;
-                dataContacto.destinos = [emailValidate.email,...dataContacto.destinos]
-                setDataEnvio({
-                    email:dataContacto,
-                    ...dataEnvio
+            let newEmails = []
+
+            const verifyEmail = ()=>{
+                emails?.forEach( element => {
+                    const isExist =  dataEnvio.email.destinos?.includes(element);
+                    if(!isExist){
+                        newEmails.push(element)
+                    }
                 })
-            }
-        }) */
+            } 
+            verifyEmail()
+
+            newEmails = [...dataEnvio.email.destinos,...newEmails]
+            
+            setDataEnvio(prevDataEnvio => ({
+                ...prevDataEnvio,
+                email: {
+                    destinos: [...newEmails]
+                }
+            }))
+        }
 
         const cargarCelularStatePrincipal = ()=>{
             let celulares = [auth?.celularEmpresarial,auth?.celularRepresentante,cliente?.celular]
@@ -107,37 +121,41 @@ function DatosEnvio({
                 }
             }))
         }
+        cargarEmailStatePrincipal()
         cargarCelularStatePrincipal() 
+    },[])
 
-        // cargar datos de contacto de state principal no incluidos en estate local
-/*         const cargarEmailStateLocal = dataEnvio.email.destinos?.forEach( emailValidate => {
-            const arrayEmail = email.map( eml => eml.email)
-            const existeEmailStateLocal = arrayEmail.includes(emailValidate)
-            
-            if(!existeEmailStateLocal){
-                const newEmailAgregar={
-                    id:generarIdNumerico(),
-                    email:emailValidate,
-                    selected:true
-                }
-                setEmail([...email,newEmailAgregar])
-            }
-        }) */
-
-/*         const cargarCelularStateLocal = dataEnvio.celular.destinos?.forEach( celularValidate => {
-            const arrayCelular = celular.map( eml => eml.celular)
-            const existeCelularStateLocal = arrayCelular.includes(celularValidate)
-            
-            if(!existeCelularStateLocal){
+    useEffect(()=>{
+        const cargarCelularStateLocal = ()=>{  
+            const newCelulares = dataEnvio.celular.destinos?.map(element => {
                 const newCelularAgregar={
                     id:generarIdNumerico(),
-                    celular:celularValidate,
+                    celular:element,
                     selected:true
                 }
-                setCelular([...celular,newCelularAgregar])
-            }
-        }) */
-    },[])
+                return newCelularAgregar
+              
+            })    
+            setCelular(newCelulares)
+        }
+        cargarCelularStateLocal() 
+    },[dataEnvio.celular.destinos])
+
+    useEffect(()=>{
+        const cargarEmailStateLocal = ()=>{  
+            const newEmails = dataEnvio.email.destinos?.map(element => {
+                const newEmailAgregar={
+                    id:generarIdNumerico(),
+                    email:element,
+                    selected:true
+                }
+                return newEmailAgregar
+              
+            })    
+            setEmail(newEmails)
+        }
+        cargarEmailStateLocal() 
+    },[dataEnvio.email.destinos])
 
     //validacion para cambiar paso
     useEffect(()=>{
