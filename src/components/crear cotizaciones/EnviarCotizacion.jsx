@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //componentes
 import DocumentoPDFCotizacion from './DocumentoPDFCotizacion';
 import ModalEnviarCotizacion from './ModalEnviarCotizacion';
+import Spinner from '../Spinner';
 // helpers
 import FormatoCotizacionDB from '../../helpers/FormatoCotizacionDB';
 //React PDFs
@@ -127,13 +128,21 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
             }
             <h1 className="mt-2 mb-2 text-xl font-semibold italic tracking-wide">Visualiza tu documento de cotizacion que sera enviado a tu cliente. Despues puedes guardarlo y enviarlo.</h1>
 
-            <PDFViewer className='w-full h-screen mt-5'>
-                    <DocumentoPDFCotizacion
-                        cotizacion={cotizacion}
-                        cliente={cliente}
-                        auth={auth}
-                    />
-            </PDFViewer> 
+            {
+                documento.blob === null ? 
+                <div className='max-w-xl mx-auto'>
+                    <h1 className='font-bold text-2xl tracking-wider'>cargando cotizacion ....</h1>
+                    <Spinner/>
+                </div>
+                :
+                <PDFViewer className='w-full h-screen mt-5'>
+                        <DocumentoPDFCotizacion
+                            cotizacion={cotizacion}
+                            cliente={cliente}
+                            auth={auth}
+                        />
+                </PDFViewer> 
+            }
         </div>
     )
 }
