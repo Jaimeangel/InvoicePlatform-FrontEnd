@@ -2,10 +2,20 @@ import React, { useState } from 'react'
 //componentes
 import InputForm from '../InputForm'
 import SelectForm from '../SelectForm.jsx'
+import AlertaForm from '../alertas/AlertaForm.jsx'
 //tipos de responsabilidad fiscal
 import { regimen } from '../../data/formatoDataCliente.js'
+//hooks
+import useAuth from '../../hooks/useAuth.jsx'
 
 function DataEmpresa({data}){
+    const {
+        actualizarInfoUsuarioEmpresa
+    }=useAuth()
+
+    //estado de alerta
+    const [alert,setAlert]=useState({msg:'',error:false})
+
     //permitir habilitar editar un campo input
     const [disabled,setDisabled]=useState(true)
     //data
@@ -20,10 +30,57 @@ function DataEmpresa({data}){
     const [email,setEmail]=useState(data?.email)
     const [celularEmpresarial,setCelularEmpresarial]=useState(data?.celularEmpresarial)
 
+    const handleActualizarInformacion = async ()=>{
+        const data = {
+            razonSocial,
+            nit,
+            digitVerify,
+            ciudad,
+            departamento,
+            direccion,
+            nombreComercial,
+            tipoFiscal,
+            email,
+            celularEmpresarial
+        }
+
+        try {
+            const response =  await actualizarInfoUsuarioEmpresa(data)
+            setDisabled(true)
+
+            setAlert({
+                msg:response.msg,
+                error:false
+            });
+              
+            setTimeout(() => {
+                setAlert({
+                  msg:'',
+                  error:false
+                })
+            }, 4000);
+
+        } catch (err) {
+            setDisabled(true)
+            setAlert({
+                msg:err.message,
+                error:true
+            });
+              
+            setTimeout(() => {
+                setAlert({
+                  msg:'',
+                  error:true
+                })
+            }, 4000);
+        }
+    }
+
     return (
         <div className='flex flex-col px-5 py-5 border rounded-md shadow-sm mt-5'>
+            {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
             
-            <div className='flex flex-row justify-between items-center'>
+            <div className='flex flex-row justify-between items-center mt-4'>
                 <div>
                     <p className='font-bold text-2xl'>Datos de la empresa</p>
                 </div>
@@ -41,7 +98,8 @@ function DataEmpresa({data}){
                     {
                         disabled === false && (
                             <div className='flex flex-row gap-5'>
-                                <button 
+                                <button
+                                    onClick={handleActualizarInformacion} 
                                     className='bg-green-400 tracking-wider cursor-pointer border-black border rounded-md px-10 py-1 font-semibold first-letter:uppercase'
                                 >
                                     guardar

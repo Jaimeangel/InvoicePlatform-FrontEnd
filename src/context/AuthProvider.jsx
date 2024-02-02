@@ -117,6 +117,27 @@ function AuthProvider({children}) {
         }
     }
 
+    const actualizarInfoUsuarioEmpresa = async (dataUser)=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const {data} = await axios.post('http://localhost:5000/api/usuarios/actualizar-usuario-empresa',dataUser,config)
+            return data
+        } catch (error) {
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
     return (
         <AuthContext.Provider
             value={{
@@ -125,7 +146,8 @@ function AuthProvider({children}) {
                 alert,
                 cargarImagenUsuarioProfile,
                 cargarImagenUsuarioCotizacion,
-                cargarImagenUsuarioFirmaDigital
+                cargarImagenUsuarioFirmaDigital,
+                actualizarInfoUsuarioEmpresa
             }}
         >
             {children}
