@@ -27,6 +27,15 @@ function DatosRepresentante({data}) {
     const [emailRepresentante,setEmailRepresentante]=useState(data?.emailRepresentante)
     const [celularRepresentante,setCelularRepresentante]=useState(data?.celularRepresentante)
 
+    //Data original
+    const [nombresEdit]=useState(data?.nombres)
+    const [apellidosEdit]=useState(data?.apellidos)
+    const [tipoIdentiEdit]=useState(data?.tipoIdenti)
+    const [identificacionEdit]=useState(data?.identificacion)
+    const [cargoRepresentanteEdit]=useState(data?.cargoRepresentante)
+    const [emailRepresentanteEdit]=useState(data?.emailRepresentante)
+    const [celularRepresentanteEdit]=useState(data?.celularRepresentante)
+
     const handleActualizarInformacion = async ()=>{
         const data = {
             nombres,
@@ -55,7 +64,7 @@ function DatosRepresentante({data}) {
             }, 4000);
 
         } catch (err) {
-            setDisabled(true)
+            cancelarActualizarInformacion()
             setAlert({
                 msg:err.message,
                 error:true
@@ -68,6 +77,18 @@ function DatosRepresentante({data}) {
                 })
             }, 4000);
         }
+    }
+
+    const cancelarActualizarInformacion = ()=>{
+        setNombres(nombresEdit)
+        setApellidos(apellidosEdit)
+        setTipoIdenti(tipoIdentiEdit)
+        setIdentificacion(identificacionEdit)
+        setCargoRepresentante(cargoRepresentanteEdit)
+        setEmailRepresentante(emailRepresentanteEdit)
+        setCelularRepresentante(celularRepresentanteEdit)
+        
+        setDisabled(true)
     }
 
     return (
@@ -100,7 +121,7 @@ function DatosRepresentante({data}) {
                                         guardar
                                     </button>
                                     <button
-                                        onClick={()=>setDisabled(true)} 
+                                        onClick={cancelarActualizarInformacion} 
                                         className='bg-red-400 tracking-wider cursor-pointer border-black border rounded-md px-10 py-1 font-semibold first-letter:uppercase'
                                     >
                                         cancelar

@@ -30,6 +30,18 @@ function DataEmpresa({data}){
     const [email,setEmail]=useState(data?.email)
     const [celularEmpresarial,setCelularEmpresarial]=useState(data?.celularEmpresarial)
 
+    //data original
+    const [razonSocialEditar]=useState(data?.razonSocial)
+    const [nitEditar]=useState(data?.nit)
+    const [digitVerifyEditar]=useState(data?.digitVerify)
+    const [ciudadEditar]=useState(data?.ciudad)
+    const [departamentoEditar]=useState(data?.departamento)
+    const [direccionEditar]=useState(data?.direccion)
+    const [nombreComercialEditar]=useState(data?.nombreComercial)
+    const [tipoFiscalEditar]=useState(data?.tipoFiscal)
+    const [emailEditar]=useState(data?.email)
+    const [celularEmpresarialEditar]=useState(data?.celularEmpresarial) 
+
     const handleActualizarInformacion = async ()=>{
         const data = {
             razonSocial,
@@ -61,7 +73,7 @@ function DataEmpresa({data}){
             }, 4000);
 
         } catch (err) {
-            setDisabled(true)
+            cancelarActualizarInformacion()
             setAlert({
                 msg:err.message,
                 error:true
@@ -74,6 +86,21 @@ function DataEmpresa({data}){
                 })
             }, 4000);
         }
+    }
+
+    const cancelarActualizarInformacion = ()=>{
+        setRazonSocial(razonSocialEditar)
+        setNit(nitEditar)
+        setDigitVerify(digitVerifyEditar)
+        setCiudad(ciudadEditar)
+        setDepartamento(departamentoEditar)
+        setDireccion(direccionEditar)
+        setNombreComercial(nombreComercialEditar)
+        setTipoFiscal(tipoFiscalEditar)
+        setEmail(emailEditar)
+        setCelularEmpresarial(celularEmpresarialEditar)
+        
+        setDisabled(true)
     }
 
     return (
@@ -105,7 +132,7 @@ function DataEmpresa({data}){
                                     guardar
                                 </button>
                                 <button
-                                    onClick={()=>setDisabled(true)} 
+                                    onClick={cancelarActualizarInformacion} 
                                     className='bg-red-400 tracking-wider cursor-pointer border-black border rounded-md px-10 py-1 font-semibold first-letter:uppercase'
                                 >
                                     cancelar
