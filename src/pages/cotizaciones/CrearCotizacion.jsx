@@ -33,6 +33,12 @@ function CrearCotizacion() {
     }
   })
 
+  const [idCotizacionCreada,setIdCotizacionCreada]=useState(null)
+  
+  const [statusEnvio,setStatusEnvio]=useState(false)
+
+  const [statusMovil,setStatusMovil]=useState(false)
+
   return (
     <div className="w-full flex flex-col gap-3">
       <BarraProgreso
@@ -116,10 +122,20 @@ function CrearCotizacion() {
             setValidatePaso={setValidatePaso}
             numeroPasos={numeroPasos}
             pasoActual={pasoActual}
-            cotizacion={cotizacion}
             setCotizacion={setCotizacion}
+
+            cotizacion={cotizacion}
             cliente={cliente}
             dataEnvio={dataEnvio}
+
+            statusEnvio={statusEnvio}
+            setStatusEnvio={setStatusEnvio}
+
+            statusMovil={statusMovil}
+            setStatusMovil={setStatusMovil}
+
+            setIdCotizacionCreada={setIdCotizacionCreada}
+            idCotizacionCreada={idCotizacionCreada}
           />
       }
       

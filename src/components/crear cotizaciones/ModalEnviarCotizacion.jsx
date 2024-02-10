@@ -5,34 +5,40 @@ import AlertImage from '../alertas/AlertaImagen';
 import EmailImage from '../../assets/undraw_team_chat_re_vbq1.svg'
 import ErrorEnvio from '../../assets/undraw_cancel_re_pkdm.svg'
 
+import EnviarPlataformas from "./EnviarPlataformas";
+
 function ModalEnviarCotizacion({
     closeModal,
     loading,
     error,
     envioExitoso,
-    EnviarCotizacion
+    EnviarCotizacion,
+    statusMovil,
+    setStatusMovil,
+    idCotizacionCreada
 }){
 
     return (
         <div className="fixed w-screen h-screen left-0 top-0 bg-gray-300 bg-opacity-60 shadow">
             <div className="relative bg-white max-w-2xl mx-auto rounded-lg px-10 py-5 mt-8">
                 <div>
-                    <h2 className="text-2xl font-semibold italic tracking-wide mb-10">Estamos enviando tu cotizacion</h2>
                     {
-                        loading && <Spinner/>
+                        loading &&
+                        <div>
+                            <h2 className="text-2xl font-semibold italic tracking-wide mb-10">Estamos enviando tu cotizacion</h2>
+                            <Spinner/>
+                        </div> 
                     }
-                    {   envioExitoso && 
-                        <AlertImage
-                            imgAlert={EmailImage}
-                            msg={'Tu cotizacion fue enviada con exito y guardada'}
-                        >
-                            <button
-                                onClick={closeModal} 
-                                className="border border-blue-600 shadow-sm hover:shadow-md font-semibold italic text-xl px-24 py-1 rounded-md mt-2"
-                            >
-                                Regresar
-                            </button>
-                        </AlertImage>
+                    {   envioExitoso &&
+                        <div>
+                            <h2 className="text-2xl font-semibold italic tracking-wide mb-5">Tu cotizacion fue guardada con exito</h2>
+                            <EnviarPlataformas
+                                statusMovil={statusMovil}
+                                setStatusMovil={setStatusMovil}
+                                idCotizacionCreada={idCotizacionCreada}
+                                closeModal={closeModal}
+                            />
+                        </div> 
                     }
                     {
                         error &&

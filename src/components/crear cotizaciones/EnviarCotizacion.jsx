@@ -17,18 +17,27 @@ import useAuth from '../../hooks/useAuth';
 import useCotizacion from '../../hooks/useCotizacion';
 import { useEffect, useState } from 'react';
 
-function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
+function EnviarCotizacion({
+    cotizacion,
+    cliente,
+    dataEnvio,
+    statusEnvio,
+    setStatusEnvio,
+    statusMovil,
+    setStatusMovil,
+    setIdCotizacionCreada,
+    idCotizacionCreada
+}){
     const {
         auth
     }=useAuth()
 
     const {
-        subirPdfToBucket
+        guardarCotizacion
     } = useCotizacion()
 
     const [loading,setLoading]=useState(false)
     const [modalEnvio,setModalEnvio]=useState(false)
-    const [statusEnvio,setStatusEnvio]=useState(false)
     const [error,setError]=useState(false)
 
     const Docu = 
@@ -39,7 +48,7 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
         />
     const [documento] = usePDF({ document: Docu });
 
-    const cargarPdfBucket = async ()=>{
+    const guardarCotizacionDB = async ()=>{
         if(documento.blob != null){
             const dataCotizacion = FormatoCotizacionDB({
                 dataContacto:dataEnvio,
@@ -51,13 +60,14 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
             const formData = new FormData();
             formData.append('pdf',documento.blob)
             formData.append('cotizacion',JSON.stringify(dataCotizacion))
-            formData.append('cliente',JSON.stringify(cliente))
+            /* formData.append('cliente',JSON.stringify(cliente)) */
             try {
-                const response = await subirPdfToBucket(formData)
+                const response = await guardarCotizacion(formData)
                 console.log(response)
+                setIdCotizacionCreada(response.idCotizacion)
                 setStatusEnvio(true)
             } catch (error) {
-                console.log(error)
+                console.log(error.message)
                 errorEnvio()
             }
         }
@@ -67,7 +77,7 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
         setModalEnvio(true)
         cargarEnvioCotizacion()
         setError(false)
-        cargarPdfBucket()
+        guardarCotizacionDB()
     }
 
     const closeModal =()=>{
@@ -112,7 +122,7 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
                         className='flex flex-row justify-between gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-green-400 border-green-500 hover:shadow-md px-5'
                     >
                         <FontAwesomeIcon icon={faCircleCheck} style={{color: "rgb(0, 0, 0)",}}/>
-                        <p className="first-letter:uppercase">Cotizacion enviada con exito</p>
+                        <p className="first-letter:uppercase">Cotizacion guardada con exito</p>
                     </button>
                 }
             </div>
@@ -122,8 +132,14 @@ function EnviarCotizacion({cotizacion,cliente,dataEnvio}){
                     closeModal={closeModal}
                     loading={loading}
                     error={error}
+
                     envioExitoso={statusEnvio}
                     EnviarCotizacion={enviarCotizacion}
+
+                    statusMovil={statusMovil}
+                    setStatusMovil={setStatusMovil}
+
+                    idCotizacionCreada={idCotizacionCreada}
                 />
             }
             <h1 className="mt-2 mb-2 text-xl font-semibold italic tracking-wide">Visualiza tu documento de cotizacion que sera enviado a tu cliente. Despues puedes guardarlo y enviarlo.</h1>

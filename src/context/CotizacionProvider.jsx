@@ -10,7 +10,7 @@ const CotizacionContext=createContext()
 
 function CotizacionProvider({children}){
 
-    const subirPdfToBucket = async (file)=>{
+    const guardarCotizacion = async (file)=>{
         const token=localStorage.getItem(tkn)
 
         if(!token) return
@@ -23,7 +23,7 @@ function CotizacionProvider({children}){
         }
 
         try {
-            const {data} = await axios.post('http://localhost:5000/api/cotizaciones/document-pdf-upload',file,config)
+            const {data} = await axios.post('http://localhost:5000/api/cotizaciones/guardar-cotizacion',file,config)
             return data
         } catch (error) {
             const errMsg= ValidateErrors(error)
@@ -52,11 +52,34 @@ function CotizacionProvider({children}){
             throw new Error(errMsg);
         }
     }
+
+    const enviarCotizacionMovil = async (dataId)=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const {data} = await axios.post('http://localhost:5000/api/cotizaciones/enviar-cotizacion-movil',dataId,config)
+            return data
+        } catch (error) {
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
     return (
         <CotizacionContext.Provider
             value={{
-                subirPdfToBucket,
-                obtenerCotizacionesLength
+                guardarCotizacion,
+                obtenerCotizacionesLength,
+                enviarCotizacionMovil
             }}
         >
             {children}
