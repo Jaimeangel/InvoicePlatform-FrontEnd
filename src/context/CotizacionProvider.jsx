@@ -74,12 +74,34 @@ function CotizacionProvider({children}){
         }
     }
 
+    const enviarCotizacionEmail = async (dataId)=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const {data} = await axios.post('http://localhost:5000/api/cotizaciones/enviar-cotizacion-email',dataId,config)
+            return data
+        } catch (error) {
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
     return (
         <CotizacionContext.Provider
             value={{
                 guardarCotizacion,
                 obtenerCotizacionesLength,
-                enviarCotizacionMovil
+                enviarCotizacionMovil,
+                enviarCotizacionEmail
             }}
         >
             {children}

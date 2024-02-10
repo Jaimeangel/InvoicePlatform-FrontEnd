@@ -15,6 +15,8 @@ function ModalEnviarCotizacion({
     EnviarCotizacion,
     statusMovil,
     setStatusMovil,
+    statusEmail,
+    setStatusEmail,
     idCotizacionCreada
 }){
 
@@ -35,6 +37,8 @@ function ModalEnviarCotizacion({
                             <EnviarPlataformas
                                 statusMovil={statusMovil}
                                 setStatusMovil={setStatusMovil}
+                                statusEmail={statusEmail}
+                                setStatusEmail={setStatusEmail}
                                 idCotizacionCreada={idCotizacionCreada}
                                 closeModal={closeModal}
                             />

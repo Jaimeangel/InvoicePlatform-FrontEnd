@@ -26,7 +26,9 @@ function EnviarCotizacion({
     statusMovil,
     setStatusMovil,
     setIdCotizacionCreada,
-    idCotizacionCreada
+    idCotizacionCreada,
+    statusEmail,
+    setStatusEmail
 }){
     const {
         auth
@@ -60,29 +62,34 @@ function EnviarCotizacion({
             const formData = new FormData();
             formData.append('pdf',documento.blob)
             formData.append('cotizacion',JSON.stringify(dataCotizacion))
-            /* formData.append('cliente',JSON.stringify(cliente)) */
             try {
                 const response = await guardarCotizacion(formData)
                 console.log(response)
                 setIdCotizacionCreada(response.idCotizacion)
                 setStatusEnvio(true)
-            } catch (error) {
+            }catch (error) {
                 console.log(error.message)
                 errorEnvio()
             }
         }
     }
 
+
     const enviarCotizacion =()=>{
-        setModalEnvio(true)
+        openModal()
         cargarEnvioCotizacion()
         setError(false)
+
         guardarCotizacionDB()
     }
 
-    const closeModal =()=>{
+    const closeModal = ()=>{
         setModalEnvio(false)
         setError(false)
+    }
+
+    const openModal =()=>{
+        setModalEnvio(true)
     }
 
     const envioExitoso =()=>{
@@ -119,6 +126,7 @@ function EnviarCotizacion({
                         <p className="first-letter:uppercase">guardar y enviar</p>
                     </button>:
                     <button
+                        onClick={openModal}
                         className='flex flex-row justify-between gap-4 items-center  text-black text-lg tracking-wide font-semibold rounded-md border bg-green-400 border-green-500 hover:shadow-md px-5'
                     >
                         <FontAwesomeIcon icon={faCircleCheck} style={{color: "rgb(0, 0, 0)",}}/>
@@ -138,6 +146,9 @@ function EnviarCotizacion({
 
                     statusMovil={statusMovil}
                     setStatusMovil={setStatusMovil}
+
+                    statusEmail={statusEmail}
+                    setStatusEmail={setStatusEmail}
 
                     idCotizacionCreada={idCotizacionCreada}
                 />

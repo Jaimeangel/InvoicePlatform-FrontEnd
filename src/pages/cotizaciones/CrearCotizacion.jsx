@@ -38,6 +38,7 @@ function CrearCotizacion() {
   const [statusEnvio,setStatusEnvio]=useState(false)
 
   const [statusMovil,setStatusMovil]=useState(false)
+  const [statusEmail,setStatusEmail]=useState(false)
 
   return (
     <div className="w-full flex flex-col gap-3">
@@ -133,6 +134,9 @@ function CrearCotizacion() {
 
             statusMovil={statusMovil}
             setStatusMovil={setStatusMovil}
+
+            statusEmail={statusEmail}
+            setStatusEmail={setStatusEmail}
 
             setIdCotizacionCreada={setIdCotizacionCreada}
             idCotizacionCreada={idCotizacionCreada}

@@ -1,9 +1,18 @@
 import ComponenteSimpleEnvio from "./ComponenteSimpleEnvio";
 import useCotizacion from "../../hooks/useCotizacion";
 
-function EnviarPlataformas({statusMovil,setStatusMovil,idCotizacionCreada,closeModal}){
+function EnviarPlataformas({
+  statusMovil,
+  setStatusMovil,
+  idCotizacionCreada,
+  closeModal,
+  statusEmail,
+  setStatusEmail
+}){
+
   const {
-    enviarCotizacionMovil
+    enviarCotizacionMovil,
+    enviarCotizacionEmail
   }=useCotizacion()
 
   const handleEnviarMovil = async ()=>{
@@ -16,6 +25,18 @@ function EnviarPlataformas({statusMovil,setStatusMovil,idCotizacionCreada,closeM
     }
   }
 
+  const handleEnviarEmail = async ()=>{
+    const formData = new FormData();
+    formData.append('ID',JSON.stringify(idCotizacionCreada))
+    try {
+      await enviarCotizacionEmail(formData)
+    } catch (error) {
+      console.log('aqui paso')
+      console.log(error.message)
+      return error
+    }
+  }
+
   return (
     <div className="w-full flex flex-col">
       <ComponenteSimpleEnvio
@@ -23,6 +44,13 @@ function EnviarPlataformas({statusMovil,setStatusMovil,idCotizacionCreada,closeM
         callback={handleEnviarMovil}
         state={statusMovil}
         setState={setStatusMovil}
+      />
+
+      <ComponenteSimpleEnvio
+        tipo='Email'
+        callback={handleEnviarEmail}
+        state={statusEmail}
+        setState={setStatusEmail}
       />
 
       <button

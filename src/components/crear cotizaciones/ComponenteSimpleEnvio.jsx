@@ -16,12 +16,9 @@ function ComponenteSimpleEnvio({tipo,callback,state,setState}){
       setState(true)
       setLoading(false)
     } catch (error) {
+      console.log('por aqui paso')
       setFail(true)
       setLoading(false)
-
-      setTimeout(() => {
-        setFail(false)
-      }, 4000);
     }
   }
   
