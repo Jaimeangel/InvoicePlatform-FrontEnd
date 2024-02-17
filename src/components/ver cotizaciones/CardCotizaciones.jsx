@@ -1,6 +1,8 @@
 import formatFechaDataMongo from "../../helpers/formatFechaDataMongo";
 import { formatoMonedaDosDecimales } from "../../helpers/formatoMonedas";
 
+import { Link } from 'react-router-dom';
+
 const items=[    
   {
       id:1,
@@ -44,74 +46,72 @@ function CardCotizaciones({data}){
     identificacion
   }=data;
 
-
-  const visualizarCotizacion=()=>{
-    console.log(_id)
-  }
-
   return (
-    <div
-      onClick={visualizarCotizacion} 
-      className='w-full flex flex-row cursor-pointer border border-black rounded bg-white hover:shadow-lg'
+    <Link
+        to={`${_id}`}
     >
-      <p
-          className='border-r border-black text-center font-semibold py-2'
-          style={{
-              width:`12%`
-          }} 
-      >
-        COTIZACION
-      </p>
-      <div
-          className='border-r border-black'
-          style={{
-              width:`10%`
-          }} 
-      >
-          <p
-              className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
-          >{numeroCotizacion}</p>
-      </div>
-      <div
-          className='border-r border-black'
-          style={{
-              width:`15%`
-          }} 
-      >
-          <p
-              className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
-          >{formatFechaDataMongo(fecha)}</p>
-      </div>
-      <div
-          className='border-r border-black'
-          style={{
-              width:`13%`
-          }} 
-      >
-          <p
-              className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
-          >{identificacion}</p>
-      </div>
-      <div
-          className='border-r border-black'
-          style={{
-              width:`35%`
-          }} 
-      >
-          <p
-              className="w-full bg-white outline-none px-3 py-1 font-semibold text-justify first-letter:uppercase"
-          >{nombre}</p>
-      </div>
-      <input
-          value={formatoMonedaDosDecimales(valorTotal)}
-          type="text"
-          className="bg-white text-center rounded font-semibold"
-          style={{
-              width:`15%`
-          }}  
-          disabled 
-      />
-  </div>
+        <div
+            className='w-full flex flex-row cursor-pointer border border-black rounded bg-white hover:shadow-lg'
+        >
+        <p
+            className='border-r border-black text-center font-semibold py-2'
+            style={{
+                width:`12%`
+            }} 
+        >
+            COTIZACION
+        </p>
+        <div
+            className='border-r border-black'
+            style={{
+                width:`10%`
+            }} 
+        >
+            <p
+                className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
+            >{numeroCotizacion}</p>
+        </div>
+        <div
+            className='border-r border-black'
+            style={{
+                width:`15%`
+            }} 
+        >
+            <p
+                className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
+            >{formatFechaDataMongo(fecha)}</p>
+        </div>
+        <div
+            className='border-r border-black'
+            style={{
+                width:`13%`
+            }} 
+        >
+            <p
+                className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
+            >{identificacion}</p>
+        </div>
+        <div
+            className='border-r border-black'
+            style={{
+                width:`35%`
+            }} 
+        >
+            <p
+                className="w-full bg-white outline-none px-3 py-1 font-semibold text-justify first-letter:uppercase"
+            >{nombre}</p>
+        </div>
+        <input
+            value={formatoMonedaDosDecimales(valorTotal)}
+            type="text"
+            className="bg-white text-center rounded font-semibold"
+            style={{
+                width:`15%`
+            }}  
+            disabled 
+        />
+        </div>
+    </Link>
   )
 }
 

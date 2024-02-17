@@ -29,7 +29,13 @@ const router=createBrowserRouter([
             },
             {
               path:'ver-cotizaciones',
-              element:<VisualizarCotizaciones/>
+              element:<VisualizarCotizaciones/>,
+              children:[
+                {
+                  path:':cotizacion',
+                  element:<h1>Hola cotizacion</h1>
+                }
+              ]
             }
           ]
         },

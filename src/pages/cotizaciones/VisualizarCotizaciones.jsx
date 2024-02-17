@@ -7,7 +7,15 @@ import useCotizacion from '../../hooks/useCotizacion'
 
 import extraerInformacionCotizacion from '../../helpers/extraerInformacionCotizacion'
 
+import { Outlet } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+
 function VisualizarCotizaciones() {
+
+    let location = useLocation();
+
+    const [path,setPath]=useState('/dashboard/cotizaciones');
+    
     const [cotizaciones,setCotizaciones]=useState([])
     const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
     
@@ -28,6 +36,11 @@ function VisualizarCotizaciones() {
         }
     },[cotizaciones])
 
+    useEffect(()=>{
+        setPath(location.pathname)
+    },[location.pathname])
+    
+
     const obtenerCotizacionesUser = async ()=>{
         try{
             const cotizaciones =  await obtenerCotizaciones()
@@ -39,16 +52,21 @@ function VisualizarCotizaciones() {
 
     return (
         <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
-            <EncabezadoCotizaciones>
-                {
-                    cotizacionesFormateadas?.map( data =>(
-                        <CardCotizaciones
-                            key={data._id}
-                            data={data}
-                        />
-                    )) 
-                }
-            </EncabezadoCotizaciones>
+            {
+                path === '/dashboard/cotizaciones/ver-cotizaciones' ?
+                    <EncabezadoCotizaciones>
+                        {
+                            cotizacionesFormateadas?.map( data =>(
+                                <CardCotizaciones
+                                    key={data._id}
+                                    data={data}
+                                />
+                            )) 
+                        }
+                    </EncabezadoCotizaciones>
+                :
+                    <Outlet/>
+            }
         </div>
     )
 }
