@@ -5,6 +5,7 @@ import ProtectRoute from '../layaout/ProtectRoute.jsx'
 //cotizaciones
 import CotizacionesDashboard from '../pages/cotizaciones/CotizacionesDashboard.jsx'
 import CrearCotizacion from '../pages/cotizaciones/CrearCotizacion.jsx'
+import VisualizarCotizaciones from '../pages/cotizaciones/VisualizarCotizaciones.jsx'
 //login
 import Login from '../pages/autenticacion/login.jsx'
 //configuraciones
@@ -28,7 +29,7 @@ const router=createBrowserRouter([
             },
             {
               path:'ver-cotizaciones',
-              element:<h1>Viendo las cotizaciones</h1>
+              element:<VisualizarCotizaciones/>
             }
           ]
         },
