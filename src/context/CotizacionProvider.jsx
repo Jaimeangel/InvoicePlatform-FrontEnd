@@ -75,6 +75,28 @@ function CotizacionProvider({children}){
         }
     }
 
+    const obtenerUrlCotizacionById= async (ID)=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const {data:{url}} = await axios(`http://localhost:5000/api/cotizaciones/getUrlPDF/${ID}`,config)
+            return url
+        } catch (error) {
+            console.log(error)
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
     const enviarCotizacionMovil = async (dataId)=>{
         const token=localStorage.getItem(tkn)
 
@@ -124,7 +146,8 @@ function CotizacionProvider({children}){
                 obtenerCotizacionesLength,
                 enviarCotizacionMovil,
                 enviarCotizacionEmail,
-                obtenerCotizaciones
+                obtenerCotizaciones,
+                obtenerUrlCotizacionById
             }}
         >
             {children}
