@@ -1,4 +1,13 @@
+import { Worker } from '@react-pdf-viewer/core';
+
+// Import the main component
+import { Viewer } from '@react-pdf-viewer/core';
+
+// Import the styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+
 import { useEffect, useState } from "react";
+
 import useCotizacion from "../../hooks/useCotizacion"
 
 import { useLocation } from "react-router-dom";
@@ -6,6 +15,7 @@ import { useLocation } from "react-router-dom";
 function VerCotizacionesById() {
 
     const [url,setUrl]=useState(null)
+    const [pdf,setPdf]=useState(null)
     
     const {
         obtenerUrlCotizacionById
@@ -24,6 +34,7 @@ function VerCotizacionesById() {
             const obtenerCotizacionById = async ()=>{
                 try {
                     const cotizacion = await obtenerUrlCotizacionById(url)
+                    setPdf(cotizacion)
                     console.log(cotizacion)
                 } catch (error) {
                     console.log(error)
@@ -33,11 +44,16 @@ function VerCotizacionesById() {
             obtenerCotizacionById()
         }
     },[url])
+
     
     return(
-        <div>
-            <h1>Aqui va la cotizacion</h1>
-        </div>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+            <div className='w-full'>
+                {
+                    pdf !== null && <Viewer fileUrl={pdf}/>
+                }
+            </div>
+        </Worker>
     )
 }
 
