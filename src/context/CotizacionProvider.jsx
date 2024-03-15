@@ -97,6 +97,28 @@ function CotizacionProvider({children}){
         }
     }
 
+    const obtenerCotizacionById= async (ID)=>{
+        const token=localStorage.getItem(tkn)
+
+        if(!token) return
+
+        const config={
+            headers:{
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const {data:{cotizacionId}} = await axios(`http://localhost:5000/api/cotizaciones/${ID}`,config)
+            return cotizacionId
+        } catch (error) {
+            console.log(error)
+            const errMsg= ValidateErrors(error)
+            throw new Error(errMsg);
+        }
+    }
+
     const enviarCotizacionMovil = async (dataId)=>{
         const token=localStorage.getItem(tkn)
 
@@ -147,7 +169,8 @@ function CotizacionProvider({children}){
                 enviarCotizacionMovil,
                 enviarCotizacionEmail,
                 obtenerCotizaciones,
-                obtenerUrlCotizacionById
+                obtenerUrlCotizacionById,
+                obtenerCotizacionById
             }}
         >
             {children}

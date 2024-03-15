@@ -12,13 +12,21 @@ import useCotizacion from "../../hooks/useCotizacion"
 
 import { useLocation } from "react-router-dom";
 
+
+import extraerInformacionCotizacion from '../../helpers/extraerInformacionCotizacion';
+
+import { formatoMonedaDosDecimales } from '../../helpers/formatoMonedas';
+import formatFechaDataMongo from '../../helpers/formatFechaDataMongo';
+
 function VerCotizacionesById() {
 
     const [url,setUrl]=useState(null)
     const [pdf,setPdf]=useState(null)
+    const [dataCotizacion,setDataCotizacion]=useState(null)
     
     const {
-        obtenerUrlCotizacionById
+        obtenerUrlCotizacionById,
+        obtenerCotizacionById
     }=useCotizacion()
 
     const path = useLocation()
@@ -31,29 +39,63 @@ function VerCotizacionesById() {
 
     useEffect(()=>{
         if(url !== null){
-            const obtenerCotizacionById = async ()=>{
+
+            const getCotizacionById = async ()=>{
                 try {
-                    const cotizacion = await obtenerUrlCotizacionById(url)
-                    setPdf(cotizacion)
-                    console.log(cotizacion)
+                    const cotizacion = await obtenerCotizacionById(url)
+                    const data = extraerInformacionCotizacion(cotizacion,cotizacion.cliente)
+                    setDataCotizacion(data)
                 } catch (error) {
                     console.log(error)
                 }
             }
-    
-            obtenerCotizacionById()
+            const obtenerURLCotizacionById = async ()=>{
+                try {
+                    const urlCotizacion = await obtenerUrlCotizacionById(url)
+                    setPdf(urlCotizacion)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
+            obtenerURLCotizacionById()
+            getCotizacionById()
+
         }
+        
     },[url])
 
     
     return(
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-            <div className='w-full'>
-                {
-                    pdf !== null && <Viewer fileUrl={pdf}/>
-                }
-            </div>
-        </Worker>
+        <div className='flex flex-col gap-5'>
+
+            {   
+                dataCotizacion !== null && (
+                    <div className='w-full flex flex-row justify-between shadow hover:shadow-md bg-gray-100 border rounded px-5 py-2'>
+                        <div className='text-center'>
+                            <p className='font-semibold uppercase'>{'cotización '}</p>
+                            <p className='font-semibold'>{dataCotizacion.numeroCotizacion}</p>
+                        </div>
+                        <div className='text-center'>
+                            <p className='font-semibold'>{dataCotizacion.nombre}</p>
+                            <p className='font-semibold'>{`Nit: ${dataCotizacion.identificacion}`}</p>
+                        </div>
+                        <div className='text-center'>
+                            <p className='font-semibold'>{`VALOR: ${formatoMonedaDosDecimales(dataCotizacion.valorTotal)}`}</p>
+                            <p className='font-semibold'>{formatFechaDataMongo(dataCotizacion.fecha)}</p>
+                        </div>
+                    </div>
+                )
+            }
+
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                <div className='w-full'>
+                    {
+                        pdf !== null && <Viewer fileUrl={pdf}/>   
+                    }
+                </div>
+            </Worker>
+        </div>
     )
 }
 
