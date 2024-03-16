@@ -22,12 +22,12 @@ function VisualizarCotizaciones() {
     const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
     const [cotizacionesFiltradas,setCotizacionesFiltradas]=useState([])
 
-    const NUMBER_ITEMS = 5
+    const [maximoItems]=useState(4)
     const [activePaginacion,setActivePaginacion] = useState(1);
 
     function obtenerElementosPorPagina(arrayOriginal, paginacion) {
-        const startIndex = (paginacion - 1) * NUMBER_ITEMS;
-        const endIndex = paginacion * NUMBER_ITEMS;
+        const startIndex = (paginacion - 1) * maximoItems;
+        const endIndex = paginacion * maximoItems;
         return arrayOriginal.slice(startIndex, endIndex);
     }
 
@@ -64,7 +64,7 @@ function VisualizarCotizaciones() {
             const newArray = obtenerElementosPorPagina(cotizacionesFormateadas,activePaginacion)
             setCotizacionesFiltradas(newArray)
         }
-    },[activePaginacion])
+    },[activePaginacion,cotizacionesFormateadas])
 
     useEffect(()=>{
         setPath(location.pathname)
@@ -90,7 +90,7 @@ function VisualizarCotizaciones() {
 
                     <Paginacion 
                         longitud={cotizacionesFormateadas.length}
-                        numeroItems={NUMBER_ITEMS}
+                        numeroItems={maximoItems}
                         numeroActualItem={activePaginacion}
                         cambiarNumeroActualItem={setActivePaginacion}
                     />
