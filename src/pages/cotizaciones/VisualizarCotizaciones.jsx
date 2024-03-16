@@ -20,9 +20,18 @@ function VisualizarCotizaciones() {
     
     const [cotizaciones,setCotizaciones]=useState([])
     const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
+    const [cotizacionesFiltradas,setCotizacionesFiltradas]=useState([])
 
     const NUMBER_ITEMS = 5
     const [activePaginacion,setActivePaginacion] = useState(1);
+
+    function obtenerElementosPorPagina(arrayOriginal, paginacion) {
+        const startIndex = (paginacion - 1) * NUMBER_ITEMS;
+        const endIndex = paginacion * NUMBER_ITEMS;
+        return arrayOriginal.slice(startIndex, endIndex);
+    }
+
+
     
     const {
         obtenerCotizaciones
@@ -51,9 +60,16 @@ function VisualizarCotizaciones() {
     },[cotizaciones])
 
     useEffect(()=>{
+        if(cotizacionesFormateadas.length !==0){
+            const newArray = obtenerElementosPorPagina(cotizacionesFormateadas,activePaginacion)
+            setCotizacionesFiltradas(newArray)
+        }
+    },[activePaginacion])
+
+    useEffect(()=>{
         setPath(location.pathname)
     },[location.pathname])
-    
+
 
     return (
         <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
@@ -61,16 +77,16 @@ function VisualizarCotizaciones() {
                 path === '/dashboard/cotizaciones/ver-cotizaciones' ?
                 <>
                     <h1 className="mt-2 mb-5 text-3xl font-bold">Cotizaciones</h1>
-{/*                     <EncabezadoCotizaciones>
+                    <EncabezadoCotizaciones>
                         {
-                            cotizacionesFormateadas?.map( data =>(
+                            cotizacionesFiltradas?.map( data =>(
                                 <CardCotizaciones
                                     key={data._id}
                                     data={data}
                                 />
                             )) 
                         }
-                    </EncabezadoCotizaciones> */}
+                    </EncabezadoCotizaciones>
 
                     <Paginacion 
                         longitud={cotizacionesFormateadas.length}
