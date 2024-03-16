@@ -10,6 +10,8 @@ import extraerInformacionCotizacion from '../../helpers/extraerInformacionCotiza
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
+import Paginacion from '../../components/ver cotizaciones/Paginacion'
+
 function VisualizarCotizaciones() {
 
     let location = useLocation();
@@ -56,7 +58,7 @@ function VisualizarCotizaciones() {
                 path === '/dashboard/cotizaciones/ver-cotizaciones' ?
                 <>
                     <h1 className="mt-2 mb-5 text-3xl font-bold">Cotizaciones</h1>
-                    <EncabezadoCotizaciones>
+{/*                     <EncabezadoCotizaciones>
                         {
                             cotizacionesFormateadas?.map( data =>(
                                 <CardCotizaciones
@@ -65,7 +67,10 @@ function VisualizarCotizaciones() {
                                 />
                             )) 
                         }
-                    </EncabezadoCotizaciones>
+                    </EncabezadoCotizaciones> */}
+
+                    <Paginacion longitud={cotizacionesFormateadas.length}/>
+
                 </>
                 :
                     <Outlet/>
