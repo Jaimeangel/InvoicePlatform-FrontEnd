@@ -20,6 +20,9 @@ function VisualizarCotizaciones() {
     
     const [cotizaciones,setCotizaciones]=useState([])
     const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
+
+    const NUMBER_ITEMS = 5
+    const [activePaginacion,setActivePaginacion] = useState(1);
     
     const {
         obtenerCotizaciones
@@ -69,7 +72,12 @@ function VisualizarCotizaciones() {
                         }
                     </EncabezadoCotizaciones> */}
 
-                    <Paginacion longitud={cotizacionesFormateadas.length}/>
+                    <Paginacion 
+                        longitud={cotizacionesFormateadas.length}
+                        numeroItems={NUMBER_ITEMS}
+                        numeroActualItem={activePaginacion}
+                        cambiarNumeroActualItem={setActivePaginacion}
+                    />
 
                 </>
                 :
