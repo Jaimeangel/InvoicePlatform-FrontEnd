@@ -13,7 +13,7 @@ const Paginacion = ({
   const [numberTotalPaginacion,setNumberTotalPaginacion] = useState([])
   
   const next = () => {
-    if (numeroActualItem === 5) return;
+    if (numeroActualItem === numberTotalPaginacion.length) return;
  
     cambiarNumeroActualItem(prev => prev + 1);
   };
@@ -62,7 +62,7 @@ const Paginacion = ({
         variant="text"
         className="flex items-center gap-2 border px-3 py-2 rounded-md font-semibold shadow-sm hover:shadow"
         onClick={next}
-        disabled={numeroActualItem === 5}
+        disabled={numeroActualItem === numberTotalPaginacion.length}
       >
         Siguiente
         <FontAwesomeIcon icon={faRightLong} />
