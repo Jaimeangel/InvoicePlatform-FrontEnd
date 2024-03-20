@@ -37,11 +37,11 @@ function SearchForm({list,onChangeCliente,cliente}) {
 
     //persitencia de informacion de cliente
     useEffect(()=>{
-        if(Object.keys(cliente).length !== 0){
+        if(Object.keys(cliente).length !== 0  || cliente === ''){
             setSelected(cliente)
-          }
+        }
     },[])
-
+    
     //Guardar cliente seleccionado
     useEffect(()=>{
         onChangeCliente(selected)

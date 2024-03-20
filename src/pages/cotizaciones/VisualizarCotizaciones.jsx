@@ -11,6 +11,7 @@ import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
 import Paginacion from '../../components/ver cotizaciones/Paginacion'
+import Filtro from '../../components/ver cotizaciones/Filtro'
 
 function VisualizarCotizaciones() {
 
@@ -31,12 +32,6 @@ function VisualizarCotizaciones() {
         return arrayOriginal.slice(startIndex, endIndex);
     }
 
-
-    
-    const {
-        obtenerCotizaciones
-    }=useCotizacion()
-
     const obtenerCotizacionesUser = async ()=>{
         try{
             const cotizaciones =  await obtenerCotizaciones()
@@ -45,6 +40,10 @@ function VisualizarCotizaciones() {
             console.log(error)
         }
     }
+
+    const {
+        obtenerCotizaciones
+    }=useCotizacion()
 
     useEffect(()=>{
         obtenerCotizacionesUser()
@@ -77,6 +76,7 @@ function VisualizarCotizaciones() {
                 path === '/dashboard/cotizaciones/ver-cotizaciones' ?
                 <>
                     <h1 className="mt-2 mb-5 text-3xl font-bold">Cotizaciones</h1>
+                    <Filtro/>
                     <EncabezadoCotizaciones>
                         {
                             cotizacionesFiltradas?.map( data =>(
