@@ -53,7 +53,7 @@ const Paginacion = ({
       <div className="flex items-center gap-2">
         {
           numberTotalPaginacion?.map( item =>{
-            return <button key={item} value={item} className={`${item === numeroActualItem && 'bg-yellow-400'} border shadow hover:shadow-md font-semibold px-3.5 py-1.5 rounded-full`}>{item}</button>
+            return <button key={item} value={item} className={`${item === numeroActualItem && 'bg-yellow-400'} border border-black shadow hover:shadow-md font-semibold px-3.5 py-1.5 rounded-full`}>{item}</button>
           })
         }
       </div>

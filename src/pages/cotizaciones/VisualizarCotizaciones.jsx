@@ -2,26 +2,30 @@ import { useEffect, useState } from 'react'
 
 import CardCotizaciones from '../../components/ver cotizaciones/CardCotizaciones'
 import EncabezadoCotizaciones from '../../components/ver cotizaciones/EncabezadoCotizaciones'
+import Paginacion from '../../components/ver cotizaciones/Paginacion'
+import Filtro from '../../components/ver cotizaciones/Filtro'
 
 import useCotizacion from '../../hooks/useCotizacion'
 
 import extraerInformacionCotizacion from '../../helpers/extraerInformacionCotizacion'
 
-import { Outlet } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import { Outlet , useLocation} from 'react-router-dom'
 
-import Paginacion from '../../components/ver cotizaciones/Paginacion'
-import Filtro from '../../components/ver cotizaciones/Filtro'
 
 function VisualizarCotizaciones() {
 
     let location = useLocation();
 
+    const {
+        obtenerCotizaciones
+    }=useCotizacion()
+
+
     const [path,setPath]=useState('/dashboard/cotizaciones');
     
     const [cotizaciones,setCotizaciones]=useState([])
     const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
-    const [cotizacionesFiltradas,setCotizacionesFiltradas]=useState([])
+    const [cotizacionesPaginacion,setCotizacionesPaginacion]=useState([])
 
     const [maximoItems]=useState(4)
     const [activePaginacion,setActivePaginacion] = useState(1);
@@ -32,24 +36,19 @@ function VisualizarCotizaciones() {
         return arrayOriginal.slice(startIndex, endIndex);
     }
 
-    const obtenerCotizacionesUser = async ()=>{
-        try{
-            const cotizaciones =  await obtenerCotizaciones()
-            setCotizaciones(cotizaciones)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const {
-        obtenerCotizaciones
-    }=useCotizacion()
-
     useEffect(()=>{
+        const obtenerCotizacionesUser = async ()=>{
+            try{
+                const cotizaciones =  await obtenerCotizaciones()
+                setCotizaciones(cotizaciones)
+            } catch (error) {
+                console.log(error)
+            }
+        }
         obtenerCotizacionesUser()
     },[])
 
-    useEffect(()=>{
+    useEffect(() => {
         if(cotizaciones.length !==0){
             const cotizacionesFormato = cotizaciones.map( cotizacion => {
                 return extraerInformacionCotizacion(cotizacion,cotizacion.cliente)
@@ -61,7 +60,7 @@ function VisualizarCotizaciones() {
     useEffect(()=>{
         if(cotizacionesFormateadas.length !==0){
             const newArray = obtenerElementosPorPagina(cotizacionesFormateadas,activePaginacion)
-            setCotizacionesFiltradas(newArray)
+            setCotizacionesPaginacion(newArray)
         }
     },[activePaginacion,cotizacionesFormateadas])
 
@@ -76,10 +75,14 @@ function VisualizarCotizaciones() {
                 path === '/dashboard/cotizaciones/ver-cotizaciones' ?
                 <>
                     <h1 className="mt-2 mb-5 text-3xl font-bold">Cotizaciones</h1>
-                    <Filtro/>
+
+                    <Filtro
+                        cotizaciones={cotizaciones}
+                    />
+
                     <EncabezadoCotizaciones>
                         {
-                            cotizacionesFiltradas?.map( data =>(
+                            cotizacionesPaginacion?.map( data => (
                                 <CardCotizaciones
                                     key={data._id}
                                     data={data}
