@@ -25,7 +25,11 @@ const Paginacion = ({
   };
 
   const calcularNumeroTotalPaginacion = (longitud)=>{
-    const numberTotal = Math.floor(longitud/numberItems)
+    let numberTotal = Math.floor(longitud/numberItems)
+
+    if(numberTotal === 0){
+      numberTotal = 1
+    }
     const respuesta = [];
     for (let i = 1; i <= numberTotal; i++) {
       respuesta.push(i);

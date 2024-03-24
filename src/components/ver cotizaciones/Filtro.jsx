@@ -1,3 +1,5 @@
+import extraerInformacionCotizacion from "../../helpers/extraerInformacionCotizacion";
+
 import { useState, useEffect } from "react";
 
 import SearchForm from "../SearchForm";
@@ -7,7 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownLong,faUpLong } from "@fortawesome/free-solid-svg-icons";
 
 function Filtro({
-    cotizaciones
+    cotizaciones,
+    setCotizacionesFormateadas,
+    primerFormatoInicialCotizaciones
 }){
 
     const [contacto,setContacto]=useState('')
@@ -32,6 +36,12 @@ function Filtro({
         getClientes()
     },[])
 
+    useEffect(()=>{
+        if(contacto === ''){
+            limpiarFiltro()
+        }
+    },[contacto])
+
     function filtrarPorRango(array, fechaInicio, fechaFin) {
         // Convertir las fechas de tipo "date" a objetos Date
         const fechaInicioObj = new Date(fechaInicio + 'T00:00:00');
@@ -53,9 +63,9 @@ function Filtro({
     }
 
     const limpiarFiltro = ()=>{
-        setContacto('')
         setFechaInicio('')
         setFechaFinal('')
+        primerFormatoInicialCotizaciones()
     }
 
     const ventanaFiltro = ()=>{
@@ -66,13 +76,14 @@ function Filtro({
         let lista=[]
         
         if(![fechaInicio,fechaFinal].includes('')){
-            const newCotizaciones = filtrarPorRango(clientes,fechaInicio,fechaFinal)
+            const newCotizaciones = filtrarPorRango(cotizaciones,fechaInicio,fechaFinal)
             lista = newCotizaciones
+            console.log(lista)
         }
 
         if(Object.keys(contacto).length !== 0){
             if(lista.length !== 0){
-                const newList = lista.filter(item => item.identificacion === contacto.identificacion)
+                const newList = lista.filter(item => item.cliente.identificacion === contacto.identificacion)
                 lista = newList
             }else{
                 const newList = cotizaciones.filter(item => item.cliente.identificacion === contacto.identificacion)
@@ -80,14 +91,12 @@ function Filtro({
             }
         }
 
-        console.log(lista)
-
-        /* if(cotizaciones.length !==0){
-            const cotizacionesFormato = cotizaciones.map( cotizacion => {
+        if(lista.length !== 0){
+            const cotizacionesFormato = lista.map( cotizacion => {
                 return extraerInformacionCotizacion(cotizacion,cotizacion.cliente)
             }).reverse()
             setCotizacionesFormateadas(cotizacionesFormato)
-        } */
+        }
     }
 
 

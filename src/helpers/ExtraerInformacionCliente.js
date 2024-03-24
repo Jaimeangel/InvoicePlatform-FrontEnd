@@ -9,10 +9,10 @@ function extraerInformacionCliente(clte) {
 
     Object.keys(info).forEach(key => {
         const element = info[key];
-        if (element.data.tipo === 'empresa') {
+        if (element.data?.tipo === 'empresa') {
             element.value = element.data.razonSocial;
             element.identificacion = element.data.identificacion;
-        } else if (element.data.tipo === 'persona') {
+        } else if (element.data?.tipo === 'persona') {
             if (element.data.nombreComercial !== '') {
                 element.value = element.data.nombreComercial;
                 element.identificacion = element.data.identificacion;

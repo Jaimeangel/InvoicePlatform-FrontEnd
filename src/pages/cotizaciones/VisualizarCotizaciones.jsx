@@ -36,6 +36,15 @@ function VisualizarCotizaciones() {
         return arrayOriginal.slice(startIndex, endIndex);
     }
 
+    function primerFormatoInicialCotizaciones(){
+        if(cotizaciones.length !==0){
+            const cotizacionesFormato = cotizaciones.map( cotizacion => {
+                return extraerInformacionCotizacion(cotizacion,cotizacion.cliente)
+            }).reverse()
+            setCotizacionesFormateadas(cotizacionesFormato)
+        }
+    }
+
     useEffect(()=>{
         const obtenerCotizacionesUser = async ()=>{
             try{
@@ -49,12 +58,7 @@ function VisualizarCotizaciones() {
     },[])
 
     useEffect(() => {
-        if(cotizaciones.length !==0){
-            const cotizacionesFormato = cotizaciones.map( cotizacion => {
-                return extraerInformacionCotizacion(cotizacion,cotizacion.cliente)
-            }).reverse()
-            setCotizacionesFormateadas(cotizacionesFormato)
-        }
+        primerFormatoInicialCotizaciones()
     },[cotizaciones])
 
     useEffect(()=>{
@@ -78,6 +82,8 @@ function VisualizarCotizaciones() {
 
                     <Filtro
                         cotizaciones={cotizaciones}
+                        setCotizacionesFormateadas={setCotizacionesFormateadas}
+                        primerFormatoInicialCotizaciones={primerFormatoInicialCotizaciones}
                     />
 
                     <EncabezadoCotizaciones>
