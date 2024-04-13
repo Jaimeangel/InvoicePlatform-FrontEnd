@@ -6,9 +6,11 @@ import axios from 'axios'
 //variables entorno
 const tkn = import.meta.env.VITE_TOKEN_VARIABLE;
 
+
 const AuthContext=createContext()
 
 function AuthProvider({children}) {
+
     const [alert,setAlert]=useState({msg:'',err:false})
     const [auth,setAuth]=useState('')
 
@@ -40,11 +42,18 @@ function AuthProvider({children}) {
                     err:false
                 })
             }catch(error) {
-                const errMsg= ValidateErrors(error)
                 setAlert({
-                    msg:errMsg,
+                    msg:'Tu token ha expirado. Inicia sesión de nuevo. En un momento serás dirigido a tu inicio de sesión.',
                     err:true
                 })
+                
+                // Check if the user is already on the "/login" page
+                if (window.location.pathname !== "/login") {
+                    // Redirect the user after a delay
+                    setTimeout(() => {
+                        window.location.replace("/login");
+                    }, 6000);
+                }
             }
         }
         authUser()
