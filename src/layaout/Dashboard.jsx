@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 //componentes
 import Nav from '../components/dashboard/Nav.jsx'
 import SideBar from '../components/dashboard/sideBar.jsx';
 //router
-import { Outlet } from 'react-router-dom';
+import { Outlet,useNavigate } from 'react-router-dom';
 
 function Dashboard(){
+    const navigate = useNavigate()
     const [open,setOpen]=useState(true)
+
+    useEffect(()=>{
+      navigate('/dashboard/cotizaciones')
+    },[])
+
     return (
         <div className='w-full h-screen flex flex-col'>
     
@@ -27,7 +33,7 @@ function Dashboard(){
           </div>
     
         </div>
-      )
+    )
 }
 
 export default Dashboard;
