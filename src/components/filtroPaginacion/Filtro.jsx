@@ -9,10 +9,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownLong,faUpLong } from "@fortawesome/free-solid-svg-icons";
 
 function Filtro({
-    cotizaciones,
-    setCotizacionesFormateadas,
-    primerFormatoInicialCotizaciones
+    items,
+    actualizarItems
 }){
+
+    const {
+        obtenerClientesByUsuario,
+        clientes
+    }=useCliente()
 
     const [contacto,setContacto]=useState('')
     const [fechaInicio,setFechaInicio]=useState('')
@@ -20,15 +24,10 @@ function Filtro({
 
     const [open,setOpen]=useState(false)
 
-    const {
-        obtenerClientesByUsuario,
-        clientes
-    }=useCliente()
-
     useEffect(()=>{
         const getClientes= async ()=>{
             try {
-                const clientes = await obtenerClientesByUsuario()
+                const clientesList = await obtenerClientesByUsuario()
             } catch (error) {
                 console.log(error)
             }
@@ -50,7 +49,7 @@ function Filtro({
         // Filtrar el array para obtener solo los elementos dentro del rango de fechas
         const elementosFiltrados = array.filter(elemento => {
             // Convertir la fecha del elemento al formato de objeto Date
-            const fechaElemento = new Date(elemento.createdAt);
+            const fechaElemento = new Date(elemento.fecha);
             // Verificar si la fecha del elemento está dentro del rango especificado
             return fechaElemento >= fechaInicioObj && fechaElemento <= fechaFinObj;
         });
@@ -65,7 +64,7 @@ function Filtro({
     const limpiarFiltro = ()=>{
         setFechaInicio('')
         setFechaFinal('')
-        primerFormatoInicialCotizaciones()
+        actualizarItems(items)
     }
 
     const ventanaFiltro = ()=>{
@@ -76,27 +75,22 @@ function Filtro({
         let lista=[]
         
         if(![fechaInicio,fechaFinal].includes('')){
-            const newCotizaciones = filtrarPorRango(cotizaciones,fechaInicio,fechaFinal)
+            const newCotizaciones = filtrarPorRango(items,fechaInicio,fechaFinal)
             lista = newCotizaciones
             console.log(lista)
         }
 
         if(Object.keys(contacto).length !== 0){
             if(lista.length !== 0){
-                const newList = lista.filter(item => item.cliente.identificacion === contacto.identificacion)
+                const newList = lista.filter(item => item.identificacion === contacto.identificacion)
                 lista = newList
             }else{
-                const newList = cotizaciones.filter(item => item.cliente.identificacion === contacto.identificacion)
+                const newList = items.filter(item => item.identificacion === contacto.identificacion)
                 lista = newList
             }
         }
 
-        if(lista.length !== 0){
-            const cotizacionesFormato = lista.map( cotizacion => {
-                return extraerInformacionCotizacion(cotizacion,cotizacion.cliente)
-            }).reverse()
-            setCotizacionesFormateadas(cotizacionesFormato)
-        }
+        actualizarItems(lista)
     }
 
 
