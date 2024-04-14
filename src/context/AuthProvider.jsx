@@ -24,7 +24,13 @@ function AuthProvider({children}) {
                     msg:errMsg,
                     err:true
                 })
-                return
+                
+                if (window.location.pathname !== "/login") {
+                    // Redirect the user after a delay
+                    setTimeout(() => {
+                        window.location.replace("/login");
+                    }, 6000);
+                }
             }
 
             const config={
