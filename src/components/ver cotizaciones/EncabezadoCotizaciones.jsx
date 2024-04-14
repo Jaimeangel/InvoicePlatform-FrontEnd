@@ -2,7 +2,7 @@ const items=[
     {
         id:1,
         categoria:'tipo',
-        proporcion:12
+        proporcion:13
     },
     {
         id:2,
@@ -12,22 +12,22 @@ const items=[
     {
         id:3,
         categoria:'fecha elaboración',
-        proporcion:15
+        proporcion:16
     },
     {
         id:4,
         categoria:'identificacion',
-        proporcion:13
+        proporcion:14
     },
     {
         id:5,
         categoria:'Nombre del cliente',
-        proporcion:35
+        proporcion:30
     },
     {
         id:6,
         categoria:'total',
-        proporcion:15
+        proporcion:17
     }
 ]
 function EncabezadoCotizaciones({children}) {

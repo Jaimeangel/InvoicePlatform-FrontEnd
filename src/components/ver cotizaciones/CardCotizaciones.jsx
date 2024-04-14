@@ -48,7 +48,7 @@ function CardCotizaciones({data}){
                             <p
                                 className='border-r border-black text-center font-semibold py-2'
                                 style={{
-                                    width:`12%`
+                                    width:`13%`
                                 }} 
                             >
                                 COTIZACION
@@ -66,7 +66,7 @@ function CardCotizaciones({data}){
                             <div
                                 className='border-r border-black'
                                 style={{
-                                    width:`15%`
+                                    width:`16%`
                                 }} 
                             >
                                 <p
@@ -76,7 +76,7 @@ function CardCotizaciones({data}){
                             <div
                                 className='border-r border-black'
                                 style={{
-                                    width:`13%`
+                                    width:`14%`
                                 }} 
                             >
                                 <p
@@ -86,7 +86,7 @@ function CardCotizaciones({data}){
                             <div
                                 className='border-r border-black'
                                 style={{
-                                    width:`35%`
+                                    width:`30%`
                                 }} 
                             >
                                 <p
@@ -98,7 +98,7 @@ function CardCotizaciones({data}){
                                 type="text"
                                 className="bg-white text-center rounded font-semibold"
                                 style={{
-                                    width:`15%`
+                                    width:`17%`
                                 }}  
                                 disabled 
                             />
