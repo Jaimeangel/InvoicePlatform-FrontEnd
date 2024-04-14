@@ -3,25 +3,27 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeftLong,faRightLong } from "@fortawesome/free-solid-svg-icons";
  
+import { obtenerElementosPorPagina } from "../../helpers/obtenerElementosPaginacion";
+
 const Paginacion = ({
-  longitud,
   numeroItems,
-  numeroActualItem,
-  cambiarNumeroActualItem
+  items,
+  actualizarItems
 })=> {
+  const [paginaActual,setPaginaActual] = useState(1)
   const [numberItems] = useState(numeroItems)
   const [numberTotalPaginacion,setNumberTotalPaginacion] = useState([])
   
   const next = () => {
-    if (numeroActualItem === numberTotalPaginacion.length) return;
+    if (paginaActual === numberTotalPaginacion.length) return;
  
-    cambiarNumeroActualItem(prev => prev + 1);
+    setPaginaActual(prev => prev + 1);
   };
  
   const prev = () => {
-    if (numeroActualItem === 1) return;
+    if (paginaActual === 1) return;
  
-    cambiarNumeroActualItem(prev => prev - 1 );
+    setPaginaActual(prev => prev - 1 );
   };
 
   const calcularNumeroTotalPaginacion = (longitud)=>{
@@ -37,10 +39,16 @@ const Paginacion = ({
     return respuesta;
   }
 
+  
   useEffect(()=>{
-    const paginacionTotal = calcularNumeroTotalPaginacion(longitud)
+    const paginacionTotal = calcularNumeroTotalPaginacion(items.length)
     setNumberTotalPaginacion(paginacionTotal)
-  },[longitud])
+  },[items.length])
+
+  useEffect(()=>{
+    const newArray = obtenerElementosPorPagina(items,paginaActual,numberItems)
+    actualizarItems(newArray)
+  },[paginaActual])
  
   return (
     <div className="flex items-center gap-4 justify-center mt-5">
@@ -49,7 +57,7 @@ const Paginacion = ({
         variant="text"
         className="flex items-center gap-2 border px-3 py-2 rounded-md font-semibold shadow-sm hover:shadow"
         onClick={prev}
-        disabled={numeroActualItem === 1}
+        disabled={paginaActual === 1}
       >
         <FontAwesomeIcon icon={faLeftLong} /> Anterior
       </button>
@@ -57,7 +65,7 @@ const Paginacion = ({
       <div className="flex items-center gap-2">
         {
           numberTotalPaginacion?.map( item =>{
-            return <button key={item} value={item} className={`${item === numeroActualItem && 'bg-yellow-400'} border border-black shadow hover:shadow-md font-semibold px-3.5 py-1.5 rounded-full`}>{item}</button>
+            return <button key={item} value={item} className={`${item === paginaActual && 'bg-yellow-400'} border border-black shadow hover:shadow-md font-semibold px-3.5 py-1.5 rounded-full`}>{item}</button>
           })
         }
       </div>
@@ -66,7 +74,7 @@ const Paginacion = ({
         variant="text"
         className="flex items-center gap-2 border px-3 py-2 rounded-md font-semibold shadow-sm hover:shadow"
         onClick={next}
-        disabled={numeroActualItem === numberTotalPaginacion.length}
+        disabled={paginaActual === numberTotalPaginacion.length}
       >
         Siguiente
         <FontAwesomeIcon icon={faRightLong} />

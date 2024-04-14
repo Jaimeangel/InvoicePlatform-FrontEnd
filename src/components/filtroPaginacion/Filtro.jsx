@@ -77,7 +77,6 @@ function Filtro({
         if(![fechaInicio,fechaFinal].includes('')){
             const newCotizaciones = filtrarPorRango(items,fechaInicio,fechaFinal)
             lista = newCotizaciones
-            console.log(lista)
         }
 
         if(Object.keys(contacto).length !== 0){
@@ -91,6 +90,8 @@ function Filtro({
         }
 
         actualizarItems(lista)
+        console.log(lista)
+        console.log(items)
     }
 
 
@@ -101,7 +102,7 @@ function Filtro({
                 className={`${!open && 'mb-5 rounded-b'} cursor-pointer flex flex-row items-center gap-5 bg-slate-100 px-5 py-1 rounded-t shadow-sm shadow-b-0 border-black border`}
             >
                 {
-                    open ? <FontAwesomeIcon icon={faUpLong}/> : <FontAwesomeIcon icon={faDownLong}  className="mt-1"/>
+                    open ? <FontAwesomeIcon icon={faUpLong} size="xs" /> : <FontAwesomeIcon icon={faDownLong} size="xs" className="mt-1"/>
                 }
                 <h1 className="font-bold text-lg tracking-wider">Filtros</h1>
             </div>

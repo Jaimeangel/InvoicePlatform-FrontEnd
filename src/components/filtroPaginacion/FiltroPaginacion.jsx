@@ -3,6 +3,8 @@ import { useState,useEffect } from "react";
 import Filtro from "./Filtro";
 import Paginacion from "./Paginacion"
 
+import { obtenerElementosPorPagina } from "../../helpers/obtenerElementosPaginacion";
+
 function FiltroPaginacion({
     WraperEncabezado,
     CardItems,
@@ -10,30 +12,15 @@ function FiltroPaginacion({
     itemsPaginacion
 }){
     const [listaFiltrada,setListaFiltrada]=useState([])
-
     const [itemsPorPagina]=useState(itemsPaginacion)
-    const [paginaActual,setPaginaActual] = useState(1)
-
-    function obtenerElementosPorPagina(arrayOriginal, paginacion) {
-        const startIndex = (paginacion - 1) * itemsPorPagina;
-        const endIndex = paginacion * itemsPorPagina;
-        return arrayOriginal.slice(startIndex, endIndex);
-    }
 
     useEffect(()=>{
-        setListaFiltrada(lista)
+        const newArray = obtenerElementosPorPagina(lista,1,itemsPorPagina)
+        setListaFiltrada(newArray)
     },[lista])
 
-    useEffect(()=>{
-        if(lista.length !== 0){
-            const newArray = obtenerElementosPorPagina(lista,paginaActual)
-            console.log(newArray)
-            setListaFiltrada(newArray)
-        }
-    },[paginaActual,lista])
-
     return (
-        <>
+        <div>
             <Filtro
                 items={lista}
                 actualizarItems={setListaFiltrada}
@@ -49,12 +36,11 @@ function FiltroPaginacion({
                 }
             </WraperEncabezado>
             <Paginacion
-                longitud={lista.length}
                 numeroItems={itemsPorPagina}
-                numeroActualItem={paginaActual}
-                cambiarNumeroActualItem={setPaginaActual}
+                items={lista}
+                actualizarItems={setListaFiltrada}
             />
-        </>
+        </div>
     )
 }
 

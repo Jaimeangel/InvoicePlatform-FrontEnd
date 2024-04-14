@@ -6,7 +6,7 @@ import EncabezadoCotizaciones from '../../components/ver cotizaciones/Encabezado
 import useCotizacion from '../../hooks/useCotizacion'
 
 import extraerInformacionCotizacion from '../../helpers/extraerInformacionCotizacion'
-import FiltroPaginacion from '../../components/FiltroPaginacion/FiltroPaginacion'
+import FiltroPaginacion from '../../components/filtroPaginacion/FiltroPaginacion'
 
 function VisualizarCotizaciones() {
 
