@@ -6,6 +6,7 @@ import ProtectRoute from '../layaout/ProtectRoute.jsx'
 import CotizacionesDashboard from '../pages/cotizaciones/CotizacionesDashboard.jsx'
 import CrearCotizacion from '../pages/cotizaciones/CrearCotizacion.jsx'
 import VisualizarCotizaciones from '../pages/cotizaciones/VisualizarCotizaciones.jsx'
+import VisualizarClientes from '../pages/cotizaciones/VisualizarClientes.jsx'
 //login
 import Login from '../pages/autenticacion/login.jsx'
 //configuraciones
@@ -45,6 +46,10 @@ const router=createBrowserRouter([
               element:<ConfigCotizacion/>
             }
           ]
+        },
+        {
+          path:'clientes',
+          element:<VisualizarClientes/>
         }
       ]
     },

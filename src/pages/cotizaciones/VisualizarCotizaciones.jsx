@@ -9,19 +9,11 @@ import useCotizacion from '../../hooks/useCotizacion'
 
 import extraerInformacionCotizacion from '../../helpers/extraerInformacionCotizacion'
 
-import { Outlet , useLocation} from 'react-router-dom'
-
-
 function VisualizarCotizaciones() {
-
-    let location = useLocation();
 
     const {
         obtenerCotizaciones
     }=useCotizacion()
-
-
-    const [path,setPath]=useState('/dashboard/cotizaciones');
     
     const [cotizaciones,setCotizaciones]=useState([])
     const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
@@ -68,46 +60,34 @@ function VisualizarCotizaciones() {
         }
     },[activePaginacion,cotizacionesFormateadas])
 
-    useEffect(()=>{
-        setPath(location.pathname)
-    },[location.pathname])
-
 
     return (
         <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
-            {
-                path === '/dashboard/cotizaciones/ver-cotizaciones' ?
-                <>
-                    <h1 className="mt-2 mb-5 text-3xl font-bold">Cotizaciones</h1>
+            <h1 className="mt-2 mb-5 text-3xl font-bold">Cotizaciones</h1>
 
-                    <Filtro
-                        cotizaciones={cotizaciones}
-                        setCotizacionesFormateadas={setCotizacionesFormateadas}
-                        primerFormatoInicialCotizaciones={primerFormatoInicialCotizaciones}
-                    />
+            <Filtro
+                cotizaciones={cotizaciones}
+                setCotizacionesFormateadas={setCotizacionesFormateadas}
+                primerFormatoInicialCotizaciones={primerFormatoInicialCotizaciones}
+            />
 
-                    <EncabezadoCotizaciones>
-                        {
-                            cotizacionesPaginacion?.map( data => (
-                                <CardCotizaciones
-                                    key={data._id}
-                                    data={data}
-                                />
-                            )) 
-                        }
-                    </EncabezadoCotizaciones>
+            <EncabezadoCotizaciones>
+                {
+                    cotizacionesPaginacion?.map( data => (
+                        <CardCotizaciones
+                            key={data._id}
+                            data={data}
+                        />
+                    )) 
+                }
+            </EncabezadoCotizaciones>
 
-                    <Paginacion 
-                        longitud={cotizacionesFormateadas.length}
-                        numeroItems={maximoItems}
-                        numeroActualItem={activePaginacion}
-                        cambiarNumeroActualItem={setActivePaginacion}
-                    />
-
-                </>
-                :
-                    <Outlet/>
-            }
+            <Paginacion 
+                longitud={cotizacionesFormateadas.length}
+                numeroItems={maximoItems}
+                numeroActualItem={activePaginacion}
+                cambiarNumeroActualItem={setActivePaginacion}
+            />
         </div>
     )
 }

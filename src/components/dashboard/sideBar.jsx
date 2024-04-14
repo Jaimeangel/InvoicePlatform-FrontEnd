@@ -10,19 +10,25 @@ const menuSibeBar=[
     opcion:'cotizaciones',
     link:'cotizaciones',
     icon:faFileLines
+  },
+  {
+    id:2, 
+    opcion:'clientes',
+    link:'clientes',
+    icon:faFileLines
   }
 ]
 
 function SideBar({sideNav}) {
   return (
-    <aside className={`${sideNav ? 'block':'hidden'} w-1/5 pr-5 pt-8`}>
+    <aside className={`${sideNav ? 'block':'hidden'} w-1/5 pr-5 pt-8 flex flex-col gap-5`}>
       {
         menuSibeBar.map(opcion=>(
           <Link
             key={opcion.id}
             to={`${opcion.link}`}
           >
-            <button className='w-full flex flex-row justify-center items-center  text-black text-lg tracking-wide font-semibold py-3 rounded-xl  hover:bg-slate-100 shadow border-2'>
+            <button className='w-full flex flex-row justify-start items-center  text-black text-lg tracking-wide font-semibold py-3 px-10 rounded-lg  hover:bg-slate-100 shadow border-2'>
               <FontAwesomeIcon icon={opcion.icon} style={{color: "#000000",}} className="mr-5" />
               <p className="first-letter:uppercase">{opcion.opcion}</p>
             </button>
