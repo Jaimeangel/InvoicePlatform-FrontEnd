@@ -8,19 +8,19 @@ import { Outlet } from 'react-router-dom';
 function Dashboard(){
     const [open,setOpen]=useState(true)
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-screen flex flex-col'>
     
           <Nav
             openSideNav={setOpen}
           />
     
-          <div className='w-full h-screen flex flex-row px-4 mb-5'>
+          <div className='w-full h-screen flex flex-row px-4 mb-5 overflow-auto'>
     
             <SideBar
                 sideNav={open}
             />
             
-            <div className={`${open ?'w-5/6' : 'w-full'} h-screen shadow-inner p-8 bg-gray-100 rounded-2xl overflow-y-scroll`}>
+            <div className={`${open ?'w-4/5' : 'w-full'} shadow-inner p-8 bg-gray-100 rounded-2xl overflow-y-scroll`}>
               <Outlet/>
             </div>
     
