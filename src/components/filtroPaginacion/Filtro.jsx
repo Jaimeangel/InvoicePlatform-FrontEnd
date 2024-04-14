@@ -1,5 +1,3 @@
-import extraerInformacionCotizacion from "../../helpers/extraerInformacionCotizacion";
-
 import { useState, useEffect } from "react";
 
 import SearchForm from "../SearchForm";
@@ -8,9 +6,13 @@ import useCliente from "../../hooks/useCliente";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownLong,faUpLong } from "@fortawesome/free-solid-svg-icons";
 
+import { obtenerElementosPorPagina } from "../../helpers/obtenerElementosPaginacion";
+
 function Filtro({
     items,
-    actualizarItems
+    actualizarItems,
+    paginaActual,
+    itemsPorPagina
 }){
 
     const {
@@ -64,7 +66,8 @@ function Filtro({
     const limpiarFiltro = ()=>{
         setFechaInicio('')
         setFechaFinal('')
-        actualizarItems(items)
+        const newArray = obtenerElementosPorPagina(items,paginaActual,itemsPorPagina)
+        actualizarItems(newArray)
     }
 
     const ventanaFiltro = ()=>{
@@ -90,8 +93,6 @@ function Filtro({
         }
 
         actualizarItems(lista)
-        console.log(lista)
-        console.log(items)
     }
 
 

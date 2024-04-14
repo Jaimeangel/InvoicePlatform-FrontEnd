@@ -1,9 +1,10 @@
 import { useState,useEffect } from "react";
 
+import { obtenerElementosPorPagina } from "../../helpers/obtenerElementosPaginacion";
+
 import Filtro from "./Filtro";
 import Paginacion from "./Paginacion"
 
-import { obtenerElementosPorPagina } from "../../helpers/obtenerElementosPaginacion";
 
 function FiltroPaginacion({
     WraperEncabezado,
@@ -13,17 +14,21 @@ function FiltroPaginacion({
 }){
     const [listaFiltrada,setListaFiltrada]=useState([])
     const [itemsPorPagina]=useState(itemsPaginacion)
+    const [paginaActual,setPaginaActual] = useState(1)
 
     useEffect(()=>{
-        const newArray = obtenerElementosPorPagina(lista,1,itemsPorPagina)
+        const newArray = obtenerElementosPorPagina(lista,paginaActual,itemsPorPagina)
         setListaFiltrada(newArray)
     },[lista])
 
+    
     return (
         <div>
             <Filtro
                 items={lista}
                 actualizarItems={setListaFiltrada}
+                paginaActual={paginaActual}
+                itemsPorPagina={itemsPorPagina}
             />
             <WraperEncabezado>
                 {
@@ -39,6 +44,8 @@ function FiltroPaginacion({
                 numeroItems={itemsPorPagina}
                 items={lista}
                 actualizarItems={setListaFiltrada}
+                paginaActual={paginaActual}
+                setPaginaActual={setPaginaActual}
             />
         </div>
     )

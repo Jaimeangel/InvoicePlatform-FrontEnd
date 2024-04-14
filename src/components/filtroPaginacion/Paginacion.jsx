@@ -8,9 +8,10 @@ import { obtenerElementosPorPagina } from "../../helpers/obtenerElementosPaginac
 const Paginacion = ({
   numeroItems,
   items,
-  actualizarItems
+  actualizarItems,
+  paginaActual,
+  setPaginaActual
 })=> {
-  const [paginaActual,setPaginaActual] = useState(1)
   const [numberItems] = useState(numeroItems)
   const [numberTotalPaginacion,setNumberTotalPaginacion] = useState([])
   
