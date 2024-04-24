@@ -5,8 +5,9 @@ import EncabezadoCotizaciones from '../../components/ver cotizaciones/Encabezado
 
 import useCotizacion from '../../hooks/useCotizacion'
 
-import extraerInformacionCotizacion from '../../helpers/extraerInformacionCotizacion'
 import FiltroPaginacion from '../../components/filtroPaginacion/FiltroPaginacion'
+
+import { FormatoVisualCotizacion } from '../../helpers/FormatoVisualCotizacion'
 
 function VisualizarCotizaciones() {
 
@@ -17,15 +18,7 @@ function VisualizarCotizaciones() {
     const [cotizaciones,setCotizaciones]=useState([])
     const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
 
-    function primerFormatoInicialCotizaciones(){
-        if(cotizaciones.length !==0){
-            const cotizacionesFormato = cotizaciones.map( cotizacion => {
-                return extraerInformacionCotizacion(cotizacion,cotizacion.cliente)
-            }).reverse()
-            setCotizacionesFormateadas(cotizacionesFormato)
-        }
-    }
-
+    
     useEffect(()=>{
         const obtenerCotizacionesUser = async ()=>{
             try{
@@ -39,7 +32,7 @@ function VisualizarCotizaciones() {
     },[])
 
     useEffect(() => {
-        primerFormatoInicialCotizaciones()
+        FormatoVisualCotizacion(cotizaciones,setCotizacionesFormateadas)
     },[cotizaciones])
 
 
