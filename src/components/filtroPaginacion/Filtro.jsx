@@ -100,12 +100,12 @@ function Filtro({
         <>
             <div
                 onClick={ventanaFiltro} 
-                className={`${!open && 'mb-5 rounded-b'} cursor-pointer flex flex-row items-center gap-5 bg-slate-100 px-5 py-1 rounded-t shadow-sm shadow-b-0 border-black border`}
+                className={`${!open && 'mb-5 rounded-b'} cursor-pointer flex flex-row items-center gap-5 bg-slate-100 px-5 rounded-t shadow-sm shadow-b-0 border-black border`}
             >
                 {
                     open ? <FontAwesomeIcon icon={faUpLong} size="xs" /> : <FontAwesomeIcon icon={faDownLong} size="xs" className="mt-1"/>
                 }
-                <h1 className="font-bold text-lg tracking-wider">Filtros</h1>
+                <h1 className="font-bold text-lg tracking-wider italic">Filtros</h1>
             </div>
             {
                 open && (
