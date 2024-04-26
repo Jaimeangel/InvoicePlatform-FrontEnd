@@ -4,6 +4,8 @@ import { formatoMonedaDosDecimales } from "../../helpers/formatoMonedas";
 
 import useCotizacion from "../../hooks/useCotizacion";
 
+import extraerInformacionCotizacion from "../../helpers/extraerInformacionCotizacion";
+
 function CardCotizaciones({data}){
 
     const [pdf,setPdf]=useState(null)
@@ -19,18 +21,18 @@ function CardCotizaciones({data}){
         numeroCotizacion,
         nombre,
         identificacion
-    }=data;
+    }=extraerInformacionCotizacion(data,data.cliente);
 
+    const obtenerURLCotizacionById = async ()=>{
+        try {
+            const urlCotizacion = await obtenerUrlCotizacionById(_id)
+            setPdf(urlCotizacion)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(()=>{
-        const obtenerURLCotizacionById = async ()=>{
-            try {
-                const urlCotizacion = await obtenerUrlCotizacionById(_id)
-                setPdf(urlCotizacion)
-            } catch (error) {
-                console.log(error)
-            }
-        }
         obtenerURLCotizacionById()
     },[])
 

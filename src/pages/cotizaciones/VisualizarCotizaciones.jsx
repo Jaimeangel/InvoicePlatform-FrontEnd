@@ -5,7 +5,6 @@ import EncabezadoCotizaciones from '../../components/ver cotizaciones/Encabezado
 import FiltroPaginacion from '../../components/filtroPaginacion/FiltroPaginacion'
 import AlertaWrapper from '../../components/alertas/AlertaWrapper'
 
-import { FormatoVisualCotizacion } from '../../helpers/FormatoVisualCotizacion'
 import useCotizacion from '../../hooks/useCotizacion'
 
 function VisualizarCotizaciones() {
@@ -20,11 +19,11 @@ function VisualizarCotizaciones() {
     })
     
     const [cotizaciones,setCotizaciones]=useState([])
-    const [cotizacionesFormateadas,setCotizacionesFormateadas]=useState([])
 
     const obtenerCotizacionesUser = async ()=>{
         try{
             const cotizaciones =  await obtenerCotizaciones()
+            cotizaciones.reverse()
             setCotizaciones(cotizaciones)
         } catch (err) {
             setCatchError({
@@ -45,12 +44,6 @@ function VisualizarCotizaciones() {
         obtenerCotizacionesUser()
     },[])
 
-    useEffect(() => {
-        FormatoVisualCotizacion(cotizaciones,setCotizacionesFormateadas)
-    },[cotizaciones])
-
-
-
     return (
         <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
             <AlertaWrapper alert={catchError}>
@@ -58,7 +51,7 @@ function VisualizarCotizaciones() {
                 <FiltroPaginacion
                     WraperEncabezado={EncabezadoCotizaciones}
                     CardItems={CardCotizaciones}
-                    lista={cotizacionesFormateadas}
+                    lista={cotizaciones}
                     itemsPaginacion={4}
                 />
             </AlertaWrapper>
