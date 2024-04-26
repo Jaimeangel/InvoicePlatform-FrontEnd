@@ -27,6 +27,7 @@ function ClienteProvider({children}) {
 
         try {
             const {data} = await axios('http://localhost:5000/api/clientes',config)
+            data.reverse()
             setClientes(data)
         } catch (error) {
             console.log(error)
