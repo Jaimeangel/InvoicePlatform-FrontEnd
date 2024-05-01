@@ -145,6 +145,7 @@ function FormCreateCliente({close}) {
     return (
         <form 
             onSubmit={handleSubmitFormulario}
+            className='w-[90%] flex justify-center mx-auto bg-white px-10 py-10 rounded-xl'
         > 
             {
                 !done 

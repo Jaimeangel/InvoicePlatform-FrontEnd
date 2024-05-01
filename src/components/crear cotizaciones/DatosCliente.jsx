@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+//font awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 //hooks
 import useCliente from '../../hooks/useCliente.jsx'
 import useAuth from '../../hooks/useAuth.jsx'
@@ -7,8 +10,11 @@ import useCotizacion from "../../hooks/useCotizacion.jsx";
 import ContadorCotizaciones from "../../helpers/ContadorCotizaciones.js";
 //componentes
 import SearchForm from "../SearchForm.jsx";
-import ModalCrearCliente from "../cliente/ModalCrearCliente.jsx";
 import AlertaForm from "../alertas/AlertaForm.jsx";
+
+
+import Modal from "../modal/Modal.jsx";
+import FormCreateCliente from "../cliente/FormCreateCliente.jsx"
 
 function DatosCliente({
   setCliente,
@@ -34,6 +40,7 @@ function DatosCliente({
     obtenerCotizacionesLength
   }=useCotizacion()
   //data componente
+  const [open,setOpen]=useState(false)
   const [contacto,setContacto]=useState(cliente) // la informacion de cliente elegido viene del state principal
   const [numeroCotizacion,SetNumberCotizacion]=useState('ctz')
   const [fecha,setDate]=useState('')
@@ -142,8 +149,20 @@ function DatosCliente({
                 list={clientes}
                 onChangeCliente={handleChange}
               />
-              
-              <ModalCrearCliente/>
+
+              {
+                open ? 
+                <Modal open={open}>
+                  <FormCreateCliente close={()=>setOpen(false)}/> 
+                </Modal> :
+                <button
+                  type="button"
+                  onClick={()=>setOpen(true)}
+                  className="w-1/12 bg-green-400 rounded-md shadow-sm"
+                >
+                  <FontAwesomeIcon icon={faPlus} />
+                </button>
+              }
             </div>
           </div>
 
