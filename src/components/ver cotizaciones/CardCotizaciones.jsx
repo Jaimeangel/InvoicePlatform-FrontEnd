@@ -45,7 +45,7 @@ function CardCotizaciones({data}){
                         target="_blank"
                     >
                         <div
-                            className='w-full flex flex-row cursor-pointer border border-black rounded bg-white hover:shadow-lg'
+                            className='w-full flex flex-row cursor-pointer border border-black rounded bg-white shadow hover:shadow-lg'
                         >
                             <p
                                 className='border-r border-black text-center font-semibold py-2'

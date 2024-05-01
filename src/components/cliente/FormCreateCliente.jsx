@@ -154,7 +154,7 @@ function FormCreateCliente({close}) {
                             {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
 
                             <div className='w-full flex flex-row items-center justify-between px-5'>
-                                <h1 className='w-1/2 text-3xl font-bold tracking-wider'>Registrar un nuevo cliente</h1>
+                                <h1 className='w-1/2 text-3xl font-bold tracking-wider italic'>Registrar un nuevo cliente</h1>
                                 <div className='w-1/2 flex flex-row justify-end gap-5'>
                                     <input
                                         value='Guardar'
@@ -172,7 +172,7 @@ function FormCreateCliente({close}) {
                 
                             <div className="w-full flex flex-row gap-5">
 
-                                <div className="w-1/2 flex flex-col border shadow px-5 py-5 rounded-md">
+                                <div className="w-1/2 flex flex-col border shadow-sm px-5 py-5 rounded-md">
 
                                     <h1 className='text-2xl font-bold tracking-wider mb-3'>Datos basicos</h1>
 
@@ -306,7 +306,7 @@ function FormCreateCliente({close}) {
                                 </div>
 
 
-                                <div className="w-1/2 flex flex-col border shadow px-5 py-5 rounded-md">
+                                <div className="w-1/2 flex flex-col border shadow-sm px-5 py-5 rounded-md">
                                     <h1 className='text-2xl font-bold tracking-wider mb-3'>Datos para facturación y envío</h1>
                                     <div className="w-full flex flex-col gap-3">
                                         <div className="w-full flex flex-row gap-5">

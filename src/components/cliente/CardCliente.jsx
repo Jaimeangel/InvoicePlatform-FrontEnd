@@ -13,7 +13,7 @@ export default function CardCliente({
     return (
         <div className="w-full flex flex-row justify-between">
             <div
-                className='w-[100%] flex flex-row cursor-pointer border border-black rounded bg-white hover:shadow-lg'
+                className='w-[100%] flex flex-row cursor-pointer border border-black rounded bg-white shadow hover:shadow-lg'
             >
                 <div
                     className='border-r  border-black'

@@ -61,12 +61,21 @@ function VisualizarClientes() {
   return (
     <div className="w-full bg-white rounded-lg px-10 py-6 shadow-md">
       <AlertaWrapper alert={catchError}>
-        <h1 className="mt-2 mb-5 text-3xl font-bold italic">Clientes</h1>
         <ModalDataCliente 
           open={openModal} 
           close={()=>setOpenModal(false)} 
           data={dataCotizacion}
         >
+          <div className="flex justify-between items-center">
+            <h1 className="mt-2 mb-5 text-3xl font-bold italic tracking-wide">Clientes</h1>
+            <button
+              onClick={()=>setOpenModal(true)}
+              type="button"
+              className="bg-green-200 rounded shadow-sm px-5 py-1 border-2 border-green-500 italic font-semibold tracking-wide"
+            >
+              Crear cliente
+            </button>
+          </div>
           <FiltroPaginacion
             WraperEncabezado={EncabezadoCliente}
             CardItems={CardCliente}
