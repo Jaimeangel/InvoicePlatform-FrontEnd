@@ -10,7 +10,8 @@ function FiltroPaginacion({
     WraperEncabezado,
     CardItems,
     lista,
-    itemsPaginacion
+    itemsPaginacion,
+    callback
 }){
     const [listaFiltrada,setListaFiltrada]=useState([])
     const [itemsPorPagina]=useState(itemsPaginacion)
@@ -36,6 +37,7 @@ function FiltroPaginacion({
                         <CardItems
                             key={data._id}
                             data={data}
+                            callback={callback}
                         />
                     )) 
                 }

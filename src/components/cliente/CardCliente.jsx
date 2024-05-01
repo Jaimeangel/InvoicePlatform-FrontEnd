@@ -1,9 +1,9 @@
 import {FormatoVisualCliente} from '../../helpers/FormatoVisualCliente'
 
 export default function CardCliente({
-    data
+    data,
+    callback
 }){
-
     const {
         tipoIdenti,
         identificacion,
@@ -53,8 +53,9 @@ export default function CardCliente({
                         {nombreCliente}
                     </p>
                 </div>
-                <button 
-                    className="w-[10%] text-center font-semibold italic bg-yellow-400 rounded"
+                <button
+                    onClick={()=>callback(data)} 
+                    className="w-[10%] text-center font-semibold italic bg-yellow-400 rounded rounded-l-none"
                 >
                     ver más
                 </button>
