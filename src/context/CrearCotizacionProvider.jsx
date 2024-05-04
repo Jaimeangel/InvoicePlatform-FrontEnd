@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState,useReducer } from "react";
 
 //Componentes pasos cotizacion
 import DatosCliente from "../components/crear cotizaciones/DatosCliente";
@@ -49,7 +49,27 @@ const indexCotizacion = {
     }
 }
 
+const cotizacionReducer=(state, action) => {
+    switch (action.type) {
+      case 'ADD_CLIENTE':
+        return {
+            ...state,
+            'cliente':action.payload
+        };
+      case 'ADD_DATA_COTIZACION':
+        return {
+            ...state,
+            ...action.payload
+        }
+      default:
+        throw new Error();
+    }
+  }
+  
+
 const CrearCotizacionProvider = ({children})=>{
+    const [cotizacion, dispatch]=useReducer(cotizacionReducer,{})
+
     const [limitIndex]=useState(Object.keys(indexCotizacion).length)
     const [index,setIndex]=useState(1)
     const [approve,setApprove]=useState(false)
@@ -89,7 +109,9 @@ const CrearCotizacionProvider = ({children})=>{
                 index,
                 componente,
                 limitIndex,
-                indexCotizacion
+                indexCotizacion,
+                cotizacion, 
+                dispatch
             }}
         >
             {children}

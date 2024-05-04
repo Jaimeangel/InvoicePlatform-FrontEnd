@@ -10,17 +10,16 @@ import SearchForm from "../SearchForm.jsx";
 import ModalCrearCliente from "../cliente/ModalCrearCliente.jsx";
 import AlertaForm from "../alertas/AlertaForm.jsx";
 
-function DatosCliente({
-  setCliente,
-  cliente,
-  cotizacion,
-  setCotizacion,
-  validatePaso,
-  cambiarPaso,
-  setValidatePaso,
-  pasoActual,
-  numeroPasos
-}){
+
+import useCrearCotizacion from "../../hooks/useCrearCotizacion.jsx";
+
+function DatosCliente(){
+
+  const {
+    cotizacion, 
+    dispatch
+  }=useCrearCotizacion()
+
   const {
     obtenerClientesByUsuario,
     clientes // clientes de bases de datos
@@ -33,16 +32,14 @@ function DatosCliente({
   const {
     obtenerCotizacionesLength
   }=useCotizacion()
-  //data componente
-  const [contacto,setContacto]=useState({}) // la informacion de cliente elegido viene del state principal
+
   const [numeroCotizacion,SetNumberCotizacion]=useState('ctz')
-  const [fecha,setDate]=useState('')
+  const [fecha,setDate]=useState(cotizacion?.fecha)
 
   //estado de alerta
   const [alert,setAlert]=useState({msg:'',error:false})
   
   useEffect(()=>{
-    //cargar clientes base de datos
     const getClientes= async ()=>{
       const clientes = await obtenerClientesByUsuario()
     }
@@ -63,46 +60,24 @@ function DatosCliente({
     numberCotizacion()
   },[])
 
-  //validacion para cambiar al siguiente paso
-  useEffect(()=>{
-    if(validatePaso){
-      const camposRequeridos = [contacto,numeroCotizacion,fecha].includes('');
-      if(camposRequeridos){
-          
-          setAlert({
-            msg:'Es necesario llenar todos los campos para pasar al siguiente paso',
-            error:true
-          })
-          
-          setTimeout(() => {
-            setAlert({
-              msg:'',
-              error:true
-            })
-          }, 4000);
-  
-          setValidatePaso(false)
-          return
-      }
-      setValidatePaso(false)
-      cambiarPasoSiguiente()
-    }
-  },[validatePaso])
-
   //actulizando informacion en state principal
   useEffect(()=>{
     const newData={
-      ...cotizacion,
       numeroCotizacion,
       fecha
     }
-    setCotizacion(newData)
-  },[contacto,fecha])
+    dispatch({
+      type:'ADD_DATA_COTIZACION',
+      payload:newData
+    })
+  },[fecha])
 
-  //guardar informacion del cliente elegido
-  const handleChange =(dataCliente)=>{
-    setCliente(dataCliente) // guarda informacion de cliente en state principal
-    setContacto(dataCliente) // guarda informacion de cliente en state local
+  
+  const handleChangeCliente =(dataCliente)=>{
+    dispatch({
+      type:'ADD_CLIENTE',
+      payload:dataCliente
+    })
   }
 
 
@@ -111,25 +86,25 @@ function DatosCliente({
 
       {alert.msg.length!==0 && <AlertaForm alert={alert}/>}
       
-      <h1 className="mt-2 mb-5 text-2xl font-bold">Datos del cliente</h1>
+      <h1 className="mt-2 mb-5 text-2xl font-bold italic">Datos del cliente</h1>
 
       <div className="flex flex-row justify-between">
 
         <div className="w-2/3 flex flex-col gap-2 pr-5">
 
           <div className="flex flex-row gap-3 items-center">
-            <p className="font-semibold text-lg">Tipo de documento:</p>
-            <p className="text-lg tracking-wider italic font-semibold">COTIZACION COMERCIAL</p>
+            <p className="font-semibold text-lg">tipo de documento:</p>
+            <p className="text-xl tracking-wider italic font-bold">cotización comercial</p>
           </div>
 
           <div className="w-full flex flex-col gap-1">
-            <label className="font-semibold text-lg">Cliente</label>
+            <label className="font-semibold text-lg">cliente</label>
             <div className="flex flex-row gap-1">
               
               <SearchForm
-                cliente={cliente}
+                cliente={cotizacion?.cliente}
                 list={clientes}
-                onChangeCliente={handleChange}
+                onChangeCliente={handleChangeCliente}
               />
               
               <ModalCrearCliente/>
@@ -137,11 +112,11 @@ function DatosCliente({
           </div>
 
           {
-            Object.keys(contacto).length !== 0 && (
+            cotizacion?.cliente  && (
               <div className="w-full flex flex-col gap-1">
-                <label className="font-semibold text-lg">Contacto</label>
+                <p className="font-semibold text-lg">contacto</p>
                 <p className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm">
-                  {`${contacto.nombreContacto} ${contacto.apellidoContacto}`}
+                  {`${cotizacion?.cliente.nombreContacto} ${cotizacion?.cliente.apellidoContacto}`}
                 </p>
               </div>
             )
@@ -149,7 +124,7 @@ function DatosCliente({
 
 
           <div className="w-full flex flex-col gap-1">
-            <label className="font-semibold text-lg">Responsables de cotizacion</label>
+            <label className="font-semibold text-lg">responsables de cotización</label>
             <p className="w-11/12 border rounded-md px-3 py-2 outline-none shadow-sm">
               {auth.razonSocial}
             </p>
@@ -159,13 +134,13 @@ function DatosCliente({
 
         <div className="w-1/3 flex flex-col gap-2 pl-10">
 
-          <div className="flex flex-row gap-3">
-            <p className="font-semibold text-lg">Numero:</p>
+          <div className="flex flex-wrap gap-1">
+            <p className="font-semibold text-lg">numero de cotización:</p>
             <p className="text-lg tracking-wider italic font-semibold">{numeroCotizacion}</p>
           </div>
 
           <div className="flex flex-col gap-3">
-            <p className="font-semibold text-lg">Fecha de elaboracion:</p>
+            <p className="font-semibold text-lg">fecha de creación</p>
             <input
               value={fecha}
               onChange={(e)=>setDate(e.target.value)} 

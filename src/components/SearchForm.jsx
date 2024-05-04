@@ -37,7 +37,7 @@ function SearchForm({list,onChangeCliente,cliente}) {
 
     //persitencia de informacion de cliente
     useEffect(()=>{
-        if(Object.keys(cliente).length !== 0  || cliente === ''){
+        if(cliente){
             setSelected(cliente)
         }
     },[])
