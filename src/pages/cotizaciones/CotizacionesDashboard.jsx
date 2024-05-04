@@ -35,20 +35,24 @@ function CotizacionesDashboard() {
     },[location.pathname])
 
     return (
-        <div className='w-full flex flex-row gap-5 items-stretch'>
+        <div className='w-full'>
             
             {
                 path === '/dashboard/cotizaciones' ?
-                (
-                    opciones.map((opcion)=>(
-                        <CardOptionsDashboard
-                            key={opcion.id}
-                            text={opcion.text}
-                            icon={opcion.icon}
-                            link={opcion.link}
-                        />
-                    ))
-                ):
+                
+                    <div className='grid grid-cols-2 gap-5'>
+                        {
+                            opciones.map((opcion)=>(
+                                <CardOptionsDashboard
+                                    key={opcion.id}
+                                    text={opcion.text}
+                                    icon={opcion.icon}
+                                    link={opcion.link}
+                                />
+                        ))
+                        }
+                    </div>
+                :
                 (
                     <Outlet/>
                 )
