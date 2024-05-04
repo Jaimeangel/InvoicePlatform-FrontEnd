@@ -34,7 +34,7 @@ function DatosCliente({
     obtenerCotizacionesLength
   }=useCotizacion()
   //data componente
-  const [contacto,setContacto]=useState(cliente) // la informacion de cliente elegido viene del state principal
+  const [contacto,setContacto]=useState({}) // la informacion de cliente elegido viene del state principal
   const [numeroCotizacion,SetNumberCotizacion]=useState('ctz')
   const [fecha,setDate]=useState('')
 
@@ -48,13 +48,6 @@ function DatosCliente({
     }
     getClientes()
 
-    //persistencia de informacion
-    const { fecha, numeroCotizacion } = cotizacion;
-    setDate(fecha); //fecha
-    
-    if (numeroCotizacion !== '') {
-      SetNumberCotizacion(numeroCotizacion); // numero cotizacion
-    }
   },[])
 
   useEffect(()=>{
@@ -112,10 +105,6 @@ function DatosCliente({
     setContacto(dataCliente) // guarda informacion de cliente en state local
   }
 
-  const cambiarPasoSiguiente=()=>{
-    if(pasoActual===numeroPasos ) return
-    cambiarPaso(value => value + 1 ) //cambiar al paso siguiente
-  }
 
   return (
     <div className="w-full  bg-white rounded-lg px-10 py-6 shadow-md">

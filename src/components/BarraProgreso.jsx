@@ -1,17 +1,14 @@
 import { useState,useEffect } from "react";
+import useCrearCotizacion from "../hooks/useCrearCotizacion";
 
-function BarraProgreso({pasos,pasoActual}) {
-    const [porcentajeActual,setPorcentajeActual]=useState(0)
+function BarraProgreso({pasos}) {
 
-    useEffect(()=>{
-        const resultado = pasos.reduce((porcentajeEncontrado, paso) => {
-            if (paso.paso === pasoActual) {
-              return paso.porcentaje;
-            }
-            return porcentajeEncontrado;
-        }, null);
-        setPorcentajeActual(resultado)
-    },[pasoActual])
+    const {
+        index,
+        indexCotizacion
+    }=useCrearCotizacion()
+
+    const [porcentajeActual]=useState(indexCotizacion[index].porcentaje)
 
     return (
         <div className="w-full  bg-white rounded-lg shadow-md  px-10 py-6 flex flex-col">
@@ -27,9 +24,10 @@ function BarraProgreso({pasos,pasoActual}) {
             </div>
             <div className="w-full flex flex-row justify-between mt-5 items-center">
                 {
-                    pasos.map((paso,i)=>(
-                        <p key={i} className="first-letter:uppercase max-w-[10rem] font-semibold text-md text-center">{paso.text}</p>
-                    ))
+                    Object.entries(indexCotizacion).map(([key, value])=>{
+                        const { index, label} = value;
+                        return <p key={index} className="first-letter:uppercase max-w-[10rem] font-semibold text-md text-center">{label}</p>
+                    })
                 }
             </div>
         </div>
