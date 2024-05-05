@@ -17,7 +17,7 @@ function Perfil({open,close}) {
 
     return (
         <ul
-            className={`${open ? 'block':'hidden'} w-full flex flex-col  bg-white absolute mt-14 px-2 pt-8 pb-5 border shadow-md rounded-md`}
+            className={`${open ? 'block':'hidden'} w-full flex flex-col  bg-white absolute mt-11 px-2 pt-8 pb-5 border shadow-md rounded-md`}
         >
             <Link
                 to={'configuraciones'}

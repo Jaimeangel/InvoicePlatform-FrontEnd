@@ -1,14 +1,18 @@
 import { useState,useEffect } from "react";
 import useCrearCotizacion from "../hooks/useCrearCotizacion";
 
-function BarraProgreso({pasos}) {
+function BarraProgreso() {
 
     const {
         index,
         indexCotizacion
     }=useCrearCotizacion()
 
-    const [porcentajeActual]=useState(indexCotizacion[index].porcentaje)
+    const [porcentajeActual,setPorcentajeActual]=useState(indexCotizacion[index].porcentaje)
+
+    useEffect(()=>{
+        setPorcentajeActual(indexCotizacion[index].porcentaje)
+    },[index])
 
     return (
         <div className="w-full  bg-white rounded-lg shadow-md  px-10 py-6 flex flex-col">

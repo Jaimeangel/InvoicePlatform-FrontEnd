@@ -1,6 +1,6 @@
 import { Switch } from '@headlessui/react'
 
-function SwitchButtonPequeño({enabled, setEnabled}) {
+function SwitchButtonPequeño({enabled,setEnabled}) {
 
   return (
     <div>
