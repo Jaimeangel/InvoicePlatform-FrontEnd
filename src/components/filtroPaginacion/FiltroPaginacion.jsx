@@ -2,8 +2,8 @@ import { useState,useEffect } from "react";
 
 import { obtenerElementosPorPagina } from "../../helpers/obtenerElementosPaginacion";
 
-import Filtro from "./Filtro";
-import Paginacion from "./Paginacion"
+import Filtro from "../filtroPaginacionItems/Filtro";
+import Paginacion from "../filtroPaginacionItems/Paginacion";
 
 
 function FiltroPaginacion({

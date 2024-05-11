@@ -28,18 +28,18 @@ function CardCotizaciones({data}){
             const urlCotizacion = await obtenerUrlCotizacionById(_id)
             setPdf(urlCotizacion)
         } catch (error) {
-            console.log(error)
+            setPdf(null)
         }
     }
 
     useEffect(()=>{
         obtenerURLCotizacionById()
-    },[])
+    },[data])
 
     return (
         <>
             {
-                pdf !== null && (
+                pdf && (
                     <a
                         href={`${pdf}`}
                         target="_blank"
@@ -53,57 +53,48 @@ function CardCotizaciones({data}){
                                     width:`13%`
                                 }} 
                             >
-                                COTIZACION
+                                cotizacion
                             </p>
-                            <div
-                                className='border-r border-black'
+                            <p
                                 style={{
                                     width:`10%`
-                                }} 
+                                }}
+                                className="border-r border-black px-3 py-1 font-semibold text-center"
                             >
-                                <p
-                                    className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
-                                >{numeroCotizacion}</p>
-                            </div>
-                            <div
-                                className='border-r border-black'
+                                {numeroCotizacion}
+                            </p>
+                            <p
                                 style={{
-                                    width:`16%`
+                                    width:`13%`
                                 }} 
+                                className="border-r border-black px-3 py-1 font-semibold text-center"
                             >
-                                <p
-                                    className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
-                                >{formatFechaDataMongo(fecha)}</p>
-                            </div>
-                            <div
-                                className='border-r border-black'
+                                {formatFechaDataMongo(fecha)}
+                            </p>
+                            <p
                                 style={{
                                     width:`14%`
                                 }} 
+                                className="border-r border-black px-3 py-1 font-semibold text-center"
                             >
-                                <p
-                                    className="w-full bg-white outline-none px-3 py-1 font-semibold text-center first-letter:uppercase"
-                                >{identificacion}</p>
-                            </div>
-                            <div
-                                className='border-r border-black'
+                                {identificacion}
+                            </p>
+                            <p
                                 style={{
-                                    width:`30%`
+                                    width:`35%`
                                 }} 
+                                className="border-r border-black px-3 py-1 font-semibold text-center"
                             >
-                                <p
-                                    className="w-full bg-white outline-none px-3 py-1 font-semibold text-justify first-letter:uppercase"
-                                >{nombre}</p>
-                            </div>
-                            <input
-                                value={formatoMonedaDosDecimales(valorTotal)}
-                                type="text"
-                                className="bg-white text-center rounded font-semibold"
+                                {nombre}
+                            </p>
+                            <p
                                 style={{
                                     width:`17%`
-                                }}  
-                                disabled 
-                            />
+                                }}
+                                className="px-3 py-1 font-semibold text-center"  
+                            >
+                                {formatoMonedaDosDecimales(valorTotal)}
+                            </p>
                         </div>
                     </a>
                 )
