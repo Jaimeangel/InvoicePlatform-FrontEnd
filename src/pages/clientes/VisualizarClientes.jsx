@@ -1,13 +1,37 @@
 import { useEffect, useState } from "react";
 
 import AlertaWrapper from "../../components/alertas/AlertaWrapper";
-import FiltroPaginacion from "../../components/filtroPaginacion/FiltroPaginacion";
 import EncabezadoCliente from "../../components/cliente/EncabezadoCliente"
 import CardCliente from "../../components/cliente/CardCliente";
 import ModalDataCliente from "../../components/modal/ModalDataCliente";
 
 import useCliente from "../../hooks/useCliente";
 
+import SearchForm from "../../components/SearchForm";
+import FiltroPaginacion from "../../components/filtroPaginacionItems/FiltroPaginacionItems";
+
+const items=[    
+  {
+      id:1,
+      categoria:'tipo identificación',
+      proporcion:20
+  },
+  {
+      id:2,
+      categoria:'identificación',
+      proporcion:17
+  },
+  {
+      id:3,
+      categoria:'nombre del cliente',
+      proporcion:53
+  },
+  {
+      id:4,
+      categoria:'',
+      proporcion:10
+  }
+]
 
 function VisualizarClientes() {
 
@@ -76,13 +100,34 @@ function VisualizarClientes() {
               Crear cliente
             </button>
           </div>
-          <FiltroPaginacion
-            WraperEncabezado={EncabezadoCliente}
-            CardItems={CardCliente}
-            lista={clientes}
-            itemsPaginacion={4}
-            callback={callbackModalCotizacion}
-          />
+          <FiltroPaginacion lista={clientes} dataItems={items} numberItems={4}>
+
+            <FiltroPaginacion.Filtro>
+              {(contacto,clientes,handleChange)=>(
+                  <>
+                      <div className="w-2/3 flex flex-col gap-4">
+                          <p className="font-bold text-xl">Cliente</p>
+                          <SearchForm
+                              cliente={contacto}
+                              list={clientes}
+                              onChangeCliente={handleChange}
+                          />
+                      </div>
+                  </>
+              )}
+            </FiltroPaginacion.Filtro>
+
+            <FiltroPaginacion.WraperItems>
+                {(items)=>(
+                    items?.map((item) =>(
+                        <CardCliente key={item._id} data={item}/>
+                    ))
+                )}
+            </FiltroPaginacion.WraperItems>
+
+            <FiltroPaginacion.Paginacion/>
+
+          </FiltroPaginacion>
         </ModalDataCliente>
       </AlertaWrapper>
     </div>

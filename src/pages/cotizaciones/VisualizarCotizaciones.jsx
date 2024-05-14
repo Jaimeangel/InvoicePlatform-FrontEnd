@@ -5,6 +5,7 @@ import AlertaWrapper from '../../components/alertas/AlertaWrapper'
 
 import FiltroPaginacion from '../../components/filtroPaginacionItems/FiltroPaginacionItems'
 
+import SearchForm from '../../components/SearchForm'
 
 const items=[    
     {
@@ -86,7 +87,50 @@ function VisualizarCotizaciones() {
 
                 <FiltroPaginacion lista={cotizaciones} dataItems={items} numberItems={4}>
 
-                    <FiltroPaginacion.Filtro/>
+                    <FiltroPaginacion.Filtro>
+                        {(contacto,clientes,handleChange,filterDate,handleDate)=>(
+                            <>
+                                <div className="w-1/2 flex flex-col gap-4">
+                                    <p className="font-bold text-xl">Cliente</p>
+                                    <SearchForm
+                                        cliente={contacto}
+                                        list={clientes}
+                                        onChangeCliente={handleChange}
+                                    />
+                                </div>
+                                <div className="w-1/2 flex flex-col gap-1">
+                                    <p className="font-bold text-xl">Fecha elaboración</p>
+
+                                    <div className="flex flex-row justify-between gap-5">
+
+                                        <div className="w-full flex flex-col">
+                                            <p className="font-semibold text-md">Desde</p>
+                                            <input
+                                                name='fechaInicio'
+                                                value={filterDate["fechaInicio"]}
+                                                onChange={handleDate} 
+                                                type="date" 
+                                                className="border rounded-md px-3"
+                                            />
+                                        </div>
+
+                                        <div className="w-full flex flex-col">
+                                            <p className="font-semibold text-md">Hasta</p>
+                                            <input
+                                                name="fechaFinal"
+                                                value={filterDate["fechaFinal"]}
+                                                onChange={handleDate} 
+                                                type="date" 
+                                                className="border rounded-md px-3"
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </>
+                        )}
+                    </FiltroPaginacion.Filtro>
 
                     <FiltroPaginacion.WraperItems>
                         {(items)=>(

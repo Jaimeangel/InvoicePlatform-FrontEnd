@@ -8,7 +8,7 @@ import { faDownLong,faUpLong } from "@fortawesome/free-solid-svg-icons";
 
 import { filtroPaginacionItemsContext } from "../filtroPaginacionItems/FiltroPaginacionItems";
 
-function Filtro(){
+function Filtro({children}){
 
     const {
         array,
@@ -22,8 +22,10 @@ function Filtro(){
     }=useCliente()
 
     const [contacto,setContacto]=useState('')
-    const [fechaInicio,setFechaInicio]=useState('')
-    const [fechaFinal,setFechaFinal]=useState('')
+    const [filterDate,setFilterDate]=useState({
+        'fechaInicio':'',
+        'fechaFinal':''
+    })
 
     const [open,setOpen]=useState(false)
 
@@ -44,6 +46,28 @@ function Filtro(){
         }
     },[contacto])
 
+    const handleChange =(dataCliente)=>{
+        setContacto(dataCliente)
+    }
+
+    const handleDate = (e)=>{
+        e.preventDefault()
+
+        setFilterDate({
+            ...filterDate,
+            [e.target.name]:[e.target.value]
+        })
+    }
+
+    const limpiarFiltro = ()=>{
+        setFilterDate({
+            'fechaInicio':'',
+            'fechaFinal':''
+        })
+        updateIndex(1)
+        updateListFilter([])
+    }
+
     function filtrarPorRango(array, fechaInicio, fechaFin) {
         // Convertir las fechas de tipo "date" a objetos Date
         const fechaInicioObj = new Date(fechaInicio + 'T00:00:00');
@@ -60,16 +84,6 @@ function Filtro(){
         return elementosFiltrados;
     }
 
-    const handleChange =(dataCliente)=>{
-        setContacto(dataCliente)
-    }
-
-    const limpiarFiltro = ()=>{
-        setFechaInicio('')
-        setFechaFinal('')
-        updateIndex(1)
-        updateListFilter([])
-    }
 
     const ventanaFiltro = ()=>{
         setOpen(prev => !prev)
@@ -78,8 +92,8 @@ function Filtro(){
     const filtrar = ()=>{
         let lista=[]
         
-        if(![fechaInicio,fechaFinal].includes('')){
-            const newCotizaciones = filtrarPorRango(array,fechaInicio,fechaFinal)
+        if(![filterDate["fechaInicio"],filterDate["fechaFinal"]].includes('')){
+            const newCotizaciones = filtrarPorRango(array,filterDate["fechaInicio"],filterDate["fechaFinal"])
             lista = newCotizaciones
         }
 
@@ -113,45 +127,7 @@ function Filtro(){
                 <div className="w-full flex flex-col gap-3 mb-5 px-5 py-4 border border-t-0 shadow rounded-b-md">
                     
                     <div className="flex flex-row">
-
-                        <div className="w-1/2 flex flex-col gap-4">
-                            <p className="font-bold text-xl">Cliente</p>
-                            <SearchForm
-                                cliente={contacto}
-                                list={clientes}
-                                onChangeCliente={handleChange}
-                            />
-                        </div>
-
-                        <div className="w-1/2 flex flex-col gap-1">
-                            <p className="font-bold text-xl">Fecha elaboración</p>
-
-                            <div className="flex flex-row justify-between gap-5">
-
-                                <div className="w-full flex flex-col">
-                                    <p className="font-semibold text-md">Desde</p>
-                                    <input
-                                        value={fechaInicio}
-                                        onChange={(e)=>setFechaInicio(e.target.value)} 
-                                        type="date" 
-                                        className="border rounded-md px-3"
-                                    />
-                                </div>
-
-                                <div className="w-full flex flex-col">
-                                    <p className="font-semibold text-md">Hasta</p>
-                                    <input
-                                        value={fechaFinal}
-                                        onChange={(e)=>setFechaFinal(e.target.value)} 
-                                        type="date" 
-                                        className="border rounded-md px-3"
-                                    />
-                                </div>
-
-                            </div>
-
-                        </div>
-
+                        {children(contacto,clientes,handleChange,filterDate,handleDate)}
                     </div>
 
                     <div className="flex flex-row justify-between">

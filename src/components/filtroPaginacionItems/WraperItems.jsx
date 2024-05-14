@@ -41,8 +41,6 @@ function WraperItems({children}){
         items
     }=useContext(filtroPaginacionItemsContext)
 
-    console.log(items)
-
     return (
         <div>
             <div className="w-full flex flex-row bg-slate-100 border border-black rounded mb-2">
